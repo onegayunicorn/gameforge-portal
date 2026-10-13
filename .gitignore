@@ -18,6 +18,7 @@ release-final/
 selftest/
 selftest-packaged/
 selftest-portable/
+selftest-site/
 # NOTE: selftest-pwa/ is intentionally committed - build-pwa.js reads its captures
 # for the manifest screenshots, so keeping them makes `npm run pwa:build` reproducible.
 
