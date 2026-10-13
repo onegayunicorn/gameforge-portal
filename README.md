@@ -7,6 +7,20 @@ Built with Electron + electron-builder. Output: an NSIS installer and a single-f
 
 ---
 
+## Live
+
+| What | URL |
+|---|---|
+| System page (landing) | **https://onegayunicorn.github.io/gameforge-portal/** |
+| Installable app (PWA) | **https://onegayunicorn.github.io/gameforge-portal/pwa/** |
+
+Published by GitHub Pages from `main` at the repository root, with HTTPS enforced — so the app is
+served from a secure context and can genuinely be installed on a phone or desktop. The landing page
+reads the shipped index live (`pwa/data/builds.json`), so its figures describe the deployed files
+rather than being typed in.
+
+---
+
 ## Downloads
 
 Packaged binaries are **not** committed to this repository (see
