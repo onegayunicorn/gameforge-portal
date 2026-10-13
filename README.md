@@ -7,6 +7,23 @@ Built with Electron + electron-builder. Output: an NSIS installer and a single-f
 
 ---
 
+## Downloads
+
+Packaged binaries are **not** committed to this repository (see
+[Why the binaries live on the release](#why-the-binaries-live-on-the-release)) — they are attached
+to the release instead:
+
+| Asset | Size | What it is |
+|---|---|---|
+| `GameForge-Portal-Setup-1.0.0-x64.exe` | 76.7 MB | Installer — choose location; desktop + Start-menu shortcuts |
+| `GameForge-Portal-Portable-1.0.0-x64.exe` | 76.4 MB | Portable single file — double-click, nothing installed |
+| `gameforge-portal-pwa-1.0.0.zip` | 441 KB | Installable PWA site — deploy to any HTTPS static host |
+| `SHA256SUMS.txt` | — | Checksums for both executables |
+
+➡️ **[Download the latest release](https://github.com/onegayunicorn/gameforge-portal/releases/latest)**
+
+---
+
 ## What is inside the EXE
 
 | Layer | Contents |
@@ -181,6 +198,15 @@ Run against the built files in Electron, at 390×844 and 1440×940, then repeate
 > Note: Chromium does not fire a real `beforeinstallprompt` inside an Electron window, so the
 > browser's own install eligibility decision cannot be asserted from this harness — only the
 > prerequisites and the app's own wiring are. That is why the synthetic event check exists.
+
+---
+
+## Why the binaries live on the release
+
+GitHub rejects any file larger than 100 MB, and `release-final/win-unpacked/GameForge Portal.exe`
+is 177.7 MB — so a repository containing the packaged output cannot be pushed at all. `node_modules/`
+(540 MB) and the regenerable self-test captures are excluded for the same reason. What is committed
+is the complete reproducible source at 2.4 MB; the built binaries are attached to the release.
 
 ---
 
