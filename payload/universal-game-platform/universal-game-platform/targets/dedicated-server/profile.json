@@ -1,0 +1,9 @@
+{
+  "target": "server",
+  "runtime": "headless",
+  "profile": "production",
+  "rendering": false,
+  "audio": false,
+  "persistentStorage": true,
+  "networking": true
+}

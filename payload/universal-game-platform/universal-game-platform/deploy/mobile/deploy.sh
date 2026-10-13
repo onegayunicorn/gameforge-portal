@@ -1,0 +1,1 @@
+#!/usr/bin/env bash\n# Deploy to mobile\necho "Deploying to mobile..."\n

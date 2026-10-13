@@ -1,0 +1,8 @@
+{
+  "id": "world.town",
+  "name": "Monolith Bay Town",
+  "type": "town",
+  "description": "A coastal town with shops, homes, and a bustling promenade.",
+  "palette": { "primary": "#8ed8ff", "secondary": "#ff9bc8", "accent": "#f9d77e" },
+  "locations": ["location.town-square", "location.beach", "location.pizzeria", "location.player-home"]
+}

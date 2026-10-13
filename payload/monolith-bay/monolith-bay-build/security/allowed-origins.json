@@ -1,0 +1,1 @@
+{ "allowed": ["newly-authored", "licensed", "public-domain", "open-source-compatible", "procedurally-generated"], "disallowed": ["extracted-from-download", "ripped-from-game", "converted-from-unlicensed-source"] }

@@ -1,0 +1,14 @@
+{
+  "elements": [
+    "player-name",
+    "portrait",
+    "time-period",
+    "location",
+    "active-quest",
+    "money",
+    "stats",
+    "relationship-notification",
+    "interaction-prompt",
+    "minimap-toggle"
+  ]
+}

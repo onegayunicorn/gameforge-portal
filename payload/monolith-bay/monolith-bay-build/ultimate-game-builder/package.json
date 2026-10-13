@@ -1,0 +1,13 @@
+{
+  "name": "ultimate-game-builder",
+  "private": true,
+  "version": "0.1.0",
+  "packageManager": "pnpm@9.15.0",
+  "description": "Canonical project model + editor + asset pipeline + engine adapters + unified build graph",
+  "scripts": {
+    "dev": "turbo dev",
+    "build": "turbo build",
+    "test": "turbo test",
+    "doctor": "node scripts/doctor.js"
+  }
+}

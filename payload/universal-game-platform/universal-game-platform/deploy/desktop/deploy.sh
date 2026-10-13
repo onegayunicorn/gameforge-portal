@@ -1,0 +1,1 @@
+#!/usr/bin/env bash\n# Deploy to desktop\necho "Deploying to desktop..."\n

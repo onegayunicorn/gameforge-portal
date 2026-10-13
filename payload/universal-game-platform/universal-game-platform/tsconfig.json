@@ -1,0 +1,62 @@
+{
+  "extends": "./tsconfig.base.json",
+  "references": [
+    {
+      "path": "./packages/runtime-contracts"
+    },
+    {
+      "path": "./packages/renderer-contracts"
+    },
+    {
+      "path": "./packages/input-contracts"
+    },
+    {
+      "path": "./packages/audio-contracts"
+    },
+    {
+      "path": "./packages/physics-contracts"
+    },
+    {
+      "path": "./packages/network-contracts"
+    },
+    {
+      "path": "./packages/save-contracts"
+    },
+    {
+      "path": "./packages/asset-schema"
+    },
+    {
+      "path": "./packages/shader-pipeline"
+    },
+    {
+      "path": "./packages/build-graph"
+    },
+    {
+      "path": "./packages/compiler-registry"
+    },
+    {
+      "path": "./packages/devkit-registry"
+    },
+    {
+      "path": "./packages/capability-registry"
+    },
+    {
+      "path": "./packages/provenance"
+    },
+    {
+      "path": "./packages/license-registry"
+    },
+    {
+      "path": "./packages/diagnostics"
+    },
+    {
+      "path": "./packages/telemetry"
+    },
+    {
+      "path": "./packages/ui-kit"
+    },
+    {
+      "path": "./packages/test-kit"
+    }
+  ]
+}

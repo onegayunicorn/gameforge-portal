@@ -1,0 +1,28 @@
+{
+  "name": "@monolith/game-web",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "tsc && vite build",
+    "preview": "vite preview",
+    "test": "vitest run",
+    "lint": "eslint src --ext .ts",
+    "typecheck": "tsc --noEmit"
+  },
+  "dependencies": {
+    "@monolith/core-runtime": "workspace:*",
+    "@monolith/game-state": "workspace:*",
+    "@monolith/renderer": "workspace:*",
+    "@monolith/ui-components": "workspace:*",
+    "@monolith/input-system": "workspace:*",
+    "@monolith/audio-system": "workspace:*",
+    "@monolith/save-system": "workspace:*"
+  },
+  "devDependencies": {
+    "typescript": "^5.7.2",
+    "vite": "^6.0.0",
+    "vitest": "^2.1.0"
+  }
+}

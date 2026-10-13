@@ -1,0 +1,1 @@
+#!/usr/bin/env bash\n# Deploy to web\necho "Deploying to web..."\n

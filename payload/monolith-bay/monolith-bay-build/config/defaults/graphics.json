@@ -1,0 +1,14 @@
+{
+  "preset": "medium",
+  "resolutionScale": 1.0,
+  "shadows": "medium",
+  "ambientOcclusion": true,
+  "reflections": "low",
+  "bloom": true,
+  "depthOfField": false,
+  "motionBlur": false,
+  "particles": "medium",
+  "textureQuality": "medium",
+  "antiAliasing": "fxaa",
+  "maxFps": 60
+}

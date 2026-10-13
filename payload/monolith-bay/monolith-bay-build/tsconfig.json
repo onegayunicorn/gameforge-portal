@@ -1,0 +1,9 @@
+{
+  "extends": "./tsconfig.base.json",
+  "references": [
+    { "path": "./apps/game-web" },
+    { "path": "./packages/core-runtime" },
+    { "path": "./packages/game-state" },
+    { "path": "./packages/renderer" }
+  ]
+}

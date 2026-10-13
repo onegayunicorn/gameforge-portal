@@ -1,0 +1,9 @@
+name: Deploy Staging
+on: { push: { branches: [main] }, workflow_dispatch: {} }
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    environment: staging
+    steps:
+      - uses: actions/checkout@v4
+      - run: echo "Deploy to staging"

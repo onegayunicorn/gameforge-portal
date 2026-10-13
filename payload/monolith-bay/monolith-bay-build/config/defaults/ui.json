@@ -1,0 +1,10 @@
+{
+  "scale": 1.0,
+  "subtitles": true,
+  "subtitleSize": "medium",
+  "highContrast": false,
+  "reducedMotion": false,
+  "showHUD": true,
+  "showMinimap": true,
+  "safeAreaMargin": 0
+}

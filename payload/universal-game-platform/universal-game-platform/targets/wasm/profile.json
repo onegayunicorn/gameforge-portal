@@ -1,0 +1,7 @@
+{
+  "target": "wasm",
+  "runtime": "wasm",
+  "profile": "production",
+  "minify": true,
+  "assetCompression": "gzip"
+}

@@ -1,0 +1,10 @@
+{
+  "target": "android",
+  "runtime": "native",
+  "profile": "production",
+  "outputFormats": [
+    "apk",
+    "aab"
+  ],
+  "sign": true
+}

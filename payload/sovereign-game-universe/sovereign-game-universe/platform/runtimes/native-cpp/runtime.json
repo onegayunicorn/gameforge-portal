@@ -1,0 +1,11 @@
+{
+  "runtimeId": "native-cpp",
+  "version": "1.0.0",
+  "description": "C++ native runtime for maximum performance on desktop/console",
+  "capabilities": [
+    "rendering",
+    "input",
+    "audio",
+    "save"
+  ]
+}

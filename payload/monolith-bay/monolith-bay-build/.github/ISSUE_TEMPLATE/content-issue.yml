@@ -1,0 +1,8 @@
+name: content-issue
+description: content-issue template
+title: "[content-issue] "
+body:
+  - type: textarea
+    id: description
+    attributes: { label: Description, description: Describe the issue }
+    validations: { required: true }

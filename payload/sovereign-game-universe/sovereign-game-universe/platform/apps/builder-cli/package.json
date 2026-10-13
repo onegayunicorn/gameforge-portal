@@ -1,0 +1,11 @@
+{
+  "name": "@ugb/builder-cli",
+  "version": "1.0.0",
+  "private": false,
+  "main": "dist/index.js",
+  "scripts": {
+    "build": "tsc",
+    "test": "vitest run",
+    "dev": "vite"
+  }
+}

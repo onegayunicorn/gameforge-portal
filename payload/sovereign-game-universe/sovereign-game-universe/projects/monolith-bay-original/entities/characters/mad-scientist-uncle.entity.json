@@ -1,0 +1,21 @@
+{
+  "id": "entity.character.mad-scientist-uncle",
+  "components": {
+    "Transform": {
+      "position": [
+        0,
+        0,
+        0
+      ]
+    },
+    "Renderable": {
+      "model": "characters/mad-scientist-uncle/model.glb"
+    },
+    "DialogueActor": {
+      "dialogueSet": "dialogue/mad-scientist-uncle"
+    },
+    "RelationshipActor": {
+      "relationshipId": "relationship.mad-scientist-uncle"
+    }
+  }
+}

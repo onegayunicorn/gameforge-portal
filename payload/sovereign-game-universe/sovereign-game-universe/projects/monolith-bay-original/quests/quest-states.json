@@ -1,0 +1,13 @@
+{
+  "states": [
+    "available",
+    "accepted",
+    "active",
+    "blocked-by-time",
+    "blocked-by-stat",
+    "blocked-by-relationship",
+    "completed",
+    "failed",
+    "replaced-or-migrated"
+  ]
+}

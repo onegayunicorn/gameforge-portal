@@ -1,0 +1,3 @@
+# Plugins
+
+Documentation for plugins.

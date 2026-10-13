@@ -1,0 +1,9 @@
+{
+  "name": "@monolith/texture-processor",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "bin": { "texture-processor": "src/index.ts" },
+  "scripts": { "build": "tsc", "lint": "eslint src --ext .ts", "typecheck": "tsc --noEmit" },
+  "devDependencies": { "typescript": "^5.7.2" }
+}

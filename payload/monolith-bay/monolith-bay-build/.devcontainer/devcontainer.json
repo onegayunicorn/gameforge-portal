@@ -1,0 +1,10 @@
+{
+  "name": "Monolith Bay Dev",
+  "build": { "dockerfile": "Dockerfile" },
+  "postCreateCommand": "./post-create.sh",
+  "customizations": {
+    "vscode": {
+      "extensions": ["dbaeumer.vscode-eslint", "esbenp.prettier-vscode", "bradlc.vscode-tailwindcss"]
+    }
+  }
+}

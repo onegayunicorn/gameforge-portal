@@ -1,0 +1,14 @@
+{
+  "items": [
+    {
+      "id": "item.pizza",
+      "name": "Pizza",
+      "type": "consumable"
+    },
+    {
+      "id": "item.phone",
+      "name": "Phone",
+      "type": "key"
+    }
+  ]
+}

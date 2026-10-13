@@ -1,0 +1,21 @@
+{
+  "id": "entity.character.violet-vi",
+  "components": {
+    "Transform": {
+      "position": [
+        0,
+        0,
+        0
+      ]
+    },
+    "Renderable": {
+      "model": "characters/violet-vi/model.glb"
+    },
+    "DialogueActor": {
+      "dialogueSet": "dialogue/violet-vi"
+    },
+    "RelationshipActor": {
+      "relationshipId": "relationship.violet-vi"
+    }
+  }
+}

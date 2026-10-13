@@ -1,0 +1,4 @@
+FROM node:20-alpine
+RUN corepack enable && corepack prepare pnpm@9.15.0 --activate
+RUN apk add --no-cache git bash
+WORKDIR /workspace

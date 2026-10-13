@@ -1,0 +1,12 @@
+{
+  "questId": "main.story.ch1",
+  "title": "main.story.ch1",
+  "objectives": [],
+  "rewards": {},
+  "states": [
+    "available",
+    "accepted",
+    "active",
+    "completed"
+  ]
+}

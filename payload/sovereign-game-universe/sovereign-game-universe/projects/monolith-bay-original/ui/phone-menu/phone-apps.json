@@ -1,0 +1,26 @@
+{
+  "apps": [
+    "Quests",
+    "Inventory",
+    "Messages",
+    "Stats",
+    "Relationships",
+    "Cheats",
+    "Settings",
+    "Save/Load",
+    "Character/profile"
+  ],
+  "controls": {
+    "open": [
+      "P",
+      "Esc"
+    ],
+    "map": "M"
+  },
+  "states": [
+    "available",
+    "locked",
+    "updated",
+    "unread"
+  ]
+}

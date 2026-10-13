@@ -1,0 +1,1 @@
+#!/usr/bin/env bash\n# Deploy to production\necho "Deploying to production..."\n

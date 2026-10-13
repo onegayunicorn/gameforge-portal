@@ -1,0 +1,49 @@
+name: CI
+on: [push, pull_request]
+jobs:
+  install:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: pnpm/action-setup@v2
+        with: { version: 8.12.0 }
+      - uses: actions/setup-node@v4
+        with: { node-version: "20", cache: "pnpm" }
+      - run: pnpm install --frozen-lockfile
+  validate:
+    needs: install
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: pnpm/action-setup@v2
+      - uses: actions/setup-node@v4
+      - run: pnpm install --frozen-lockfile
+      - run: pnpm run game:validate
+      - run: pnpm run content:validate
+      - run: pnpm run assets:validate
+      - run: pnpm run toolchains:detect
+  test:
+    needs: validate
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: pnpm/action-setup@v2
+      - uses: actions/setup-node@v4
+      - run: pnpm install --frozen-lockfile
+      - run: pnpm run typecheck
+      - run: pnpm run lint
+      - run: pnpm run test
+  build:
+    needs: test
+    runs-on: ubuntu-latest
+    strategy:
+      matrix: { target: [webgl2, webgpu] }
+    steps:
+      - uses: actions/checkout@v4
+      - uses: pnpm/action-setup@v2
+      - uses: actions/setup-node@v4
+      - run: pnpm install --frozen-lockfile
+      - run: pnpm exec ugb build --target ${{ matrix.target }} --profile production
+      - run: pnpm exec ugb package --target ${{ matrix.target }}
+      - uses: actions/upload-artifact@v4
+        with: { name: release-${{ matrix.target }}, path: release/${{ matrix.target }}/ }

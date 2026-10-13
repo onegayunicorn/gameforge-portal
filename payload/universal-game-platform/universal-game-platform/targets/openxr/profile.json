@@ -1,0 +1,6 @@
+{
+  "target": "openxr",
+  "runtime": "openxr",
+  "profile": "production",
+  "native": true
+}

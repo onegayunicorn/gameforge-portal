@@ -1,0 +1,12 @@
+{
+  "id": "activity.pizza-delivery",
+  "type": "pizza-delivery",
+  "name": "Pizza Delivery",
+  "description": "Deliver pizzas around town before time runs out.",
+  "locationId": "location.pizzeria",
+  "cooldownMinutes": 30,
+  "rewards": [
+    { "type": "money", "amount": 50 },
+    { "type": "stat", "id": "stat.reputation", "amount": 5 }
+  ]
+}

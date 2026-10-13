@@ -1,0 +1,11 @@
+{
+  "name": "@ugb/build-service",
+  "version": "1.0.0",
+  "private": true,
+  "main": "dist/index.js",
+  "scripts": {
+    "build": "tsc",
+    "test": "vitest run",
+    "dev": "vite"
+  }
+}

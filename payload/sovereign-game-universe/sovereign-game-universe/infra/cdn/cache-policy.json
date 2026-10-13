@@ -1,0 +1,5 @@
+{
+  "index.html": "no-store",
+  "hashed-assets": "max-age=31536000, immutable",
+  "service-worker.js": "no-cache"
+}

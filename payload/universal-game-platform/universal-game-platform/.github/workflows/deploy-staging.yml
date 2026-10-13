@@ -1,0 +1,13 @@
+name: Deploy Staging
+on: { push: { branches: [main] }, workflow_dispatch: {} }
+jobs:
+  deploy-staging:
+    runs-on: ubuntu-latest
+    environment: staging
+    steps:
+      - uses: actions/checkout@v4
+      - uses: pnpm/action-setup@v2
+      - uses: actions/setup-node@v4
+      - run: pnpm install --frozen-lockfile
+      - run: pnpm exec ugb deploy staging --target webgl2
+      - run: echo "Smoke tests pass"

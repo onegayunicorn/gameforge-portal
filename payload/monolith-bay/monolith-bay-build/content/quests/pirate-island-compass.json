@@ -1,0 +1,20 @@
+{
+  "id": "quest.pirate-island.compass",
+  "title": "The Lost Compass",
+  "description": "Find a way across the island and recover the compass.",
+  "locationId": "world.pirate-island",
+  "category": "side",
+  "giverId": "char-portal-001",
+  "objectives": [
+    { "id": "find-plank", "text": "Find the wooden plank near the raft.", "type": "interact", "targetId": "prop.raft-plank" },
+    { "id": "cross-gap", "text": "Use the plank to cross the gap.", "type": "use-item", "itemId": "item.wooden-plank" },
+    { "id": "find-hook", "text": "Collect the hook.", "type": "collect", "itemId": "item.grappling-hook" },
+    { "id": "recover-compass", "text": "Use the hook to reach the compass.", "type": "interact", "targetId": "prop.compass" }
+  ],
+  "rewards": [
+    { "type": "item", "id": "item.pirate-compass" },
+    { "type": "money", "amount": 100 }
+  ],
+  "requirements": [],
+  "mapMarkers": ["world.pirate-island"]
+}

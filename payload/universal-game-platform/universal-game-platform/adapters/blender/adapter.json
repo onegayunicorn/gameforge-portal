@@ -1,0 +1,20 @@
+{
+  "adapterId": "blender",
+  "name": "Blender Adapter",
+  "version": "1.0.0",
+  "supportedTargets": [
+    "webgl2",
+    "webgpu",
+    "windows",
+    "macos",
+    "linux"
+  ],
+  "capabilities": {
+    "required": [],
+    "optional": []
+  },
+  "buildCommands": {
+    "development": "",
+    "production": ""
+  }
+}

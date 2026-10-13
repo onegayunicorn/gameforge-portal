@@ -1,0 +1,19 @@
+{
+  "name": "Sovereign Game Universe",
+  "build": {
+    "dockerfile": "Dockerfile"
+  },
+  "customizations": {
+    "vscode": {
+      "extensions": [
+        "dbaeumer.vscode-eslint",
+        "esbenp.prettier-vscode"
+      ]
+    }
+  },
+  "forwardPorts": [
+    5173,
+    8080,
+    3000
+  ]
+}

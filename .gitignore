@@ -1,0 +1,29 @@
+# ---------------------------------------------------------------------------
+# Dependencies
+# ---------------------------------------------------------------------------
+node_modules/
+
+# ---------------------------------------------------------------------------
+# Packaged desktop output
+# Installers are published as GitHub release assets instead of being committed:
+# win-unpacked/GameForge Portal.exe alone is ~178 MB, over GitHub's 100 MB
+# hard per-file limit, so a repository containing it cannot be pushed at all.
+# ---------------------------------------------------------------------------
+release/
+release-final/
+
+# ---------------------------------------------------------------------------
+# Self-test captures that are regenerated on demand
+# ---------------------------------------------------------------------------
+selftest/
+selftest-packaged/
+selftest-portable/
+# NOTE: selftest-pwa/ is intentionally committed - build-pwa.js reads its captures
+# for the manifest screenshots, so keeping them makes `npm run pwa:build` reproducible.
+
+# ---------------------------------------------------------------------------
+# Transient script output
+# ---------------------------------------------------------------------------
+*.log
+*.out
+*.err

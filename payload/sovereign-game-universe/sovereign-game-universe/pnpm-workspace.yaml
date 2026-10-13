@@ -1,0 +1,8 @@
+packages:
+  - 'platform/apps/*'
+  - 'platform/packages/*'
+  - 'marketplace/apps/*'
+  - 'marketplace/services/*'
+  - 'marketplace/workers/*'
+  - 'marketplace/packages/*'
+  - 'server/services/*'

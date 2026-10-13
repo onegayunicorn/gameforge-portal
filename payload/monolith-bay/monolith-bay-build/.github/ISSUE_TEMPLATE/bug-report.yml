@@ -1,0 +1,8 @@
+name: bug-report
+description: bug-report template
+title: "[bug-report] "
+body:
+  - type: textarea
+    id: description
+    attributes: { label: Description, description: Describe the issue }
+    validations: { required: true }

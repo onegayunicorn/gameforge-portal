@@ -1,0 +1,7 @@
+{
+  "target": "webxr",
+  "runtime": "webxr",
+  "profile": "production",
+  "xrMode": "immersive-vr",
+  "fallback": "webgl2"
+}

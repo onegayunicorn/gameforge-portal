@@ -1,0 +1,9 @@
+{
+  "name": "@monolith/localization-validator",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "bin": { "localization-validator": "src/index.ts" },
+  "scripts": { "build": "tsc", "lint": "eslint src --ext .ts", "typecheck": "tsc --noEmit" },
+  "devDependencies": { "typescript": "^5.7.2" }
+}

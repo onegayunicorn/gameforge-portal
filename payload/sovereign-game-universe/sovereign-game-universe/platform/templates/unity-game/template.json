@@ -1,0 +1,9 @@
+{
+  "templateId": "unity-game",
+  "version": "1.0.0",
+  "runtime": "unity",
+  "features": [
+    "save-load",
+    "controller-input"
+  ]
+}

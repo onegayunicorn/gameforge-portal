@@ -1,0 +1,7 @@
+{
+  "activityId": "pizza-delivery",
+  "type": "delivery",
+  "rewards": {
+    "money": 50
+  }
+}

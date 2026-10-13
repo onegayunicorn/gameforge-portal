@@ -1,0 +1,13 @@
+{
+  "moveForward": ["KeyW", "ArrowUp"],
+  "moveBackward": ["KeyS", "ArrowDown"],
+  "moveLeft": ["KeyA", "ArrowLeft"],
+  "moveRight": ["KeyD", "ArrowRight"],
+  "interact": ["KeyE"],
+  "sprint": ["ShiftLeft", "ShiftRight"],
+  "jump": ["Space"],
+  "openPhone": ["KeyP", "Escape"],
+  "openMap": ["KeyM"],
+  "pause": ["Escape"],
+  "cancel": ["Escape", "Backspace"]
+}

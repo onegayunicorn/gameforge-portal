@@ -1,0 +1,9 @@
+{
+  "templateId": "webgl-game",
+  "version": "1.0.0",
+  "runtime": "webgl",
+  "features": [
+    "save-load",
+    "controller-input"
+  ]
+}

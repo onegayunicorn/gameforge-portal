@@ -1,0 +1,7 @@
+{
+  "index.html": "no-store",
+  "release-manifest.json": "no-store",
+  "build-info.json": "no-store",
+  "hashed-assets": "max-age=31536000, immutable",
+  "service-worker.js": "no-cache"
+}

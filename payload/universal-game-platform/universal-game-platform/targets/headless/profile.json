@@ -1,0 +1,7 @@
+{
+  "target": "headless",
+  "runtime": "headless",
+  "profile": "production",
+  "rendering": false,
+  "audio": false
+}

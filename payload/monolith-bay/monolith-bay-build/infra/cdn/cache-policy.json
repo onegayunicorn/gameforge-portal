@@ -1,0 +1,1 @@
+{ "defaultTTL": 86400, "staticAssetsTTL": 2592000, "htmlTTL": 300, "serviceWorkerTTL": 0 }

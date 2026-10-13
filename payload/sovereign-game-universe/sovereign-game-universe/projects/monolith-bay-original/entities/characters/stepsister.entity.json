@@ -1,0 +1,21 @@
+{
+  "id": "entity.character.stepsister",
+  "components": {
+    "Transform": {
+      "position": [
+        0,
+        0,
+        0
+      ]
+    },
+    "Renderable": {
+      "model": "characters/stepsister/model.glb"
+    },
+    "DialogueActor": {
+      "dialogueSet": "dialogue/stepsister"
+    },
+    "RelationshipActor": {
+      "relationshipId": "relationship.stepsister"
+    }
+  }
+}

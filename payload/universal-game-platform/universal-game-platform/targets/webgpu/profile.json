@@ -1,0 +1,10 @@
+{
+  "target": "webgpu",
+  "runtime": "webgpu",
+  "profile": "production",
+  "minify": true,
+  "sourceMaps": false,
+  "compute": true,
+  "textureFormat": "ktx2",
+  "shaderFormat": "wgsl"
+}

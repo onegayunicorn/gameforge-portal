@@ -1,0 +1,1 @@
+{ "schemaVersion": "1.0", "projectId": "godot-game", "name": "godot-game", "runtime": { "preferred": "webgl2" }, "targets": ["web"] }

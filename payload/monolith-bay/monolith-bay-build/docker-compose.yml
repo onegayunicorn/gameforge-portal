@@ -1,0 +1,20 @@
+version: "3.9"
+
+services:
+  game-web:
+    build: .
+    ports:
+      - "8080:80"
+    environment:
+      - APP_ENV=production
+    restart: unless-stopped
+
+  dev:
+    image: node:20-alpine
+    working_dir: /app
+    volumes:
+      - .:/app
+    ports:
+      - "5173:5173"
+    command: sh -c "corepack enable && corepack prepare pnpm@9.15.0 --activate && pnpm install && pnpm dev"
+    profiles: ["dev"]

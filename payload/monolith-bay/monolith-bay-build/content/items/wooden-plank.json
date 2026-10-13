@@ -1,0 +1,12 @@
+{
+  "id": "item.wooden-plank",
+  "name": "Wooden Plank",
+  "description": "A sturdy wooden plank found near the raft. Useful for crossing gaps.",
+  "category": "puzzle",
+  "icon": "items/wooden-plank.svg",
+  "stackable": false,
+  "maxStack": 1,
+  "sellable": false,
+  "questAssociation": "quest.pirate-island.compass",
+  "puzzleState": { "usedToCrossGap": false }
+}

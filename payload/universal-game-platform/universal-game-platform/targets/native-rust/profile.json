@@ -1,0 +1,7 @@
+{
+  "target": "native-rust",
+  "runtime": "native",
+  "profile": "production",
+  "language": "rust",
+  "compiler": "cargo"
+}

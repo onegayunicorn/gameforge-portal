@@ -1,0 +1,8 @@
+{
+  "version": "1.0",
+  "contentVersion": "0.1.0-dev",
+  "environment": "development",
+  "entries": [],
+  "requireProvenance": true,
+  "requireLicenseRecords": true
+}

@@ -1,0 +1,9 @@
+{
+  "templateId": "bevy-game",
+  "version": "1.0.0",
+  "runtime": "bevy",
+  "features": [
+    "save-load",
+    "controller-input"
+  ]
+}

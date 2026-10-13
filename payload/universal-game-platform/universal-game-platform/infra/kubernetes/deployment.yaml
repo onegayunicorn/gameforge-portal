@@ -1,0 +1,10 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata: { name: game-web }
+spec:
+  replicas: 2
+  selector: { matchLabels: { app: game-web } }
+  template:
+    metadata: { labels: { app: game-web } }
+    spec:
+      containers: [{ name: web, image: universal-game/web:latest, ports: [{ containerPort: 80 }] }]

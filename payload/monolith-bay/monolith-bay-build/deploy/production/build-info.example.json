@@ -1,0 +1,9 @@
+{
+  "appVersion": "0.1.0",
+  "contentVersion": "0.1.0",
+  "commit": "COMMIT_SHA",
+  "buildTime": "ISO_TIMESTAMP",
+  "runtime": "webgl2",
+  "nodeVersion": "20.x",
+  "packageManager": "pnpm@9.15.0"
+}

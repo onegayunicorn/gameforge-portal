@@ -1,0 +1,21 @@
+{
+  "id": "entity.character.player",
+  "components": {
+    "Transform": {
+      "position": [
+        0,
+        0,
+        0
+      ]
+    },
+    "Renderable": {
+      "model": "characters/player/model.glb"
+    },
+    "DialogueActor": {
+      "dialogueSet": "dialogue/player"
+    },
+    "RelationshipActor": {
+      "relationshipId": "relationship.player"
+    }
+  }
+}

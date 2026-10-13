@@ -1,0 +1,9 @@
+{
+  "templateId": "portable-game",
+  "version": "1.0.0",
+  "runtime": "portable",
+  "features": [
+    "save-load",
+    "controller-input"
+  ]
+}

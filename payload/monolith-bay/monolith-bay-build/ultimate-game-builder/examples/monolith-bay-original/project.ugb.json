@@ -1,0 +1,8 @@
+{
+  "schemaVersion": "1.0",
+  "projectId": "monolith-bay-original",
+  "name": "Monolith Bay Original",
+  "runtime": { "preferred": "webgl2", "fallbacks": ["webgpu"], "offlineFirst": true },
+  "targets": ["web", "desktop"],
+  "features": ["third-person", "open-world", "dialogue", "quests", "relationships", "inventory", "activities", "save-load"]
+}

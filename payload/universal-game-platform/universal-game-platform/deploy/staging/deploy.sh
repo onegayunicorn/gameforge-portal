@@ -1,0 +1,1 @@
+#!/usr/bin/env bash\n# Deploy to staging\necho "Deploying to staging..."\n

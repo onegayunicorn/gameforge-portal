@@ -1,0 +1,11 @@
+name: Deploy Production (Gated)
+on: { workflow_dispatch: {} }
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    environment: { name: production, url: https://sovereign.game }
+    steps:
+      - uses: actions/checkout@v4
+      - name: Verify tag
+        run: git fetch --tags && git describe --tags
+      - run: echo "Deploy to production — manual approval required"

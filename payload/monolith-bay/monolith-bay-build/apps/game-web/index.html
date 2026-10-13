@@ -1,0 +1,31 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="Monolith Bay interactive adventure" />
+    <meta name="theme-color" content="#10131c" />
+    <link rel="manifest" href="/manifest.webmanifest" />
+    <link rel="icon" href="/icons/favicon.svg" />
+    <title>Monolith Bay</title>
+  </head>
+  <body>
+    <div id="app">
+      <div id="boot-screen" role="status" aria-live="polite">
+        <div class="boot-logo">MONOLITH BAY</div>
+        <div class="boot-progress">
+          <div id="boot-progress-bar"></div>
+        </div>
+        <p id="boot-status">Initializing runtime&hellip;</p>
+      </div>
+      <main id="game-shell" hidden>
+        <canvas id="game-canvas" aria-label="Monolith Bay game viewport"></canvas>
+        <section id="ui-layer" aria-label="Game interface"></section>
+        <section id="modal-layer" aria-live="polite"></section>
+        <div id="toast-layer" aria-live="assertive" aria-atomic="true"></div>
+      </main>
+      <noscript>JavaScript is required to run this game.</noscript>
+    </div>
+    <script type="module" src="/src/main.ts"></script>
+  </body>
+</html>

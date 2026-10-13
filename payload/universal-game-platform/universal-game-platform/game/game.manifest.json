@@ -1,0 +1,64 @@
+{
+  "schemaVersion": "1.0",
+  "gameId": "replace-with-game-id",
+  "name": "Replace With Game Name",
+  "version": "0.1.0",
+  "description": "Replace with a short game description.",
+  "genre": [
+    "adventure"
+  ],
+  "mode": [
+    "singleplayer"
+  ],
+  "runtime": {
+    "preferred": "webgl2",
+    "fallbacks": [
+      "webgpu"
+    ],
+    "headless": false
+  },
+  "targets": [
+    "web",
+    "windows",
+    "macos",
+    "linux"
+  ],
+  "features": [
+    "save-load",
+    "controller-input"
+  ],
+  "entrypoints": {
+    "web": "src/main.ts",
+    "native": "src/game.ts"
+  },
+  "content": {
+    "server": null,
+    "root": "content",
+    "assets": "assets"
+  },
+  "requireProvenance": true,
+  "requireLicenseRecords": true,
+  "build": {
+    "profiles": [
+      "development",
+      "test",
+      "staging",
+      "production-web",
+      "production-desktop"
+    ]
+  },
+  "capabilities": {
+    "required": [
+      "rendering-3d",
+      "input-keyboard",
+      "local-storage"
+    ],
+    "optional": [
+      "webgpu",
+      "controller-input",
+      "spatial-audio",
+      "multiplayer",
+      "xr"
+    ]
+  }
+}

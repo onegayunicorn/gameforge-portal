@@ -1,0 +1,11 @@
+{
+  "runtimeId": "native-rust",
+  "version": "1.0.0",
+  "description": "Desktop packaging, native input/windowing, signed installers, update channels",
+  "capabilities": [
+    "rendering",
+    "input",
+    "audio",
+    "save"
+  ]
+}

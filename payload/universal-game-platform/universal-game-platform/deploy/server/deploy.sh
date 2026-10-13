@@ -1,0 +1,1 @@
+#!/usr/bin/env bash\n# Deploy to server\necho "Deploying to server..."\n

@@ -1,0 +1,10 @@
+{
+  "target": "ios",
+  "runtime": "native",
+  "profile": "production",
+  "outputFormats": [
+    "ipa"
+  ],
+  "sign": true,
+  "notarize": true
+}

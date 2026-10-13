@@ -1,0 +1,9 @@
+{
+  "templateId": "webgpu-game",
+  "version": "1.0.0",
+  "runtime": "webgpu",
+  "features": [
+    "save-load",
+    "controller-input"
+  ]
+}

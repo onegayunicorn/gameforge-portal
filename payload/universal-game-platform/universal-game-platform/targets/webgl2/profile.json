@@ -1,0 +1,11 @@
+{
+  "target": "webgl2",
+  "runtime": "webgl2",
+  "profile": "production",
+  "minify": true,
+  "sourceMaps": false,
+  "debugOverlay": false,
+  "assetCompression": "web",
+  "textureFormat": "ktx2-with-png-fallback",
+  "audioFormat": "ogg"
+}

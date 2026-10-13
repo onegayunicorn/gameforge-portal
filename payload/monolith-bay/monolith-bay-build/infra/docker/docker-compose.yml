@@ -1,0 +1,8 @@
+version: "3.9"
+services:
+  game-web:
+    build:
+      context: ../..
+      dockerfile: infra/docker/Dockerfile.runtime
+    ports: ["8080:80"]
+    restart: unless-stopped

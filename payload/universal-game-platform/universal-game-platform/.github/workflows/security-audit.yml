@@ -1,0 +1,12 @@
+name: Security Audit
+on: { schedule: [{ cron: "0 2 * * *" }], workflow_dispatch: {} }
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: pnpm/action-setup@v2
+      - uses: actions/setup-node@v4
+      - run: pnpm install --frozen-lockfile
+      - run: pnpm exec ugb test:security
+      - run: pnpm audit --prod

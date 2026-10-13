@@ -1,0 +1,183 @@
+/* GameForge Portal — installable (PWA) layer.
+   Loaded after styles.css; it only adds mobile/install chrome and never re-skins the desktop portal. */
+
+:root {
+  --tabbar-h: 60px;
+  --safe-b: env(safe-area-inset-bottom, 0px);
+  --safe-t: env(safe-area-inset-top, 0px);
+}
+
+body { padding-bottom: calc(var(--tabbar-h) + var(--safe-b)); }
+
+/* Keyboard focus stays visible for touch + keyboard users. */
+:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+
+/* ---------------------------------------------------------------- install card */
+.install-card {
+  display: flex; flex-wrap: wrap; align-items: center; gap: 16px;
+  margin-top: 26px; padding: 16px 18px;
+  border: 1px solid rgba(110, 168, 255, .34); border-radius: var(--radius);
+  background: linear-gradient(150deg, rgba(110, 168, 255, .14), rgba(183, 140, 255, .07));
+}
+.install-card .install-copy { flex: 1 1 260px; min-width: 0; }
+.install-card strong { display: block; font-size: 15px; margin-bottom: 4px; }
+.install-card p { color: var(--muted); font-size: 13px; margin: 0; }
+.install-card .install-actions { display: flex; gap: 9px; flex-wrap: wrap; }
+.install-card[data-state="installed"] {
+  border-color: rgba(78, 214, 184, .36);
+  background: linear-gradient(150deg, rgba(78, 214, 184, .12), rgba(78, 214, 184, .04));
+}
+
+/* ---------------------------------------------------------------- ios sheet */
+.sheet-scrim { position: fixed; inset: 0; background: rgba(3, 5, 10, .68); z-index: 80; }
+.sheet {
+  position: fixed; left: 0; right: 0; bottom: 0; z-index: 81;
+  background: var(--bg-2); border-top: 1px solid var(--line-strong);
+  border-radius: 18px 18px 0 0; padding: 18px 20px calc(20px + var(--safe-b));
+  box-shadow: 0 -20px 50px rgba(0, 0, 0, .5); animation: sheetUp .2s ease-out;
+}
+@keyframes sheetUp { from { transform: translateY(18px); opacity: .5; } to { transform: none; opacity: 1; } }
+.sheet h3 { font-size: 16px; margin-bottom: 4px; }
+.sheet .sheet-sub { color: var(--muted); font-size: 13px; margin-bottom: 14px; }
+.sheet ol { margin: 0 0 16px; padding-left: 20px; color: var(--muted); font-size: 13.5px; }
+.sheet ol li { margin-bottom: 7px; }
+.sheet ol li b { color: var(--text); }
+.sheet .share-glyph { display: inline-block; vertical-align: -2px; }
+.sheet .btn { width: 100%; justify-content: center; }
+
+/* ---------------------------------------------------------------- tab bar */
+.tabbar {
+  /* Below the drawer scrim (z 50) so the detail drawer is never covered by the tab bar. */
+  position: fixed; left: 0; right: 0; bottom: 0; z-index: 45;
+  display: flex; align-items: stretch;
+  padding-bottom: var(--safe-b);
+  background: rgba(7, 10, 18, .93);
+  backdrop-filter: blur(16px);
+  border-top: 1px solid var(--line);
+}
+.tabbar a, .tabbar button {
+  flex: 1 1 0; min-width: 0; min-height: var(--tabbar-h);
+  display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 3px;
+  background: none; border: 0; cursor: pointer;
+  color: var(--muted-2); font-size: 10.5px; letter-spacing: .3px;
+  -webkit-tap-highlight-color: transparent;
+}
+.tabbar svg { width: 20px; height: 20px; }
+.tabbar a:active, .tabbar button:active { background: rgba(122, 152, 220, .1); }
+.tabbar [aria-current="true"] { color: var(--accent); }
+.tabbar .tabbar-install { color: #eaf1ff; }
+.tabbar .tabbar-install span { font-weight: 600; }
+.tabbar .tabbar-install::before {
+  content: ""; position: absolute; inset: 8px 10% 8px;
+  border-radius: 12px; background: linear-gradient(150deg, rgba(110, 168, 255, .3), rgba(183, 140, 255, .22));
+  border: 1px solid rgba(110, 168, 255, .45); z-index: -1;
+}
+.tabbar .tabbar-install { position: relative; z-index: 0; }
+
+/* ---------------------------------------------------------------- status pills */
+.status-dock {
+  position: fixed; left: 50%; transform: translateX(-50%);
+  bottom: calc(var(--tabbar-h) + var(--safe-b) + 10px); z-index: 70;
+  display: grid; gap: 8px; width: min(440px, 92vw);
+  pointer-events: none;
+}
+.status-dock > * { pointer-events: auto; }
+.status-pill {
+  display: flex; align-items: center; gap: 9px;
+  padding: 9px 13px; border-radius: 11px; font-size: 12.8px;
+  background: rgba(16, 22, 38, .97); border: 1px solid var(--line-strong);
+  box-shadow: 0 10px 28px rgba(0, 0, 0, .4);
+}
+.status-pill .dot { width: 7px; height: 7px; border-radius: 50%; flex: none; }
+.status-pill[data-kind="offline"] { border-left: 3px solid var(--warn); }
+.status-pill[data-kind="offline"] .dot { background: var(--warn); }
+.status-pill[data-kind="online"] { border-left: 3px solid var(--ok); }
+.status-pill[data-kind="online"] .dot { background: var(--ok); }
+.status-pill[data-kind="update"] { border-left: 3px solid var(--accent); }
+.status-pill[data-kind="update"] .dot { background: var(--accent); }
+.status-pill button {
+  margin-left: auto; flex: none; background: rgba(110, 168, 255, .16);
+  border: 1px solid rgba(110, 168, 255, .4); color: #eaf1ff;
+  border-radius: 8px; padding: 5px 10px; font-size: 12px; cursor: pointer;
+}
+.status-pill .close-x {
+  margin-left: 0; background: none; border: 0; color: var(--muted-2);
+  font-size: 15px; line-height: 1; padding: 2px 4px;
+}
+
+/* ---------------------------------------------------------------- mobile layout */
+@media (max-width: 860px) {
+  .topbar { padding-top: var(--safe-t); }
+  .topbar-inner { padding: 8px 14px; gap: 10px; }
+  .brand-mark { width: 30px; height: 30px; }
+  .brand-text strong { font-size: 13.5px; }
+  main { padding: 0 14px 40px; }
+  .hero { padding: 26px 0 4px; gap: 22px; }
+  .hero h1 { font-size: clamp(26px, 8vw, 34px); }
+  .lede { font-size: 15px; }
+  .section { margin-top: 40px; }
+  .section-head { flex-direction: column; align-items: stretch; gap: 12px; }
+  .section-head h2 { font-size: 20px; }
+  .card-grid, .overview-grid, .runtime-grid, .doc-columns { grid-template-columns: 1fr; }
+  .hero-panel, .panel, .card, .overview-card, .doc-col { padding: 15px; }
+  .card .desc { min-height: 0; }
+  .btn, .card-actions .btn, .tabbar button { font-size: 14px; }
+  .btn { padding: 10px 15px; }
+  .card-actions { gap: 7px; }
+  .card-actions .btn { flex: 1 1 auto; justify-content: center; min-height: 42px; }
+  .doc-list { max-height: 46vh; }
+  .doc-list button { padding: 9px 9px; font-size: 13px; }
+  .footer-inner { padding: 18px 14px calc(18px + 4px); }
+  .footer-links { text-align: left; word-break: break-all; }
+  .drawer { width: 100vw; border-left: 0; }
+  .drawer-body { padding-bottom: calc(30px + var(--tabbar-h)); }
+  .drawer-actions .btn { flex: 1 1 45%; justify-content: center; }
+  .toast-stack { bottom: calc(var(--tabbar-h) + var(--safe-b) + 12px); }
+}
+
+/* The integrity table becomes a stacked card list instead of a sideways scroller. */
+@media (max-width: 720px) {
+  .table-wrap { overflow: visible; border: 0; background: none; }
+  #integrityTable { min-width: 0; display: block; }
+  #integrityTable thead { display: none; }
+  #integrityTable tbody, #integrityTable tr, #integrityTable td { display: block; width: 100%; }
+  #integrityTable tr {
+    border: 1px solid var(--line); border-radius: 12px; margin-bottom: 10px;
+    background: rgba(122, 152, 220, .045); padding: 4px 0;
+  }
+  #integrityTable td {
+    display: flex; align-items: baseline; justify-content: space-between; gap: 12px;
+    border: 0; padding: 7px 13px;
+  }
+  #integrityTable td::before {
+    flex: none; color: var(--muted-2); font-size: 10.5px;
+    letter-spacing: .7px; text-transform: uppercase;
+  }
+  #integrityTable td:nth-child(1)::before { content: "Build"; }
+  #integrityTable td:nth-child(2)::before { content: "Archive"; }
+  #integrityTable td:nth-child(3)::before { content: "Expected"; }
+  #integrityTable td:nth-child(4)::before { content: "Live digest"; }
+  #integrityTable td:nth-child(5)::before { content: "Source"; }
+  #integrityTable td:nth-child(1) { display: block; padding-bottom: 4px; }
+  #integrityTable td:nth-child(1)::before { display: none; }
+  #integrityTable td:nth-child(2) span, #integrityTable td:nth-child(3) span,
+  #integrityTable td:nth-child(4) span { text-align: right; word-break: break-all; }
+}
+
+/* Installed-app mode: nothing to install, and the tab bar owns the bottom edge. */
+html.is-standalone .install-card,
+html.is-standalone .tabbar .tabbar-install { display: none; }
+@media (display-mode: standalone) {
+  .install-card, .tabbar .tabbar-install { display: none; }
+}
+
+/* Wide screens do not get the mobile tab bar. */
+@media (min-width: 861px) {
+  .tabbar { display: none; }
+  body { padding-bottom: 0; }
+  .status-dock { bottom: 18px; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  * { animation-duration: .001ms !important; transition-duration: .001ms !important; }
+}

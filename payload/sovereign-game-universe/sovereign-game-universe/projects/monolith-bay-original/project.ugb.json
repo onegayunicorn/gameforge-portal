@@ -1,0 +1,51 @@
+{
+  "name": "Monolith Bay Original",
+  "schemaVersion": "1.0",
+  "projectId": "monolith-bay-original",
+  "runtime": {
+    "preferred": "webgl2",
+    "fallbacks": [
+      "webgpu",
+      "wasm"
+    ],
+    "offlineFirst": true
+  },
+  "targets": [
+    "web",
+    "desktop",
+    "windows"
+  ],
+  "features": [
+    "dialogue",
+    "third-person",
+    "open-world",
+    "quests",
+    "relationships",
+    "inventory",
+    "activities",
+    "save-load",
+    "phone-menu",
+    "character-creator"
+  ],
+  "adapters": {
+    "godot": {
+      "enabled": false
+    },
+    "unity": {
+      "enabled": false
+    },
+    "unreal": {
+      "enabled": false
+    }
+  },
+  "content": {
+    "manifest": "content.manifest.json",
+    "requireProvenance": true,
+    "requireLicenseRecords": true
+  },
+  "build": {
+    "profile": "development",
+    "sourceMaps": true,
+    "debugSymbols": true
+  }
+}

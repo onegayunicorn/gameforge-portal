@@ -1,0 +1,1 @@
+# Universal Game Platform — Infrastructure as Code\nterraform { required_version = ">= 1.5" }\n# Object storage + CDN + WAF + HTTPS\n

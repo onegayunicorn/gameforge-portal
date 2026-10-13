@@ -1,0 +1,11 @@
+{
+  "runtimeId": "webgl2",
+  "version": "1.0.0",
+  "description": "Broad browser compatibility, stable fallback, forward renderer, compressed textures, HTML/CSS UI, IndexedDB saves",
+  "capabilities": [
+    "rendering",
+    "input",
+    "audio",
+    "save"
+  ]
+}

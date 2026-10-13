@@ -1,0 +1,65 @@
+{
+  "name": "gameforge-portal",
+  "productName": "GameForge Portal",
+  "version": "1.0.0",
+  "description": "GameForge Portal - desktop launcher and website portal for the game platform builds",
+  "author": "GameForge",
+  "license": "UNLICENSED",
+  "private": true,
+  "main": "electron/main.js",
+  "scripts": {
+    "start": "electron .",
+    "serve": "node scripts/serve.js",
+    "scan": "node scripts/scan-builds.js",
+    "pwa:build": "node scripts/build-pwa.js",
+    "pwa:serve": "node scripts/serve-pwa.js",
+    "pwa:audit": "electron scripts/pwa-audit.js selftest-pwa",
+    "dist": "electron-builder --win nsis portable --x64"
+  },
+  "devDependencies": {
+    "electron": "^32.2.7",
+    "electron-builder": "^25.1.8"
+  },
+  "build": {
+    "appId": "com.gameforge.portal",
+    "productName": "GameForge Portal",
+    "copyright": "Copyright (c) 2026 GameForge",
+    "directories": {
+      "output": "release-final",
+      "buildResources": "build"
+    },
+    "files": [
+      "electron/**/*",
+      "portal/**/*",
+      "scripts/scan-builds.js",
+      "package.json"
+    ],
+    "extraResources": [
+      { "from": "payload", "to": "payload" },
+      { "from": "build-meta", "to": "build-meta" }
+    ],
+    "win": {
+      "target": [
+        { "target": "nsis", "arch": ["x64"] },
+        { "target": "portable", "arch": ["x64"] }
+      ],
+      "icon": "build/icon.ico",
+      "artifactName": "GameForge-Portal-${version}-${arch}-${target}.${ext}"
+    },
+    "nsis": {
+      "oneClick": false,
+      "perMachine": false,
+      "allowToChangeInstallationDirectory": true,
+      "createDesktopShortcut": true,
+      "createStartMenuShortcut": true,
+      "shortcutName": "GameForge Portal",
+      "artifactName": "GameForge-Portal-Setup-${version}-${arch}.${ext}"
+    },
+    "portable": {
+      "artifactName": "GameForge-Portal-Portable-${version}-${arch}.${ext}"
+    },
+    "compression": "maximum",
+    "asar": false,
+    "afterPack": "scripts/after-pack.js"
+  }
+}

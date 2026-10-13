@@ -1,0 +1,27 @@
+{
+  "name": "universal-game-platform",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Universal game development and deployment platform",
+  "scripts": {
+    "build": "turbo run build",
+    "test": "turbo run test",
+    "lint": "turbo run lint",
+    "typecheck": "turbo run typecheck",
+    "game:validate": "ugb game validate",
+    "content:validate": "ugb content validate",
+    "assets:validate": "ugb assets validate",
+    "toolchains:detect": "ugb toolchains detect",
+    "devkits:detect": "ugb devkits detect",
+    "preview": "turbo run preview --filter=preview"
+  },
+  "devDependencies": {
+    "typescript": "^5.3.0",
+    "vitest": "^1.0.0",
+    "@playwright/test": "^1.40.0",
+    "turbo": "^1.11.0",
+    "eslint": "^8.55.0",
+    "prettier": "^3.1.0"
+  },
+  "packageManager": "pnpm@8.12.0"
+}

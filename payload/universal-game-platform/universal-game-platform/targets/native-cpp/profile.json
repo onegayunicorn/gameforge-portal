@@ -1,0 +1,7 @@
+{
+  "target": "native-cpp",
+  "runtime": "native",
+  "profile": "production",
+  "language": "c++",
+  "compiler": "clang"
+}

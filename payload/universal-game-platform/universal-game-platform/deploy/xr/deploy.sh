@@ -1,0 +1,1 @@
+#!/usr/bin/env bash\n# Deploy to xr\necho "Deploying to xr..."\n

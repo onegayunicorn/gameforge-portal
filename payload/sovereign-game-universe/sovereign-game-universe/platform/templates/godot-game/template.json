@@ -1,0 +1,9 @@
+{
+  "templateId": "godot-game",
+  "version": "1.0.0",
+  "runtime": "godot",
+  "features": [
+    "save-load",
+    "controller-input"
+  ]
+}

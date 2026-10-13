@@ -1,0 +1,11 @@
+{
+  "runtimeId": "webgpu",
+  "version": "1.0.0",
+  "description": "Modern rendering, compute support, advanced post-processing, graceful fallback to WebGL2",
+  "capabilities": [
+    "rendering",
+    "input",
+    "audio",
+    "save"
+  ]
+}

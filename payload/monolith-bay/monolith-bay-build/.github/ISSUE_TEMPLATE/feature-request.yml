@@ -1,0 +1,8 @@
+name: feature-request
+description: feature-request template
+title: "[feature-request] "
+body:
+  - type: textarea
+    id: description
+    attributes: { label: Description, description: Describe the issue }
+    validations: { required: true }

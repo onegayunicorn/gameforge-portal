@@ -1,0 +1,11 @@
+{
+  "runtimeId": "wasm",
+  "version": "1.0.0",
+  "description": "Deterministic gameplay, high-performance simulation, Rust/C++ modules, JS bridge",
+  "capabilities": [
+    "rendering",
+    "input",
+    "audio",
+    "save"
+  ]
+}

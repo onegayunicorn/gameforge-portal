@@ -1,0 +1,12 @@
+{
+  "assetId": "env-town-001",
+  "file": "content/original/environments/town/town-center.glb",
+  "origin": "newly-authored",
+  "author": "TEAM_OR_CREATOR",
+  "createdAt": "2026-01-01T00:00:00Z",
+  "sourceReferences": ["high-level coastal-town design observation"],
+  "copiedFromProtectedSource": false,
+  "license": "project-owned",
+  "reviewStatus": "approved",
+  "sha256": "0000000000000000000000000000000000000000000000000000000000000000"
+}

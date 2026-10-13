@@ -1,0 +1,7 @@
+{
+  "fixedStep": 0.0166667,
+  "maxFrameDelta": 0.25,
+  "autosaveIntervalMinutes": 5,
+  "maxSaveSlots": 20,
+  "maxBackups": 5
+}

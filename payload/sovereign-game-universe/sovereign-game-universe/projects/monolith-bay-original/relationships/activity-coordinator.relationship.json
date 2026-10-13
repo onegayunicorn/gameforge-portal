@@ -1,0 +1,9 @@
+{
+  "relationshipId": "activity-coordinator",
+  "stages": [
+    "stranger",
+    "acquaintance",
+    "friend",
+    "close"
+  ]
+}

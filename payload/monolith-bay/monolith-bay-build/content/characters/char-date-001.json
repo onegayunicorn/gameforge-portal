@@ -1,0 +1,28 @@
+{
+  "id": "char-date-001",
+  "displayName": "Original Character Name",
+  "ageCategory": "adult",
+  "role": "dateable",
+  "visualProfile": {
+    "bodyPreset": "body-a",
+    "facePreset": "face-c",
+    "hairPreset": "hair-b",
+    "palette": "sunset-coral"
+  },
+  "relationshipProfile": {
+    "startingValue": 0,
+    "likes": ["activity.beach-walk", "gift.handmade"],
+    "dislikes": ["gift.generic"],
+    "milestones": ["relationship.date-1", "relationship.trust-1"]
+  },
+  "assetRefs": {
+    "model": "characters/char-date-001/model.glb",
+    "portrait": "characters/char-date-001/portrait.webp",
+    "animations": "characters/char-date-001/animations.json"
+  },
+  "provenance": {
+    "origin": "newly-authored",
+    "license": "project-owned",
+    "reviewed": true
+  }
+}

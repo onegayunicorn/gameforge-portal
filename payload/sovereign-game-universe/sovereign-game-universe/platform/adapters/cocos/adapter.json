@@ -1,0 +1,20 @@
+{
+  "adapterId": "cocos",
+  "name": "Cocos Adapter",
+  "version": "1.0.0",
+  "supportedTargets": [
+    "web",
+    "desktop"
+  ],
+  "capabilities": [
+    {
+      "id": "rendering-3d",
+      "supported": true,
+      "quality": "translated"
+    }
+  ],
+  "permissions": [
+    "read-project-data",
+    "write-build-artifacts"
+  ]
+}

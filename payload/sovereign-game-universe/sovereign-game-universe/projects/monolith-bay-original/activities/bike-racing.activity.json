@@ -1,0 +1,8 @@
+{
+  "activityId": "bike-racing",
+  "type": "racing",
+  "rewards": {
+    "money": 100,
+    "stat": "speed"
+  }
+}

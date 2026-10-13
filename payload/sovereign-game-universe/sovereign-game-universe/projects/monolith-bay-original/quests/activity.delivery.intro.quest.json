@@ -1,0 +1,12 @@
+{
+  "questId": "activity.delivery.intro",
+  "title": "activity.delivery.intro",
+  "objectives": [],
+  "rewards": {},
+  "states": [
+    "available",
+    "accepted",
+    "active",
+    "completed"
+  ]
+}

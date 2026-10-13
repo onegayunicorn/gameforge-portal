@@ -1,0 +1,15 @@
+{
+  "markers": [
+    "town",
+    "beach",
+    "interiors",
+    "quest-markers",
+    "character-markers",
+    "activity-locations",
+    "bike-race",
+    "pizza-delivery",
+    "portal-entrances",
+    "fast-travel",
+    "player-position"
+  ]
+}
