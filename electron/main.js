@@ -13,6 +13,7 @@ const os = require('os');
 
 const { createPortalServer } = require('./static-server');
 const { build: scanBuilds } = require('../scripts/scan-builds');
+const { registerGameActions } = require('./game-actions');
 
 const APP_ROOT = path.join(__dirname, '..');
 const PORTAL_DIR = path.join(APP_ROOT, 'portal');
@@ -30,6 +31,7 @@ const META_DIR = path.join(RESOURCES_ROOT, 'build-meta');
 const startedAt = new Date().toISOString();
 let portal = null;
 let mainWindow = null;
+let gameActions = null;
 let cachedScan = null;
 
 /* ------------------------------------------------------------------ helpers */
@@ -184,6 +186,14 @@ function registerIpc() {
     } catch (err) {
       return { ok: false, error: String(err && err.message || err) };
     }
+  });
+
+  // Engine actions (build / preview / inspect) live in their own module: they need the pipeline
+  // and the game index, while this file stays concerned with the shell itself.
+  gameActions = registerGameActions({
+    repoRoot: RESOURCES_ROOT,
+    getPortalWindow: () => mainWindow,
+    log: (message) => console.log(`[games] ${message}`),
   });
 
   ipcMain.handle('portal:openExternal', async (_e, { url } = {}) => {
@@ -374,7 +384,155 @@ if (!app.requestSingleInstanceLock()) {
     }
   });
 
-  app.whenReady().then(async () => {
+  /**
+ * End-to-end check of the portal's games section, driven through the real IPC surface.
+ *
+ * It performs the same calls the buttons make and asserts on what actually happened - the build
+ * report, the preview window's engine state, and the live state the portal receives - so a broken
+ * wiring fails here rather than in front of the user.
+ */
+async function runGamesSelfTest(outDir) {
+  const problems = [];
+  const note = (message) => problems.push(message);
+  const result = { checks: {}, captures: {}, problems };
+
+  fs.mkdirSync(outDir, { recursive: true });
+
+  const indexFile = path.join(RESOURCES_ROOT, 'portal', 'data', 'games.json');
+  const index = fs.existsSync(indexFile) ? JSON.parse(fs.readFileSync(indexFile, 'utf8')) : null;
+  result.checks.index = index ? { games: index.games.length, ids: index.games.map((g) => g.id) } : null;
+  if (!index || index.games.length === 0) {
+    note('portal/data/games.json is missing or empty - run `npm run games:build` first');
+    result.ok = false;
+    return result;
+  }
+  const gameId = index.games[0].id;
+
+  // A window with the preload bridge, exactly like the real portal window.
+  const win = new BrowserWindow({
+    width: 1280, height: 860, show: false, backgroundColor: '#070a12',
+    webPreferences: { preload: path.join(__dirname, 'preload.js'), contextIsolation: true, sandbox: true },
+  });
+  mainWindow = win;
+
+  await win.loadURL(portal.origin + '/');
+  await new Promise((resolve) => setTimeout(resolve, 1500));
+
+  const invoke = (action, payload) => win.webContents.executeJavaScript(
+    `window.portalAPI.invoke(${JSON.stringify(action)}, ${JSON.stringify(payload)} )`
+  );
+
+  // ---- the section renders from the index ------------------------------------------
+  const rendered = await win.webContents.executeJavaScript(`(() => {
+    const grid = document.getElementById('gameGrid');
+    const cards = grid ? Array.from(grid.querySelectorAll('[data-game-id]')) : [];
+    return {
+      cards: cards.length,
+      states: cards.map((card) => card.dataset.state),
+      actions: cards.length ? cards[0].querySelectorAll('[data-game-act]').length : 0,
+      summary: document.querySelectorAll('#gamesStats li').length,
+    };
+  })()`);
+  result.checks.rendered = rendered;
+  if (rendered.cards < 1) note('no game cards were rendered from the index');
+  if (rendered.actions < 5) note(`game card exposes ${rendered.actions} actions, expected at least 5`);
+  if (rendered.summary !== 4) note(`games summary shows ${rendered.summary}/4 stats`);
+
+  // ---- validate ---------------------------------------------------------------------
+  const validate = await invoke('game:validate', { id: gameId });
+  result.checks.validate = validate;
+  if (!validate || validate.ok !== true) note(`game:validate failed: ${validate && validate.message}`);
+
+  // ---- build ------------------------------------------------------------------------
+  const build = await invoke('game:build', { id: gameId });
+  result.checks.build = build && build.report
+    ? { ok: build.ok, status: build.report.status, outputs: build.report.outputs.length, bytes: build.report.outputBytes, durationMs: build.report.durationMs }
+    : build;
+  if (!build || !build.report) note(`game:build returned no report: ${build && build.message}`);
+  else if (build.report.status !== 'success') note(`game:build reported ${build.report.status}`);
+  else if (build.report.outputs.length < 5) note(`build produced only ${build.report.outputs.length} outputs`);
+
+  // ---- logs -------------------------------------------------------------------------
+  const logs = await invoke('game:logs', { id: gameId });
+  result.checks.logs = logs && logs.lines ? { ok: logs.ok, lines: logs.lines.length, preview: logs.lines.slice(0, 3) } : logs;
+  if (!logs || !logs.ok) note('game:logs did not return a report');
+
+  // ---- an unknown id must be refused, not attempted ---------------------------------
+  const refused = await invoke('game:build', { id: '../../etc/passwd' });
+  result.checks.refusedId = refused;
+  if (!refused || refused.ok !== false || !/invalid game id/i.test(refused.message || '')) {
+    note(`a path-traversal id was not refused: ${JSON.stringify(refused)}`);
+  }
+
+  // ---- launch -----------------------------------------------------------------------
+  const preview = await invoke('game:preview', { id: gameId });
+  result.checks.preview = preview;
+  if (!preview || !preview.ok) note(`game:preview failed: ${preview && preview.message}`);
+
+  await new Promise((resolve) => setTimeout(resolve, 1200));
+  const previewWindow = BrowserWindow.getAllWindows().find((candidate) => candidate !== win);
+  if (!previewWindow) {
+    note('no preview window was created');
+  } else {
+    // The preview window runs the real built game; step its loop explicitly because a hidden
+    // window throttles requestAnimationFrame.
+    const state = await previewWindow.webContents.executeJavaScript(`(() => {
+      const host = window.gameforgeHost;
+      if (!host || !host.engine) return null;
+      for (let i = 0; i < 60; i += 1) host.engine.loop.frame(1 / 60);
+      const runtime = host.engine.runtimeState();
+      const status = document.getElementById('gameforge-status');
+      const errorPanel = document.querySelector('#gameforge-overlay .gf-error');
+      return {
+        status: status ? status.dataset.state : null,
+        runtime,
+        error: errorPanel && !errorPanel.hidden ? errorPanel.textContent.slice(0, 200) : null,
+        hasBridge: Boolean(window.gameforge),
+      };
+    })()`);
+    result.checks.previewState = state;
+    if (!state) note('the launched game did not expose its engine');
+    else {
+      if (state.status !== 'running') note(`launched game status is ${state.status}`);
+      if (state.error) note(`launched game showed an error: ${state.error}`);
+      if (!(state.runtime && state.runtime.entities > 0)) note('launched game has no entities');
+      if (!state.hasBridge) note('the gameforge bridge is not exposed to the game window');
+
+      result.captures.game = path.join(outDir, 'launched-game.png');
+      fs.writeFileSync(result.captures.game, (await previewWindow.webContents.capturePage()).toPNG());
+
+      // Report state through the preload bridge and confirm the portal card receives it.
+      await previewWindow.webContents.executeJavaScript(
+        `window.gameforge.reportRuntimeState({ fps: 61.5, entities: 8, drawCalls: 10, activeScene: 'main' })`
+      );
+      await new Promise((resolve) => setTimeout(resolve, 700));
+      const live = await win.webContents.executeJavaScript(`(() => {
+        const note = document.querySelector('#gameGrid .note');
+        return note ? { text: note.textContent, live: note.dataset.live === '1' } : null;
+      })()`);
+      result.checks.liveState = live;
+      // Either the synthetic payload or the game's own periodic report is acceptable - both travel
+      // the same bridge; what matters is that live state reached the portal at all.
+      if (!live || !live.live || !/\d+(\.\d+)? fps/.test(live.text || '')) {
+        note(`the portal did not receive live runtime state from the game window: ${JSON.stringify(live)}`);
+      }
+    }
+  }
+
+  // ---- stop -------------------------------------------------------------------------
+  const stop = await invoke('game:stop', { id: gameId });
+  result.checks.stop = stop;
+  if (!stop || !stop.ok) note('game:stop did not close the preview window');
+
+  result.captures.portal = path.join(outDir, 'portal-games.png');
+  fs.writeFileSync(result.captures.portal, (await win.webContents.capturePage()).toPNG());
+
+  result.ok = problems.length === 0;
+  win.destroy();
+  return result;
+}
+
+app.whenReady().then(async () => {
     try {
       portal = await createPortalServer({ portalDir: PORTAL_DIR, runtimeInfo });
     } catch (err) {
@@ -393,6 +551,22 @@ if (!app.requestSingleInstanceLock()) {
         app.exit(0);
       } catch (err) {
         process.stderr.write(`selftest failed: ${err && err.stack || err}\n`);
+        app.exit(1);
+      }
+      return;
+    }
+
+    // Exercises the portal's engine integration the way a user would: build, inspect, launch,
+    // stop - each through the same allow-listed IPC path the buttons use.
+    const gamesTestIdx = process.argv.indexOf('--games-selftest');
+    if (gamesTestIdx !== -1) {
+      const outDir = process.argv[gamesTestIdx + 1] || path.join(APP_ROOT, 'selftest-games');
+      try {
+        const result = await runGamesSelfTest(outDir);
+        process.stdout.write(JSON.stringify(result, null, 2) + '\n');
+        app.exit(result.ok ? 0 : 1);
+      } catch (err) {
+        process.stderr.write(`games selftest failed: ${err && err.stack || err}\n`);
         app.exit(1);
       }
       return;

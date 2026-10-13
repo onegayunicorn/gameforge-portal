@@ -179,6 +179,10 @@ function build() {
 
   copy(path.join(PORTAL, 'app.js'), path.join(OUT, 'app.js'));
   copy(path.join(PORTAL, 'styles.css'), path.join(OUT, 'styles.css'));
+  // The games section is a separate script so the portal's own bundle stays untouched.
+  for (const file of fs.readdirSync(path.join(PORTAL, 'components'))) {
+    copy(path.join(PORTAL, 'components', file), path.join(OUT, 'components', file));
+  }
   copy(path.join(PORTAL, 'data', 'builds.json'), path.join(OUT, 'data', 'builds.json'));
   copy(path.join(SRC, 'pwa.css'), path.join(OUT, 'pwa.css'));
   copy(path.join(SRC, 'pwa.js'), path.join(OUT, 'pwa.js'));

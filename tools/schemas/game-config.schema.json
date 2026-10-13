@@ -1,0 +1,112 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/onegayunicorn/gameforge-portal/tools/schemas/game-config.schema.json",
+  "title": "GameForge game configuration",
+  "description": "Describes a game project: where its entry point lives, how it should be built and what it needs at runtime.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["id", "name", "version", "entry"],
+  "properties": {
+    "$schema": {
+      "type": "string",
+      "description": "Path to this schema, for editor completion."
+    },
+    "id": {
+      "type": "string",
+      "pattern": "^[a-z0-9][a-z0-9-]{1,62}$",
+      "description": "Stable identifier, lowercase kebab-case. Used as the build folder name and the portal's game id."
+    },
+    "name": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 80,
+      "description": "Human-readable title shown in the runtime and the portal."
+    },
+    "description": {
+      "type": "string",
+      "maxLength": 400
+    },
+    "version": {
+      "type": "string",
+      "pattern": "^\\d+\\.\\d+\\.\\d+(?:-[0-9A-Za-z.-]+)?$",
+      "description": "Semantic version of the game itself."
+    },
+    "engine": {
+      "type": "string",
+      "pattern": "^[\\^~]?\\d+\\.\\d+\\.\\d+$",
+      "default": "^0.1.0",
+      "description": "Engine version range this game was written against."
+    },
+    "entry": {
+      "type": "string",
+      "minLength": 1,
+      "description": "Module exporting the game (a `setup(engine)` function). Relative to the project root."
+    },
+    "type": {
+      "type": "string",
+      "enum": ["2d"],
+      "default": "2d",
+      "description": "Projection. Only 2d is implemented; 3d arrives with the WebGL2 work."
+    },
+    "renderer": {
+      "type": "string",
+      "enum": ["auto", "canvas2d", "webgl2"],
+      "default": "auto"
+    },
+    "width": {
+      "type": "integer",
+      "minimum": 64,
+      "maximum": 7680,
+      "default": 1280
+    },
+    "height": {
+      "type": "integer",
+      "minimum": 64,
+      "maximum": 4320,
+      "default": 720
+    },
+    "fixedTimeStep": {
+      "type": "number",
+      "exclusiveMinimum": 0,
+      "maximum": 1,
+      "default": 0.016666666666666666,
+      "description": "Simulation step in seconds."
+    },
+    "clearColor": {
+      "type": "string",
+      "pattern": "^#(?:[0-9a-fA-F]{3}|[0-9a-fA-F]{6}|[0-9a-fA-F]{8})$",
+      "default": "#0b1020"
+    },
+    "pixelArt": {
+      "type": "boolean",
+      "default": false,
+      "description": "Disable image smoothing for crisp scaled sprites."
+    },
+    "debug": {
+      "type": "boolean",
+      "default": false
+    },
+    "scenes": {
+      "type": "array",
+      "items": { "type": "string" },
+      "default": [],
+      "description": "Scene files to copy into the build output."
+    },
+    "assets": {
+      "type": "array",
+      "items": { "type": "string" },
+      "default": [],
+      "description": "Glob patterns (relative to the project root) of files to copy and hash into the build."
+    },
+    "scripts": {
+      "type": "object",
+      "additionalProperties": { "type": "string" },
+      "description": "Project-local scripts. Advisory only; the CLI provides dev/build."
+    },
+    "tags": {
+      "type": "array",
+      "items": { "type": "string" },
+      "default": []
+    }
+  }
+}

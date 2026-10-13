@@ -1,0 +1,15 @@
+{
+  "extends": "./tsconfig.base.json",
+  "compilerOptions": {
+    "noEmit": true,
+    "types": ["node", "vitest/globals"]
+  },
+  "include": [
+    "../engine/src/**/*.ts",
+    "../runtime/**/*.ts",
+    "../pipeline/**/*.ts",
+    "../tools/**/*.ts",
+    "../tests/**/*.ts",
+    "../games/**/*.ts"
+  ]
+}

@@ -359,3 +359,35 @@ main { position: relative; z-index: 1; max-width: 1280px; margin: 0 auto; paddin
   .footer-links { text-align: left; }
   .stat-grid { grid-template-columns: 1fr 1fr; }
 }
+
+/* ------------------------------------------------------------------ games section */
+/* Build-state accent: the same card shape, coloured by the readiness ladder. */
+.card[data-state="runnable"] { border-top-color: var(--ok); }
+.card[data-state="buildable"] { border-top-color: var(--accent); }
+.card[data-state="discoverable"] { border-top-color: var(--muted-2); }
+.card[data-state="failed"] { border-top-color: #ff7d8a; }
+.card[data-busy="1"] { opacity: .62; pointer-events: none; }
+.card[data-busy="1"]::after {
+  content: "working…"; position: absolute; top: 10px; right: 12px;
+  font-size: 11px; color: var(--muted); letter-spacing: .5px;
+}
+.card { position: relative; }
+.card .note { margin: 10px 0 0; font-size: 11.5px; color: var(--muted-2); }
+
+/* Validation findings, capped in number by the card so a broken project cannot flood the layout. */
+.issue-list { list-style: none; margin: 12px 0 0; padding: 0; display: grid; gap: 5px; }
+.issue-list li {
+  font-family: var(--mono); font-size: 11.5px; line-height: 1.5;
+  padding: 6px 9px; border-radius: 7px; border: 1px solid var(--line);
+  background: rgba(122, 152, 220, .05); color: var(--muted);
+}
+.issue-list .issue-error { border-color: rgba(255, 125, 138, .4); color: #ffd9dd; }
+.issue-list .issue-warn { border-color: rgba(255, 196, 107, .35); color: #ffe6bf; }
+
+/* Build log overlay reuses the drawer chrome, with a scrollable monospace body. */
+.log-drawer { width: min(860px, 94vw); }
+.log-view {
+  margin: 0; padding: 14px; border-radius: 10px; background: rgba(0, 0, 0, .42);
+  border: 1px solid var(--line); font-family: var(--mono); font-size: 12px; line-height: 1.6;
+  color: #cfe0ff; white-space: pre-wrap; word-break: break-word; overflow: auto; max-height: 62vh;
+}

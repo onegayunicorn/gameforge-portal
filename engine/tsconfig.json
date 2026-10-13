@@ -1,0 +1,6 @@
+{
+  "extends": "../config/tsconfig.engine.json",
+  "compilerOptions": {
+    "tsBuildInfoFile": "../node_modules/.cache/engine.tsbuildinfo"
+  }
+}

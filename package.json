@@ -14,11 +14,27 @@
     "pwa:build": "node scripts/build-pwa.js",
     "pwa:serve": "node scripts/serve-pwa.js",
     "pwa:audit": "electron scripts/pwa-audit.js selftest-pwa",
-    "dist": "electron-builder --win nsis portable --x64"
+    "cli:bundle": "node scripts/bundle-cli.js",
+    "engine:build": "tsc -p config/tsconfig.engine.json",
+    "engine:check": "tsc -p config/tsconfig.check.json --noEmit",
+    "engine:test": "vitest run --config config/vitest.config.ts",
+    "game:create": "tsx tools/cli/gameforge.ts create",
+    "game:dev": "tsx tools/cli/gameforge.ts dev",
+    "game:build": "tsx tools/cli/gameforge.ts build",
+    "games:build": "node scripts/generate-game-index.js",
+    "games:validate": "tsx tools/cli/gameforge.ts validate",
+    "games:smoke": "electron scripts/game-smoke.js games/examples/hello-render/dist selftest-game",
+    "verify": "npm run engine:check && npm run engine:test && npm run games:validate && npm run games:build",
+    "dist": "npm run cli:bundle && electron-builder --win nsis portable --x64"
   },
   "devDependencies": {
+    "@types/node": "^26.6.5",
     "electron": "^32.2.7",
-    "electron-builder": "^25.1.8"
+    "electron-builder": "^25.1.8",
+    "esbuild": "^0.28.2",
+    "tsx": "^4.23.15",
+    "typescript": "^7.0.2",
+    "vitest": "^5.0.4"
   },
   "build": {
     "appId": "com.gameforge.portal",
@@ -35,13 +51,69 @@
       "package.json"
     ],
     "extraResources": [
-      { "from": "payload", "to": "payload" },
-      { "from": "build-meta", "to": "build-meta" }
+      {
+        "from": "payload",
+        "to": "payload"
+      },
+      {
+        "from": "build-meta",
+        "to": "build-meta"
+      },
+      {
+        "from": "portal/data",
+        "to": "portal/data"
+      },
+      {
+        "from": "build/gameforge-cli.cjs",
+        "to": "build/gameforge-cli.cjs"
+      },
+      {
+        "from": "engine/src",
+        "to": "engine/src"
+      },
+      {
+        "from": "engine/package.json",
+        "to": "engine/package.json"
+      },
+      {
+        "from": "runtime",
+        "to": "runtime"
+      },
+      {
+        "from": "pipeline",
+        "to": "pipeline"
+      },
+      {
+        "from": "games",
+        "to": "games"
+      },
+      {
+        "from": "tools/schemas",
+        "to": "tools/schemas"
+      },
+      {
+        "from": "node_modules/esbuild",
+        "to": "node_modules/esbuild"
+      },
+      {
+        "from": "node_modules/@esbuild",
+        "to": "node_modules/@esbuild"
+      }
     ],
     "win": {
       "target": [
-        { "target": "nsis", "arch": ["x64"] },
-        { "target": "portable", "arch": ["x64"] }
+        {
+          "target": "nsis",
+          "arch": [
+            "x64"
+          ]
+        },
+        {
+          "target": "portable",
+          "arch": [
+            "x64"
+          ]
+        }
       ],
       "icon": "build/icon.ico",
       "artifactName": "GameForge-Portal-${version}-${arch}-${target}.${ext}"

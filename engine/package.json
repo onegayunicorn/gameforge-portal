@@ -1,0 +1,24 @@
+{
+  "name": "@gameforge/engine",
+  "version": "0.1.0",
+  "description": "GameForge Engine - a browser-first TypeScript game engine (2D renderer, ECS, scenes, assets, input).",
+  "license": "MIT",
+  "type": "module",
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js"
+    },
+    "./src/*": "./src/*"
+  },
+  "sideEffects": false,
+  "files": ["dist", "src", "README.md"],
+  "scripts": {
+    "build": "tsc -p ../config/tsconfig.engine.json",
+    "watch": "tsc -p ../config/tsconfig.engine.json --watch",
+    "typecheck": "tsc -p ../config/tsconfig.engine.json --noEmit"
+  },
+  "keywords": ["game-engine", "typescript", "ecs", "canvas2d", "webgl2", "browser"]
+}
