@@ -1,0 +1,523 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+<meta name="theme-color" content="#070a12" />
+<meta name="description" content="GameForge Portal — a live, installable system: Windows launcher plus offline-capable web app for three game-development builds." />
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; connect-src 'self'; base-uri 'none'; form-action 'none'; object-src 'none'" />
+<title>GameForge Portal — live system</title>
+<style>
+  :root {
+    --bg: #070a12;
+    --panel: rgba(18, 24, 42, .82);
+    --line: rgba(122, 152, 220, .16);
+    --line-strong: rgba(122, 152, 220, .32);
+    --text: #e8edfb;
+    --muted: #8d9ab8;
+    --muted-2: #6c7899;
+    --accent: #6ea8ff;
+    --accent-2: #b78cff;
+    --ok: #4ed6b8;
+    --warn: #ffc46b;
+    --radius: 14px;
+    --mono: ui-monospace, "Cascadia Mono", Consolas, monospace;
+    --sans: "Inter", "Segoe UI", system-ui, -apple-system, sans-serif;
+  }
+  * { box-sizing: border-box; }
+  html { overflow-x: hidden; scroll-behavior: smooth; }
+  body {
+    margin: 0; background: var(--bg); color: var(--text); font-family: var(--sans);
+    font-size: 15px; line-height: 1.6; -webkit-font-smoothing: antialiased;
+    padding-bottom: env(safe-area-inset-bottom);
+    overflow-x: hidden;
+  }
+  body::before {
+    /* Anchored to the viewport edges on purpose: a fixed layer wider than the viewport
+       would make the document horizontally scrollable. */
+    content: ""; position: fixed; inset: -30% 0 auto 0; height: 70vh; z-index: 0;
+    background:
+      radial-gradient(45% 55% at 25% 10%, rgba(110, 168, 255, .20), transparent 70%),
+      radial-gradient(40% 50% at 78% 0%, rgba(183, 140, 255, .16), transparent 70%);
+    pointer-events: none;
+  }
+  a { color: var(--accent); }
+  main, header, footer { position: relative; z-index: 1; }
+  main { max-width: 1080px; margin: 0 auto; padding: 0 20px 60px; }
+
+  /* ---------------- top bar ---------------- */
+  .bar {
+    position: sticky; top: 0; z-index: 20; padding-top: env(safe-area-inset-top);
+    background: rgba(7, 10, 18, .86); backdrop-filter: blur(14px);
+    border-bottom: 1px solid var(--line);
+  }
+  .bar-inner {
+    max-width: 1080px; margin: 0 auto; padding: 11px 20px;
+    display: flex; align-items: center; gap: 18px;
+  }
+  .brand { display: flex; align-items: center; gap: 10px; text-decoration: none; color: inherit; }
+  .brand svg { width: 30px; height: 30px; color: var(--accent); flex: none; }
+  .brand strong { display: block; font-size: 14px; letter-spacing: .2px; }
+  .brand span { display: block; font-size: 10px; letter-spacing: 1.4px; color: var(--muted-2); }
+  .bar nav { margin-left: auto; display: flex; gap: 16px; font-size: 13.5px; }
+  .bar nav a { color: var(--muted); text-decoration: none; }
+  .bar nav a:hover { color: var(--text); }
+  .pill {
+    display: inline-flex; align-items: center; gap: 7px; flex: none;
+    padding: 5px 11px; border-radius: 999px; font-size: 12px;
+    border: 1px solid var(--line-strong); background: rgba(122, 152, 220, .08);
+  }
+  .pill .dot { width: 7px; height: 7px; border-radius: 50%; background: var(--ok); }
+  .pill[data-state="insecure"] .dot { background: var(--warn); }
+
+  /* ---------------- hero ---------------- */
+  .hero { padding: 54px 0 10px; display: grid; gap: 34px; grid-template-columns: 1.35fr 1fr; align-items: start; }
+  .eyebrow {
+    display: inline-flex; align-items: center; gap: 8px; padding: 5px 12px; border-radius: 999px;
+    border: 1px solid var(--line-strong); background: rgba(122, 152, 220, .07);
+    font-size: 11px; letter-spacing: 1.5px; text-transform: uppercase; color: var(--muted);
+  }
+  h1 { font-size: clamp(31px, 5.4vw, 50px); line-height: 1.06; margin: 16px 0 14px; letter-spacing: -.9px; }
+  .lede { color: var(--muted); font-size: 16px; max-width: 60ch; margin: 0; }
+  .actions { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 24px; }
+  .btn {
+    display: inline-flex; align-items: center; gap: 8px; padding: 11px 17px; border-radius: 10px;
+    font-size: 14px; font-weight: 550; text-decoration: none; cursor: pointer;
+    border: 1px solid var(--line-strong); background: rgba(122, 152, 220, .08); color: var(--text);
+    min-height: 44px;
+  }
+  .btn:hover { border-color: rgba(122, 152, 220, .55); }
+  .btn-primary {
+    background: linear-gradient(150deg, rgba(110, 168, 255, .95), rgba(150, 120, 255, .9));
+    border-color: transparent; color: #06101f; font-weight: 650;
+  }
+  .hero-note { margin-top: 16px; font-size: 12.5px; color: var(--muted-2); }
+
+  /* ---------------- panels ---------------- */
+  .panel {
+    background: var(--panel); border: 1px solid var(--line); border-radius: var(--radius);
+    padding: 18px; backdrop-filter: blur(6px);
+  }
+  .panel h2 { font-size: 13px; letter-spacing: 1.3px; text-transform: uppercase; color: var(--muted); margin: 0 0 14px; }
+  .kv { display: grid; grid-template-columns: 1fr 1fr; gap: 14px 18px; }
+  .kv div strong { display: block; font-size: 25px; font-weight: 650; letter-spacing: -.5px; }
+  .kv div span { font-size: 11.5px; color: var(--muted-2); }
+  .kv div.wide { grid-column: 1 / -1; }
+  .kv code { font-family: var(--mono); font-size: 12px; color: var(--accent); }
+
+  section { margin-top: 62px; scroll-margin-top: 76px; }
+  .section-head { margin-bottom: 20px; }
+  .section-head h2 { font-size: clamp(21px, 3.4vw, 27px); margin: 0 0 6px; letter-spacing: -.5px; }
+  .section-head p { color: var(--muted); margin: 0; max-width: 74ch; font-size: 14.5px; }
+
+  /* ---------------- build cards ---------------- */
+  .grid { display: grid; gap: 16px; grid-template-columns: repeat(auto-fit, minmax(288px, 1fr)); }
+  .card {
+    background: var(--panel); border: 1px solid var(--line); border-radius: var(--radius);
+    padding: 18px; border-top: 2px solid var(--accent);
+  }
+  .card-head { display: flex; align-items: flex-start; gap: 10px; margin-bottom: 4px; }
+  .card h3 { font-size: 16.5px; margin: 0; letter-spacing: -.3px; }
+  .badge {
+    margin-left: auto; flex: none; font-size: 10px; letter-spacing: .9px; text-transform: uppercase;
+    padding: 3px 8px; border-radius: 999px; border: 1px solid var(--line-strong); color: var(--muted);
+  }
+  .kind { color: var(--muted); font-size: 13px; margin: 0 0 8px; }
+  .desc { color: var(--muted); font-size: 13.5px; margin: 0 0 14px; }
+  .chips { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 14px; }
+  .chip {
+    font-size: 11.5px; font-family: var(--mono); color: var(--muted);
+    border: 1px solid var(--line); border-radius: 7px; padding: 3px 7px; background: rgba(122, 152, 220, .05);
+  }
+  .bars { display: grid; gap: 7px; }
+  .bar-row { display: grid; grid-template-columns: 88px 1fr 34px; align-items: center; gap: 9px; font-size: 12px; }
+  .bar-row span:first-child { color: var(--muted); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+  .track { height: 7px; border-radius: 4px; background: rgba(122, 152, 220, .13); overflow: hidden; }
+  .fill { height: 100%; border-radius: 4px; background: linear-gradient(90deg, var(--accent), var(--accent-2)); }
+  .bar-row span:last-child { text-align: right; color: var(--muted-2); font-family: var(--mono); }
+
+  /* ---------------- steps ---------------- */
+  .steps { display: grid; gap: 18px; grid-template-columns: repeat(auto-fit, minmax(268px, 1fr)); }
+  .step { background: var(--panel); border: 1px solid var(--line); border-radius: var(--radius); padding: 18px; }
+  .step h3 { font-size: 15px; margin: 0 0 10px; }
+  .step ol { margin: 0 0 14px; padding-left: 19px; color: var(--muted); font-size: 13.5px; }
+  .step ol li { margin-bottom: 6px; }
+  .step ol b { color: var(--text); }
+  .step .btn { width: 100%; justify-content: center; }
+  .step p.note { color: var(--muted-2); font-size: 12.5px; margin: 12px 0 0; }
+
+  /* ---------------- download table ---------------- */
+  .table-wrap { overflow-x: auto; border: 1px solid var(--line); border-radius: var(--radius); background: var(--panel); }
+  table { width: 100%; border-collapse: collapse; font-size: 13.5px; min-width: 620px; }
+  th, td { text-align: left; padding: 12px 15px; border-bottom: 1px solid var(--line); vertical-align: middle; }
+  th { font-size: 11px; letter-spacing: 1px; text-transform: uppercase; color: var(--muted-2); font-weight: 550; }
+  tr:last-child td { border-bottom: 0; }
+  td.mono, th.mono { font-family: var(--mono); font-size: 12px; }
+  .hash { color: var(--muted-2); font-family: var(--mono); font-size: 11.5px; word-break: break-all; }
+
+  /* ---------------- facts ---------------- */
+  .facts { display: grid; gap: 14px; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); }
+  .fact { background: var(--panel); border: 1px solid var(--line); border-radius: var(--radius); padding: 16px; }
+  .fact strong { display: block; font-size: 13.5px; margin-bottom: 5px; }
+  .fact p { margin: 0; color: var(--muted); font-size: 13px; }
+  .callout {
+    margin-top: 18px; padding: 15px 17px; border-radius: var(--radius);
+    border: 1px solid rgba(255, 196, 107, .34); background: rgba(255, 196, 107, .07);
+  }
+  .callout strong { display: block; margin-bottom: 5px; font-size: 14px; color: var(--warn); }
+  .callout p { margin: 0; color: var(--muted); font-size: 13.5px; }
+
+  footer {
+    border-top: 1px solid var(--line); margin-top: 68px; padding: 24px 20px calc(28px + env(safe-area-inset-bottom));
+    color: var(--muted-2); font-size: 12.5px;
+  }
+  .footer-inner { max-width: 1080px; margin: 0 auto; display: flex; flex-wrap: wrap; gap: 10px 22px; }
+  .footer-inner a { color: var(--muted); }
+  .skeleton { display: inline-block; width: 62px; height: 22px; border-radius: 6px; background: rgba(122, 152, 220, .13); }
+  .offline-note {
+    display: none; margin-top: 12px; padding: 11px 14px; border-radius: 10px; font-size: 13px;
+    border: 1px solid var(--line-strong); background: rgba(122, 152, 220, .07); color: var(--muted);
+  }
+  .offline-note[data-show="true"] { display: block; }
+
+  @media (max-width: 860px) {
+    .hero { grid-template-columns: 1fr; padding-top: 34px; }
+    .bar nav { display: none; }
+    main { padding: 0 16px 44px; }
+    section { margin-top: 46px; }
+    .kv div strong { font-size: 22px; }
+  }
+  @media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } }
+</style>
+</head>
+<body>
+
+<header class="bar">
+  <div class="bar-inner">
+    <a class="brand" href="./">
+      <svg viewBox="0 0 32 32" aria-hidden="true">
+        <path d="M16 2.6 27.8 9.3v13.4L16 29.4 4.2 22.7V9.3z" fill="none" stroke="currentColor" stroke-width="1.6" opacity=".55"/>
+        <path d="M16 8.4 22.6 12v7.2L16 22.8 9.4 19.2V12z" fill="currentColor"/>
+      </svg>
+      <span><strong>GameForge Portal</strong><span>LIVE SYSTEM</span></span>
+    </a>
+    <nav>
+      <a href="#builds">Builds</a>
+      <a href="#install">Install</a>
+      <a href="#download">Windows</a>
+      <a href="#system">Components</a>
+      <a href="https://github.com/onegayunicorn/gameforge-portal">Source</a>
+    </nav>
+    <span class="pill" id="envPill" data-state="checking"><span class="dot"></span><span id="envText">Checking…</span></span>
+  </div>
+</header>
+
+<main>
+
+  <section class="hero" style="margin-top:0">
+    <div>
+      <span class="eyebrow">Live on GitHub Pages</span>
+      <h1>The system is live.</h1>
+      <p class="lede">
+        GameForge Portal indexes three game-development builds from their real files and serves them
+        two ways: as an installable web app you can add to a phone or desktop, and as a self-contained
+        Windows launcher that embeds the same payload. Everything below is read live from the shipped
+        index — not typed into this page.
+      </p>
+      <div class="actions">
+        <a class="btn btn-primary" href="./pwa/">Install the app</a>
+        <a class="btn" href="#download">Download for Windows</a>
+        <a class="btn" href="https://github.com/onegayunicorn/gameforge-portal">View source</a>
+      </div>
+      <p class="hero-note" id="heroNote">Loading the shipped build index…</p>
+      <div class="offline-note" id="offlineNote" data-show="false"></div>
+    </div>
+
+    <div class="panel">
+      <h2>Shipped index</h2>
+      <div class="kv" id="statGrid">
+        <div><strong class="skeleton"></strong><span>builds indexed</span></div>
+        <div><strong class="skeleton"></strong><span>files measured</span></div>
+        <div><strong class="skeleton"></strong><span>documents</span></div>
+        <div><strong class="skeleton"></strong><span>payload size</span></div>
+        <div class="wide"><strong class="skeleton"></strong><span>app cache revision</span></div>
+      </div>
+    </div>
+  </section>
+
+  <section id="builds">
+    <div class="section-head">
+      <h2>What the system contains</h2>
+      <p>Every figure is measured from the files on disk by the build scanner; the same index drives the
+        desktop app, the installable app and this page.</p>
+    </div>
+    <div class="grid" id="buildGrid"></div>
+  </section>
+
+  <section id="install">
+    <div class="section-head">
+      <h2>Install it as an app</h2>
+      <p>Served over HTTPS by GitHub Pages, so it is a secure context — the requirement for installing a
+        web app and for working offline.</p>
+    </div>
+    <div class="steps">
+      <div class="step">
+        <h3>Android &middot; Chrome, Edge, Samsung</h3>
+        <ol>
+          <li>Open the app.</li>
+          <li>Tap <b>Install</b> on the card, or the install icon in the address bar.</li>
+          <li>Confirm — it lands on your home screen and works offline.</li>
+        </ol>
+        <a class="btn btn-primary" href="./pwa/">Open the installable app</a>
+        <p class="note" id="androidNote">Checking this browser…</p>
+      </div>
+      <div class="step">
+        <h3>iPhone &middot; iPad (Safari)</h3>
+        <ol>
+          <li>Open the app in <b>Safari</b>.</li>
+          <li>Tap <b>Share</b>, then <b>Add to Home Screen</b>.</li>
+          <li>Confirm the name and tap <b>Add</b>.</li>
+        </ol>
+        <a class="btn" href="./pwa/">Open in Safari</a>
+        <p class="note">iOS installs from the Share sheet — the app explains these steps in-app too.</p>
+      </div>
+      <div class="step">
+        <h3>Desktop browser</h3>
+        <ol>
+          <li>Open the app in Chrome or Edge.</li>
+          <li>Use the <b>install</b> icon in the address bar.</li>
+          <li>It opens in its own window like a native app.</li>
+        </ol>
+        <a class="btn" href="./pwa/">Open the app</a>
+        <p class="note">Windows also has the full launcher below, which embeds the payload on disk.</p>
+      </div>
+    </div>
+  </section>
+
+  <section id="download">
+    <div class="section-head">
+      <h2>Windows launcher &amp; portable</h2>
+      <p>The desktop build ships the three build trees inside the application — no network needed at runtime.</p>
+    </div>
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr><th>Asset</th><th>What it is</th><th class="mono">Size</th><th>Verify</th></tr>
+        </thead>
+        <tbody id="downloadRows">
+          <tr><td colspan="4">Loading…</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="callout">
+      <strong>These binaries are unsigned</strong>
+      <p>No code-signing certificate is configured, so Windows SmartScreen will warn on first launch.
+        Compare the SHA-256 above against <code>SHA256SUMS.txt</code> before running them.</p>
+    </div>
+  </section>
+
+  <section id="system">
+    <div class="section-head">
+      <h2>How the pieces fit</h2>
+      <p>One interface source, three delivery targets, and a verification pass that runs against the built files rather than the source.</p>
+    </div>
+    <div class="facts">
+      <div class="fact">
+        <strong>One source of truth</strong>
+        <p>The portal interface lives once in <code>portal/</code>. The installable app under <code>pwa/</code>
+          is generated from it, so the two can never disagree.</p>
+      </div>
+      <div class="fact">
+        <strong>Measured, not asserted</strong>
+        <p>The scanner reads the payload and emits the index — file counts, module sizes, document lists and
+          SHA-256 digests of whole trees.</p>
+      </div>
+      <div class="fact">
+        <strong>Offline by construction</strong>
+        <p>The service worker precaches every shipped file under a content-hashed cache name, so a new build
+          can never serve a stale mix.</p>
+      </div>
+      <div class="fact">
+        <strong>Verified on the artifact</strong>
+        <p>The packaged app is self-tested across three viewports, and the web app is audited by shutting its
+          server down and reloading purely from cache.</p>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<footer>
+  <div class="footer-inner">
+    <span id="footerStamp">GameForge Portal</span>
+    <a href="https://github.com/onegayunicorn/gameforge-portal">Repository</a>
+    <a href="https://github.com/onegayunicorn/gameforge-portal/releases/latest">Release v1.0.0</a>
+    <a href="https://github.com/onegayunicorn/gameforge-portal#readme">Documentation</a>
+    <a href="./pwa/">Installable app</a>
+  </div>
+</footer>
+
+<script>
+'use strict';
+(function () {
+  const $ = (s, r = document) => r.querySelector(s);
+  const REPO = 'https://github.com/onegayunicorn/gameforge-portal';
+  const REL = REPO + '/releases/latest/download/';
+
+  const fmtBytes = (n) => {
+    if (!Number.isFinite(n)) return '—';
+    if (n < 1024) return n + ' B';
+    if (n < 1048576) return (n / 1024).toFixed(1) + ' KB';
+    return (n / 1048576).toFixed(1) + ' MB';
+  };
+  const fmtNum = (n) => Number.isFinite(n) ? n.toLocaleString('en-US') : '—';
+  const fmtDate = (iso) => {
+    const d = new Date(iso);
+    return Number.isNaN(d.getTime()) ? '—' : d.toISOString().slice(0, 10);
+  };
+  const esc = (s) => String(s == null ? '' : s).replace(/[&<>"']/g, (c) =>
+    ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
+
+  /* ---------------- environment pill ---------------- */
+  (function envPill() {
+    const secure = window.isSecureContext;
+    const sw = 'serviceWorker' in navigator;
+    const standalone = window.matchMedia('(display-mode: standalone)').matches || navigator.standalone === true;
+    const pill = $('#envPill');
+    if (standalone) {
+      pill.dataset.state = 'ok';
+      $('#envText').textContent = 'Running installed';
+    } else if (secure && sw) {
+      pill.dataset.state = 'ok';
+      $('#envText').textContent = 'Installable here';
+    } else {
+      pill.dataset.state = 'insecure';
+      $('#envText').textContent = secure ? 'No service worker' : 'Not a secure context';
+    }
+    $('#androidNote').textContent = standalone
+      ? 'Already installed — open it from your home screen.'
+      : secure && sw
+        ? 'This browser can install the app from the button above.'
+        : 'This page needs HTTPS (or localhost) before a browser will allow installing.';
+  })();
+
+  /* ---------------- live data ---------------- */
+  const downloadRows = [
+    {
+      name: 'GameForge-Portal-Setup-1.0.0-x64.exe',
+      what: 'Installer — choose the location; adds desktop and Start-menu shortcuts',
+      size: '76.7 MB',
+      sha: '4e50192e58ca9750470fae80882829e21983614a2ed8b603f74bafcfe271f35e'
+    },
+    {
+      name: 'GameForge-Portal-Portable-1.0.0-x64.exe',
+      what: 'Portable single file — double-click, nothing installed',
+      size: '76.4 MB',
+      sha: '0180f8260ffd906f5faad5787297ef4ccbceb6e06ade2274feab4912b10cd6ad'
+    },
+    {
+      name: 'gameforge-portal-pwa-1.0.0.zip',
+      what: 'The installable web app, ready for any HTTPS static host',
+      size: '441 KB',
+      sha: 'd7c8badfc376b5938845ced5db50be09d1e5645142a8de90b671a2e6acfc82dc'
+    }
+  ];
+
+  function renderDownloads() {
+    $('#downloadRows').innerHTML = downloadRows.map((r) => `
+      <tr>
+        <td><a class="mono" href="${REL + r.name}">${esc(r.name)}</a></td>
+        <td>${esc(r.what)}</td>
+        <td class="mono">${esc(r.size)}</td>
+        <td><span class="hash">${esc(r.sha.slice(0, 24))}…</span></td>
+      </tr>`).join('') +
+      `<tr>
+        <td><a class="mono" href="${REL}SHA256SUMS.txt">SHA256SUMS.txt</a></td>
+        <td>Checksums for every binary above</td>
+        <td class="mono">210 B</td>
+        <td><span class="hash">verify with certutil -hashfile</span></td>
+      </tr>`;
+  }
+
+  function renderBuilds(projects) {
+    $('#buildGrid').innerHTML = projects.map((p) => {
+      const mods = Object.entries(p.modules || {}).sort((a, b) => b[1] - a[1]).slice(0, 6);
+      const max = mods.length ? mods[0][1] : 1;
+      const bars = mods.map(([name, n]) => `
+        <div class="bar-row">
+          <span title="${esc(name)}">${esc(name)}</span>
+          <span class="track"><span class="fill" style="width:${Math.max(3, Math.round(n / max * 100))}%"></span></span>
+          <span>${fmtNum(n)}</span>
+        </div>`).join('');
+      const chips = [
+        p.version ? 'v' + p.version : null,
+        fmtNum(p.fileCount) + ' files',
+        fmtNum(p.dirCount) + ' dirs',
+        fmtBytes(p.bytes),
+        (p.docs || []).length + ' docs',
+        p.declaredTargets ? p.declaredTargets + ' targets' : null,
+        p.declaredAdapters ? p.declaredAdapters + ' adapters' : null
+      ].filter(Boolean).map((c) => `<span class="chip">${esc(c)}</span>`).join('');
+
+      return `
+        <article class="card" style="border-top-color:${esc(p.accent || '#6ea8ff')}">
+          <div class="card-head">
+            <h3>${esc(p.label)}</h3>
+            <span class="badge">${esc(p.badge || p.kind)}</span>
+          </div>
+          <p class="kind">${esc(p.kind)}${p.packageName ? ' · ' + esc(p.packageName) : ''}</p>
+          <p class="desc">${esc(p.description || p.readmeExcerpt || '')}</p>
+          <div class="chips">${chips}</div>
+          <div class="bars">${bars}</div>
+          <p class="note" style="margin:12px 0 0;font-size:11.5px;color:var(--muted-2);font-family:var(--mono)">
+            tree ${esc(p.digest || '—')}${p.archiveSha256 ? ' · archive ' + esc(String(p.archiveSha256).slice(0, 12)) : ''}
+          </p>
+        </article>`;
+    }).join('');
+  }
+
+  function renderStats(builds, info) {
+    const t = builds.totals || {};
+    const cache = (info && info.cacheVersion) ? String(info.cacheVersion).replace('gameforge-pwa-', '') : '—';
+    $('#statGrid').innerHTML = `
+      <div><strong>${fmtNum(t.projects)}</strong><span>builds indexed</span></div>
+      <div><strong>${fmtNum(t.files)}</strong><span>files measured</span></div>
+      <div><strong>${fmtNum(t.docs)}</strong><span>documents</span></div>
+      <div><strong>${fmtBytes(t.bytes)}</strong><span>payload size</span></div>
+      <div class="wide"><strong><code>${esc(cache)}</code></strong><span>app cache revision · ${info ? info.precacheEntries : '—'} files precached</span></div>`;
+    $('#heroNote').textContent =
+      `Index generated ${fmtDate(builds.generatedAt)} from the files on disk · ${fmtNum(t.files)} files · ${fmtBytes(t.bytes)}`;
+    $('#footerStamp').textContent =
+      `GameForge Portal · index ${fmtDate(builds.generatedAt)} · ${fmtNum(t.projects)} builds · ${fmtNum(t.files)} files`;
+  }
+
+  function note(msg) {
+    const el = $('#offlineNote');
+    el.textContent = msg;
+    el.dataset.show = 'true';
+  }
+
+  renderDownloads();
+
+  Promise.all([
+    fetch('./pwa/data/builds.json', { cache: 'no-store' }).then((r) => {
+      if (!r.ok) throw new Error('builds.json HTTP ' + r.status);
+      return r.json();
+    }),
+    fetch('./pwa/build-info.json', { cache: 'no-store' })
+      .then((r) => (r.ok ? r.json() : null))
+      .catch(() => null)
+  ]).then(([builds, info]) => {
+    renderStats(builds, info);
+    renderBuilds(builds.projects || []);
+  }).catch((err) => {
+    note('Live index unavailable here (' + (err && err.message ? err.message : err) +
+      '). Serve this folder over HTTP — for example by opening the published site — to see the measured figures.');
+    $('#heroNote').textContent = 'Static view — live index not reachable from this context.';
+    $('#buildGrid').innerHTML =
+      '<article class="card"><h3>Index not reachable</h3><p class="desc">Open the published site over HTTPS to read the shipped index.</p></article>';
+  });
+})();
+</script>
+</body>
+</html>

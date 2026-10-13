@@ -66,7 +66,15 @@ function createPortalServer(options) {
     }
 
     const target = urlPath === '/' ? '/index.html' : urlPath;
-    const file = safeResolve(portalDir, target);
+    let file = safeResolve(portalDir, target);
+
+    // Directory URLs resolve to their index.html, matching how GitHub Pages serves a folder.
+    try {
+      if (file && fs.statSync(file).isDirectory()) {
+        const indexed = safeResolve(portalDir, `${target.replace(/\/+$/, '')}/index.html`);
+        if (indexed && fs.existsSync(indexed)) file = indexed;
+      }
+    } catch { /* not a directory - let readFile produce the 404 */ }
 
     if (!file) {
       res.writeHead(403, { ...headers, 'Content-Type': 'text/plain; charset=utf-8' });
