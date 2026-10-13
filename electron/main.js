@@ -20,7 +20,6 @@ const PORTAL_DIR = path.join(APP_ROOT, 'portal');
 
 // The portal is served from loopback. Never let a system/OS proxy intercept it.
 app.commandLine.appendSwitch('no-proxy-server');
-app.commandLine.appendSwitch('disable-features', 'NetworkServiceSandbox');
 
 // In a packaged build the payload is unpacked into resources/ so the real files stay
 // reachable on disk (reveal in Explorer, open in editor, copy out).
@@ -285,7 +284,7 @@ function createWindow() {
     return { action: 'deny' };
   });
   mainWindow.webContents.on('will-navigate', (event, url) => {
-    if (portal && url.startsWith(portal.origin)) return;
+    if (portal && (() => { try { const candidate = new URL(url); return candidate.origin === portal.origin && (candidate.protocol === 'http:'); } catch { return false; } })()) return;
     event.preventDefault();
     if (/^https?:/i.test(url)) shell.openExternal(url);
   });
