@@ -1,0 +1,55 @@
+{
+  "generatedAt": "2026-10-13T05:29:58.669Z",
+  "engineVersion": "0.1.0",
+  "gamesRoot": "games",
+  "totals": {
+    "projects": 1,
+    "built": 1,
+    "failed": 0,
+    "assets": 1,
+    "outputBytes": 87520
+  },
+  "games": [
+    {
+      "id": "hello-render",
+      "name": "Hello Render",
+      "version": "0.1.0",
+      "description": "Milestone 1 acceptance example: a textured square moving under script control, with camera follow, primitive overlays and the debug overlay.",
+      "engine": "^0.1.0",
+      "entry": "src/main.ts",
+      "tags": [
+        "example",
+        "milestone-1"
+      ],
+      "projectDir": "games/examples/hello-render",
+      "isTemplate": false,
+      "width": 960,
+      "height": 540,
+      "state": "runnable",
+      "built": true,
+      "distDir": "games/examples/hello-render/dist",
+      "distBytes": 87520,
+      "assetCount": 1,
+      "builtAt": "2026-10-13T05:29:58.140Z",
+      "bundles": [
+        {
+          "file": "chunk-2TEFNC7X.js",
+          "bytes": 69130
+        },
+        {
+          "file": "engine.js",
+          "bytes": 7378
+        },
+        {
+          "file": "game.js",
+          "bytes": 1706
+        }
+      ],
+      "outputs": 8,
+      "durationMs": 864,
+      "errors": [],
+      "warnings": [],
+      "reportPath": "games/examples/hello-render/dist/build-report.json"
+    }
+  ]
+}
