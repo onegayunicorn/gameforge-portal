@@ -1,5 +1,6 @@
 import fs from 'node:fs';
 import path from 'node:path';
+import { resolveProjectPath } from './project-paths';
 
 /** Fields the pipeline understands. Mirrors tools/schemas/game-config.schema.json. */
 export interface GameConfig {
@@ -117,7 +118,22 @@ export function loadGameProject(projectDir: string, options: { templatesDir?: st
     throw new ProjectError(`${configPath} is not valid:\n  - ${problems.join('\n  - ')}`, root);
   }
 
-  const entryPath = path.resolve(root, config.entry);
+  let entryPath: string;
+  try {
+    entryPath = resolveProjectPath(root, config.entry, 'entry');
+  } catch (error) {
+    throw new ProjectError((error as Error).message, root);
+  }
+  for (const [index, scene] of (config.scenes ?? []).entries()) {
+    if (typeof scene !== 'string') {
+      throw new ProjectError(`scenes[${index}] must be a relative path`, root);
+    }
+    try {
+      resolveProjectPath(root, scene, `scenes[${index}]`);
+    } catch (error) {
+      throw new ProjectError((error as Error).message, root);
+    }
+  }
   const relativeToTemplates = options.templatesDir
     ? path.relative(path.resolve(options.templatesDir), root)
     : '';

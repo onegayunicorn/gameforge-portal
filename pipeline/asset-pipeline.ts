@@ -2,6 +2,7 @@ import fs from 'node:fs';
 import path from 'node:path';
 import crypto from 'node:crypto';
 import { resolveProjectAssets } from './validators/validate-assets';
+import { resolveProjectPath } from './project-paths';
 import type { GameProject } from './project-discovery';
 import type { AssetManifestEntry } from '../engine/src/assets/AssetManifest';
 import type { ValidationIssue } from './validators/validate-game';
@@ -83,7 +84,7 @@ export function processAssets(project: GameProject, outDir: string): AssetPipeli
 export function copySceneFiles(project: GameProject, outDir: string, scenesSubdir: string = 'scenes'): string[] {
   const copied: string[] = [];
   for (const scene of project.config.scenes ?? []) {
-    const from = path.resolve(project.root, scene);
+    const from = resolveProjectPath(project.root, scene, 'scene');
     if (!fs.existsSync(from)) continue;
     const to = path.join(outDir, scenesSubdir, path.basename(scene));
     fs.mkdirSync(path.dirname(to), { recursive: true });

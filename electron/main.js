@@ -20,7 +20,6 @@ const PORTAL_DIR = path.join(APP_ROOT, 'portal');
 
 // The portal is served from loopback. Never let a system/OS proxy intercept it.
 app.commandLine.appendSwitch('no-proxy-server');
-app.commandLine.appendSwitch('disable-features', 'NetworkServiceSandbox');
 
 // In a packaged build the payload is unpacked into resources/ so the real files stay
 // reachable on disk (reveal in Explorer, open in editor, copy out).

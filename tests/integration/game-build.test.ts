@@ -97,6 +97,34 @@ describe('game build pipeline', () => {
     expect(() => loadGameProject(projectDir)).toThrow(/not valid/i);
   });
 
+  it('rejects entry paths that escape the project root', () => {
+    const projectDir = makeTempDir('gameforge-entry-escape-');
+    fs.writeFileSync(path.join(projectDir, 'game.config.json'), JSON.stringify({
+      id: 'entry-escape',
+      name: 'Entry Escape',
+      version: '0.1.0',
+      entry: '../outside.ts',
+    }, null, 2));
+
+    expect(() => loadGameProject(projectDir)).toThrow(/entry escapes the project root/i);
+  });
+
+  it('rejects scene symlinks that resolve outside the project root', () => {
+    const projectDir = makeTempDir('gameforge-scene-escape-');
+    const outsideScene = path.join(makeTempDir('gameforge-outside-'), 'scene.json');
+    fs.writeFileSync(outsideScene, '{}\n');
+    fs.symlinkSync(outsideScene, path.join(projectDir, 'scene.json'));
+    fs.writeFileSync(path.join(projectDir, 'game.config.json'), JSON.stringify({
+      id: 'scene-escape',
+      name: 'Scene Escape',
+      version: '0.1.0',
+      entry: 'main.ts',
+      scenes: ['scene.json'],
+    }, null, 2));
+
+    expect(() => loadGameProject(projectDir)).toThrow(/symlink outside the project root/i);
+  });
+
   it('warns about assets no glob matches so they cannot ship silently', async () => {
     const projectDir = makeTempDir('gameforge-unmatched-');
     fs.mkdirSync(path.join(projectDir, 'src'), { recursive: true });
