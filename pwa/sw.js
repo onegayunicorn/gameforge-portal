@@ -4,10 +4,11 @@
  */
 'use strict';
 
-const CACHE = "gameforge-pwa-660993a87125";
+const CACHE = "gameforge-pwa-540046185cf6";
 const PRECACHE = [
   "./",
   "./app.js",
+  "./components/GameCard.js",
   "./data/builds.json",
   "./icons/apple-touch-icon-180.png",
   "./icons/favicon-16.png",

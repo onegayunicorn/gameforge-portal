@@ -183,7 +183,11 @@ function build() {
   for (const file of fs.readdirSync(path.join(PORTAL, 'components'))) {
     copy(path.join(PORTAL, 'components', file), path.join(OUT, 'components', file));
   }
-  copy(path.join(PORTAL, 'data', 'builds.json'), path.join(OUT, 'data', 'builds.json'));
+  // Copy the whole data directory: builds.json drives the payload index, games.json drives the
+  // Games section. Missing either one degrades that section only.
+  for (const file of fs.readdirSync(path.join(PORTAL, 'data'))) {
+    copy(path.join(PORTAL, 'data', file), path.join(OUT, 'data', file));
+  }
   copy(path.join(SRC, 'pwa.css'), path.join(OUT, 'pwa.css'));
   copy(path.join(SRC, 'pwa.js'), path.join(OUT, 'pwa.js'));
   copy(path.join(SRC, 'offline.html'), path.join(OUT, 'offline.html'));

@@ -43,8 +43,9 @@
 
     <nav class="nav" aria-label="Sections">
       <a href="#overview">Overview</a>
-      <a href="#projects">Projects</a>
-      <a href="#integrity">Integrity</a>
+        <a href="#projects">Projects</a>
+        <a href="#games">Games</a>
+        <a href="#integrity">Integrity</a>
       <a href="#runtime">Runtime</a>
       <a href="#docs">Docs</a>
     </nav>
@@ -127,10 +128,29 @@
     <p class="empty" id="projectEmpty" hidden>No project matches the current filter.</p>
   </section>
 
-  <section class="section" id="integrity">
-    <div class="section-head">
-      <div>
-        <h2>Integrity</h2>
+   <section class="section" id="games">
+     <div class="section-head">
+       <div>
+         <h2>Games</h2>
+         <p>Projects built by the GameForge Engine pipeline. Each card reports the state measured from the
+           last build: discoverable, buildable, runnable or failed.</p>
+       </div>
+       <button class="btn btn-ghost" id="btnGamesRefresh" type="button">Refresh index</button>
+     </div>
+     <div class="panel" id="gamesSummary">
+       <h3>Engine projects</h3>
+       <ul class="stat-grid" id="gamesStats"></ul>
+     </div>
+     <div class="card-grid" id="gameGrid">
+       <article class="card"><h3>Loading games…</h3></article>
+     </div>
+     <p class="empty" id="gamesEmpty" hidden>No game projects were indexed. Run <code>npm run games:build</code> to build and index them.</p>
+   </section>
+
+   <section class="section" id="integrity">
+     <div class="section-head">
+       <div>
+         <h2>Integrity</h2>
         <p>Archive digests supplied alongside the builds, compared against the live content digest computed inside this app.</p>
       </div>
       <button class="btn btn-ghost" id="btnRecheck">
@@ -220,5 +240,7 @@
 <div class="toast-stack" id="toasts" aria-live="polite" aria-atomic="false"></div>
 
 <script src="./app.js"></script>
+<!-- Games section: the engine pipeline's index and its build/preview actions. -->
+<script src="./components/GameCard.js"></script>
 </body>
 </html>

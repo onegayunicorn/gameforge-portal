@@ -7,6 +7,39 @@ Built with Electron + electron-builder. Output: an NSIS installer and a single-f
 
 ---
 
+## Engine, pipeline and games
+
+The portal is the distribution product; the **engine** and **pipeline** live beside it, so the same
+repository both builds games and ships them.
+
+| Layer | Location | What it does |
+|---|---|---|
+| Engine | [`engine/`](engine/src/index.ts) | Browser-first TypeScript engine: ECS, scenes, fixed-step loop, Canvas2D renderer, assets, input, diagnostics |
+| Pipeline | [`pipeline/`](pipeline/game-builder.ts) | Validates projects, bundles with esbuild, copies and hashes assets, generates the runtime shell, writes build reports |
+| Runtime | [`runtime/`](runtime/bootstrap.ts) | Loads a built game: engine setup, asset preloading, error surface, live state reporting |
+| Games | [`games/`](games/examples/hello-render/game.config.json) | Game projects. `hello-render` is the working example |
+| Tooling | [`tools/cli/`](tools/cli/gameforge.ts) | The `gameforge` CLI and the JSON schema for `game.config.json` |
+
+```powershell
+npm run verify                     # typecheck + tests + validate + build every game
+npm run game:create -- my-game     # scaffold a project that builds immediately
+npm run game:dev -- games/my-game  # build, serve, rebuild on change
+npm run game:build -- games/examples/hello-render
+npm run games:smoke                # launch the built example and assert it renders and animates
+```
+
+The portal's **Games** section reads `portal/data/games.json` and can build, validate, launch, stop
+and inspect a game — including live FPS/entity counts reported by the running game. Every action is
+allow-listed, and a game id is validated against the index (a traversal id is refused) before any
+path reaches the shell.
+
+Docs: [engine architecture](docs/ENGINE_ARCHITECTURE.md) ·
+[game project format](docs/GAME_PROJECT_FORMAT.md) ·
+[roadmap and honest status](docs/ROADMAP.md) — including what is *not* implemented (WebGL2, audio,
+physics, animation, the editor) and why.
+
+---
+
 ## Live
 
 | What | URL |
