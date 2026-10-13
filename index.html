@@ -252,6 +252,13 @@
         desktop app, the installable app and this page.</p>
     </div>
     <div class="grid" id="buildGrid"></div>
+    <div class="callout" style="border-color:var(--line-strong);background:rgba(122,152,220,.06)">
+      <strong style="color:var(--text)">What these builds actually are</strong>
+      <p>Source scaffolds, not playable games — measured from the deployed files: the platform's compiled
+        <code>dist/</code> is 34 modules totalling 7 KB (211 bytes on average), and no tree contains a
+        JavaScript bundle larger than 25 KB, so there is no production web build to run. This system
+        faithfully indexes and ships those sources. It is a launcher and an index, not a game download.</p>
+    </div>
   </section>
 
   <section id="install">
