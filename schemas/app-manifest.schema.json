@@ -1,0 +1,102 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "GameForge application manifest",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "appId",
+    "name",
+    "version",
+    "publisher",
+    "callbackUrls",
+    "requestedCapabilities",
+    "supportedClients",
+    "supportedGameModes",
+    "sdkVersion"
+  ],
+  "properties": {
+    "appId": {
+      "type": "string",
+      "minLength": 3
+    },
+    "name": {
+      "type": "string",
+      "minLength": 1
+    },
+    "version": {
+      "type": "string",
+      "pattern": "^\\d+\\.\\d+\\.\\d+"
+    },
+    "publisher": {
+      "type": "string",
+      "minLength": 1
+    },
+    "homepage": {
+      "type": "string",
+      "format": "uri"
+    },
+    "callbackUrls": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "pattern": "^https://"
+      },
+      "uniqueItems": true
+    },
+    "requestedCapabilities": {
+      "type": "array",
+      "items": {
+        "enum": [
+          "profile.read",
+          "library.read",
+          "library.write",
+          "catalog.read",
+          "project.read",
+          "project.write",
+          "build.create",
+          "session.create",
+          "session.read",
+          "session.control",
+          "stream.connect",
+          "crossplay.identity",
+          "crossplay.presence",
+          "telemetry.write",
+          "host.read",
+          "host.manage"
+        ]
+      },
+      "uniqueItems": true
+    },
+    "supportedClients": {
+      "type": "array",
+      "items": {
+        "enum": [
+          "web",
+          "pwa",
+          "desktop",
+          "android",
+          "ios",
+          "tv",
+          "headset"
+        ]
+      }
+    },
+    "supportedGameModes": {
+      "type": "array",
+      "items": {
+        "enum": [
+          "local",
+          "browser",
+          "remote",
+          "vm"
+        ]
+      }
+    },
+    "sdkVersion": {
+      "type": "string"
+    },
+    "publicKey": {
+      "type": "string"
+    }
+  }
+}
