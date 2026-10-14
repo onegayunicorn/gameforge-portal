@@ -10,6 +10,7 @@
     "../pipeline/**/*.ts",
     "../tools/**/*.ts",
     "../tests/**/*.ts",
+    "../streaming/**/*.ts",
     "../games/**/*.ts"
   ]
 }
