@@ -1,0 +1,27 @@
+name: SDK foundation
+on:
+  push:
+    paths:
+      - 'packages/gameforge-*/**'
+      - 'services/api/**'
+      - 'schemas/**'
+      - 'openapi/**'
+      - '.github/workflows/sdk-foundation.yml'
+  pull_request:
+    paths:
+      - 'packages/gameforge-*/**'
+      - 'services/api/**'
+      - 'schemas/**'
+      - 'openapi/**'
+jobs:
+  contracts:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - run: node --test services/api/test/*.test.mjs
+      - run: node -e "JSON.parse(require('node:fs').readFileSync('schemas/app-manifest.schema.json','utf8'))"
