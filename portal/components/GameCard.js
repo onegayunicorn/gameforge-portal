@@ -148,7 +148,7 @@
         <p class="note">Last build ${esc(fmtDate(game.builtAt))}${game.durationMs ? ` (${game.durationMs} ms)` : ''}</p>
         <div class="card-actions">
           ${actionButton(game.built ? 'Rebuild' : 'Build', 'build', { primary: true, desktopOnly: true })}
-          ${actionButton(game.built ? 'Play' : 'Preview', 'preview')}
+          ${actionButton(game.built ? 'Play' : 'Preview', 'preview', { primary: !isDesktop && Boolean(playUrl(game)) })}
           ${actionButton('Stop', 'stop', { desktopOnly: true })}
           ${actionButton('Validate', 'validate', { desktopOnly: true })}
           ${actionButton('Logs', 'logs', { desktopOnly: true })}
@@ -170,8 +170,34 @@
     }
   }
 
-  /** Preview in browser mode: the portal serves the repository, so the build is a plain URL. */
+  /**
+   * Where a browser can play this game, or null. The hosted site publishes each built game under
+   * play/<id>/ and records it as game.playPath; the value is resolved against the page so it also
+   * works when the portal is served from a sub-path (GitHub Pages) and is only followed when it
+   * stays on this origin and inside play/.
+   */
+  function playUrl(game) {
+    if (typeof game.playPath !== 'string' || !game.playPath) return null;
+    try {
+      const url = new URL(game.playPath, document.baseURI);
+      return url.origin === window.location.origin && /\/play\/[a-z0-9-]+\/$/.test(url.pathname) ? url.href : null;
+    } catch {
+      return null;
+    }
+  }
+
+  /** Preview in browser mode. Hosted builds use playPath; the dev server falls back to the dist folder. */
   function openBuildInTab(game) {
+    const hosted = playUrl(game);
+    if (hosted) {
+      window.open(hosted, '_blank', 'noopener');
+      return;
+    }
+    if ('playPath' in game) {
+      // The index came from a hosted build that did not publish this game: say so instead of 404ing.
+      notify('Not available on this site', `${game.name} has no published build here. Rebuild the site with npm run games:build then npm run pwa:build.`, 'warn');
+      return;
+    }
     window.open(`./${game.distDir}/`, '_blank', 'noopener');
   }
 

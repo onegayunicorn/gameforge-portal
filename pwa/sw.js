@@ -4,7 +4,7 @@
  */
 'use strict';
 
-const CACHE = "gameforge-pwa-887b12f40a63";
+const CACHE = "gameforge-pwa-6ee3c9d04b64";
 const PRECACHE = [
   "./",
   "./app.js",
@@ -21,6 +21,15 @@ const PRECACHE = [
   "./index.html",
   "./manifest.webmanifest",
   "./offline.html",
+  "./play/hello-render/",
+  "./play/hello-render/assets/player.png",
+  "./play/hello-render/chunk-2TEFNC7X.js",
+  "./play/hello-render/engine.js",
+  "./play/hello-render/game.js",
+  "./play/hello-render/game.json",
+  "./play/hello-render/index.html",
+  "./play/hello-render/manifest.json",
+  "./play/hello-render/runtime.css",
   "./pwa.css",
   "./pwa.js",
   "./screenshots/desktop.png",

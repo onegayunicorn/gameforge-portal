@@ -52,6 +52,26 @@ served from a secure context and can genuinely be installed on a phone or deskto
 reads the shipped index live (`pwa/data/builds.json`), so its figures describe the deployed files
 rather than being typed in.
 
+### Play a game from the hosted site
+
+Open the installable app, go to **Games** and press **Play**. The game runs in your browser, on your
+device - nothing is installed and no server runs the game for you.
+
+```text
+npm run games:build     # build every game and refresh portal/data/games.json
+npm run pwa:build       # publish each built game to pwa/play/<id>/ and rebuild the service worker
+git add pwa portal/data && git commit   # GitHub Pages serves the committed pwa/ folder
+```
+
+- Each built game is copied to `pwa/play/<id>/` (without its `build-report.json`) and recorded in
+  `pwa/data/games.json` as `playPath`. A game that is not built, or whose output cannot be
+  published, gets `playPath: null` and the build says why.
+- Published games are precached, so they also play offline once the app has loaded - up to 10 MiB in
+  total. Past that budget they are still published and are cached as they are played.
+- `pwa:build` assembles the site in a staging folder and swaps it in only on success, and reuses the
+  committed icons, so it runs on Linux and macOS as well as Windows (PowerShell is only needed to
+  *render* icons that are missing).
+
 ---
 
 ## Downloads

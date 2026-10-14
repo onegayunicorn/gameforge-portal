@@ -11,6 +11,8 @@
 - Electron Chromium Network Service sandbox defaults
 - Electron `44.7.0` and electron-builder `26.15.3`
 - Windows NSIS and portable packaging configuration
+- Hosted browser play: built games are published to `pwa/play/<id>/`, start from the portal Play button under a Pages-style sub-path, and run offline from the service-worker cache
+- `pwa:build` runs on Linux (staged swap, reuses committed icons)
 
 ## Current dependency audit
 
