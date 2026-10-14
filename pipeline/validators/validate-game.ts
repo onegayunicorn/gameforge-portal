@@ -1,6 +1,7 @@
 import fs from 'node:fs';
 import path from 'node:path';
 import { resolveGameDefaults } from '../project-discovery';
+import { resolveProjectPath } from '../project-paths';
 import type { GameProject } from '../project-discovery';
 
 export interface ValidationIssue {
@@ -84,8 +85,12 @@ export function validateGameProject(project: GameProject, engineVersion: string 
   }
 
   for (const scene of config.scenes ?? []) {
-    if (!fs.existsSync(path.resolve(project.root, scene))) {
-      errors.push({ code: 'scene-missing', message: `Scene file not found: ${scene}`, file: scene });
+    try {
+      if (!fs.existsSync(resolveProjectPath(project.root, scene, 'scene'))) {
+        errors.push({ code: 'scene-missing', message: `Scene file not found: ${scene}`, file: scene });
+      }
+    } catch (error) {
+      errors.push({ code: 'scene-outside-project', message: (error as Error).message, file: scene });
     }
   }
 
