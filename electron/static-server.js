@@ -30,6 +30,8 @@ function safeResolve(root, urlPath) {
   let decoded;
   try { decoded = decodeURIComponent(urlPath.split('?')[0]); }
   catch { return null; }
+  // %00 is well-formed percent-encoding but decodes to a NUL byte, which makes fs throw synchronously.
+  if (decoded.includes('\0')) return null;
   const rel = decoded.replace(/^\/+/, '');
   const full = path.resolve(root, rel);
   const rootResolved = path.resolve(root);
@@ -48,7 +50,7 @@ function createPortalServer(options) {
       'Cache-Control': 'no-store',
       'X-Content-Type-Options': 'nosniff',
       'Referrer-Policy': 'no-referrer',
-      'Content-Security-Policy': "default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; font-src 'self'; connect-src 'self'; object-src 'none'; base-uri 'none'; frame-ancestors 'none'; form-action 'none'",
+      'Content-Security-Policy': "default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob:; media-src 'self' blob:; worker-src 'self' blob:; font-src 'self'; connect-src 'self'; object-src 'none'; base-uri 'none'; frame-ancestors 'none'; form-action 'none'",
       'Permissions-Policy': 'camera=(), microphone=(), geolocation=()',
       'X-Frame-Options': 'DENY',
     };
