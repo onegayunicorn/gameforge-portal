@@ -284,7 +284,7 @@ function createWindow() {
     return { action: 'deny' };
   });
   mainWindow.webContents.on('will-navigate', (event, url) => {
-    if (portal && url.startsWith(portal.origin)) return;
+    if (portal && (() => { try { const candidate = new URL(url); return candidate.origin === portal.origin && (candidate.protocol === 'http:'); } catch { return false; } })()) return;
     event.preventDefault();
     if (/^https?:/i.test(url)) shell.openExternal(url);
   });
