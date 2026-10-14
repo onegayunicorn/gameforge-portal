@@ -30,7 +30,7 @@
     "games:validate": "tsx tools/cli/gameforge.ts validate",
     "games:smoke": "electron scripts/game-smoke.js games/examples/hello-render/dist selftest-game",
     "verify": "npm run engine:check && npm run engine:test && npm run games:validate && npm run games:build",
-    "dist": "npm run cli:bundle && electron-builder --win nsis portable --x64"
+    "dist": "npm run cli:bundle && electron-builder --win nsis portable --x64 --publish never"
   },
   "devDependencies": {
     "@types/node": "^26.6.5",
