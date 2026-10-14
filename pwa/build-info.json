@@ -1,7 +1,7 @@
 {
-  "generatedAt": "2026-10-13T05:34:20.795Z",
-  "cacheVersion": "gameforge-pwa-887b12f40a63",
-  "precacheEntries": 20,
+  "generatedAt": "2026-10-14T12:56:20.244Z",
+  "cacheVersion": "gameforge-pwa-6ee3c9d04b64",
+  "precacheEntries": 29,
   "manifest": {
     "name": "GameForge Portal",
     "display": "standalone",
@@ -15,5 +15,13 @@
     "bytes": 345391,
     "docs": 22,
     "html": 8
+  },
+  "play": {
+    "published": [
+      "hello-render"
+    ],
+    "bytes": 86194,
+    "precached": true,
+    "skipped": []
   }
 }

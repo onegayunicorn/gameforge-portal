@@ -1,0 +1,15 @@
+{
+  "id": "hello-render",
+  "name": "Hello Render",
+  "version": "0.1.0",
+  "engine": "^0.1.0",
+  "width": 960,
+  "height": 540,
+  "clearColor": "#0b1020",
+  "renderer": "auto",
+  "pixelArt": true,
+  "debug": false,
+  "entry": "./game.js",
+  "manifest": "manifest.json",
+  "builtAt": "2026-10-14T12:56:19.355Z"
+}

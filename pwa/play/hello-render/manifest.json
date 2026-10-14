@@ -1,0 +1,13 @@
+{
+  "version": 1,
+  "basePath": "./",
+  "assets": [
+    {
+      "id": "player",
+      "type": "texture",
+      "source": "assets/player.png",
+      "hash": "sha256:785149e05910b4cb334905c8b4a8376c67077c003f7edbf4325b5e0e23b30ebf",
+      "size": 303
+    }
+  ]
+}
