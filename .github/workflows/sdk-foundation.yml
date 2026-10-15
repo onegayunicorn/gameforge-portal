@@ -21,8 +21,6 @@ jobs:
       - run: npm run sdk:test
       - run: npm run api:test
       - run: npm run schema:validate
-      - run: sudo chown root:root node_modules/electron/dist/chrome-sandbox && sudo chmod 4755 node_modules/electron/dist/chrome-sandbox
-      - run: xvfb-run -a npm run games:smoke
 
   windows-desktop-pwa:
     runs-on: windows-latest

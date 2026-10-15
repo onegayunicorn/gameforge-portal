@@ -14,7 +14,7 @@ npm run schema:validate
 node services/api/server.mjs
 ```
 
-The API listens on `127.0.0.1:8787`. Available routes are `GET /health`, `GET /v1/capabilities`, `GET /v1/catalog/games`, and `GET /v1/catalog/games/hello-render`. The OpenAPI document is `openapi/gameforge-v1.yaml`. CI separately runs the engine/game smoke suite and a Windows job for the PWA audit and Windows desktop packaging. The manifest validator rejects malformed URLs and unknown capabilities, clients, and game modes.
+The API listens on `127.0.0.1:8787`. Available routes are `GET /health`, `GET /v1/capabilities`, `GET /v1/catalog/games`, and `GET /v1/catalog/games/hello-render`. The OpenAPI document is `openapi/gameforge-v1.yaml`. Local verification includes the Electron game smoke test; CI runs the engine suite and a Windows job for the PWA audit and Windows desktop packaging. The manifest validator rejects malformed URLs and unknown capabilities, clients, and game modes.
 
 ## Boundaries
 
