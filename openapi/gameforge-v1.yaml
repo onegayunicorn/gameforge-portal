@@ -2,7 +2,7 @@ openapi: 3.1.0
 info:
   title: GameForge Development API
   version: 0.1.0
-  description: Read-only development subset; unimplemented protected operations fail closed.
+  description: Read-only development subset; authentication is opt-in and unimplemented protected operations fail closed.
 servers:
   - url: http://127.0.0.1:8787
 paths:
@@ -16,6 +16,24 @@ paths:
       responses:
         '200':
           description: Negotiated available capabilities
+  /v1/auth/config:
+    get:
+      responses:
+        '200':
+          description: Fixed-issuer OIDC configuration when explicitly enabled
+        '501':
+          description: External authentication is disabled
+  /v1/session:
+    get:
+      security:
+        - bearerAuth: []
+      responses:
+        '200':
+          description: Authenticated local session
+        '401':
+          description: Missing, invalid, revoked, or expired session
+        '501':
+          description: Sessions are disabled
   /v1/catalog/games:
     get:
       responses:
@@ -34,3 +52,8 @@ paths:
           description: Game summary
         '404':
           description: Unknown game
+components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
