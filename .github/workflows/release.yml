@@ -1,0 +1,97 @@
+name: Release
+
+on:
+  push:
+    tags:
+      - "v*"
+
+permissions:
+  contents: write
+
+concurrency:
+  group: release-${{ github.ref }}
+  cancel-in-progress: false
+
+jobs:
+  windows-release:
+    name: Build and publish Windows + PWA assets
+    runs-on: windows-latest
+    env:
+      TAG_NAME: ${{ github.ref_name }}
+    steps:
+      - name: Check out tagged source
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+          cache: npm
+
+      - name: Verify tag matches package version
+        shell: pwsh
+        run: |
+          $package = Get-Content package.json | ConvertFrom-Json
+          $expectedTag = "v$($package.version)"
+          if ($env:TAG_NAME -ne $expectedTag) {
+            throw "Tag $env:TAG_NAME does not match package version $expectedTag"
+          }
+
+      - name: Install locked dependencies
+        run: npm ci
+
+      - name: Verify engine, games, SDK, API, and schemas
+        run: |
+          npm run verify
+          npm run sdk:typecheck
+          npm run sdk:test
+          npm run api:test
+          npm run schema:validate
+
+      - name: Build and audit installable PWA
+        run: |
+          npm run pwa:build
+          npm run pwa:audit
+
+      - name: Package Windows desktop and PWA
+        shell: pwsh
+        run: |
+          npm run dist
+          $version = (Get-Content package.json | ConvertFrom-Json).version
+          $releaseDir = "release-final"
+          $pwaArchive = Join-Path $releaseDir "gameforge-portal-pwa-$version.zip"
+          Compress-Archive -Path "pwa\*" -DestinationPath $pwaArchive -CompressionLevel Optimal -Force
+
+          $expected = @(
+            "GameForge-Portal-Setup-$version-x64.exe",
+            "GameForge-Portal-Portable-$version-x64.exe",
+            "gameforge-portal-pwa-$version.zip"
+          )
+          foreach ($name in $expected) {
+            $path = Join-Path $releaseDir $name
+            if (-not (Test-Path $path -PathType Leaf)) {
+              throw "Expected release artifact is missing: $path"
+            }
+          }
+
+          $sumFile = Join-Path $releaseDir "SHA256SUMS.txt"
+          $assets = Get-ChildItem -Path $releaseDir -File | Where-Object {
+            $_.Name -in $expected
+          } | Sort-Object Name
+          $lines = foreach ($asset in $assets) {
+            $hash = (Get-FileHash -Path $asset.FullName -Algorithm SHA256).Hash.ToLowerInvariant()
+            "$hash  $($asset.Name)"
+          }
+          $lines | Set-Content -Path $sumFile -Encoding ascii
+
+      - name: Publish GitHub Release
+        uses: softprops/action-gh-release@v2
+        with:
+          name: GameForge Portal ${{ github.ref_name }}
+          generate_release_notes: true
+          files: |
+            release-final/GameForge-Portal-Setup-*.exe
+            release-final/GameForge-Portal-Portable-*.exe
+            release-final/gameforge-portal-pwa-*.zip
+            release-final/SHA256SUMS.txt
+          fail_on_unmatched_files: true
