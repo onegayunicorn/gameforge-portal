@@ -54,6 +54,15 @@ function copy(src, dest) {
   fs.copyFileSync(src, dest);
 }
 
+function copyDir(src, dest) {
+  for (const entry of fs.readdirSync(src, { withFileTypes: true })) {
+    const source = path.join(src, entry.name);
+    const target = path.join(dest, entry.name);
+    if (entry.isDirectory()) copyDir(source, target);
+    else copy(source, target);
+  }
+}
+
 function relFiles(root, dir = root) {
   const out = [];
   for (const entry of fs.readdirSync(dir, { withFileTypes: true })) {
@@ -208,6 +217,8 @@ function build() {
   copy(path.join(SRC, 'pwa.css'), path.join(OUT, 'pwa.css'));
   copy(path.join(SRC, 'pwa.js'), path.join(OUT, 'pwa.js'));
   copy(path.join(SRC, 'offline.html'), path.join(OUT, 'offline.html'));
+  copy(path.join(PORTAL, 'manus-routes.json'), path.join(OUT, 'manus-routes.json'));
+  copyDir(path.join(PORTAL, 'cloud'), path.join(OUT, 'cloud'));
 
   writeIndex();
   const iconsRendered = ensureIcons();   // manifest validation below requires the icons on disk

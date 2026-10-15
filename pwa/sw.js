@@ -4,10 +4,14 @@
  */
 'use strict';
 
-const CACHE = "gameforge-pwa-c52a0709b388";
+const CACHE = "gameforge-pwa-8b75c0b6d8e4";
 const PRECACHE = [
   "./",
   "./app.js",
+  "./cloud/app.js",
+  "./cloud/data/games.json",
+  "./cloud/index.html",
+  "./cloud/styles.css",
   "./components/GameCard.js",
   "./data/builds.json",
   "./data/games.json",
@@ -20,6 +24,7 @@ const PRECACHE = [
   "./icons/maskable-512.png",
   "./index.html",
   "./manifest.webmanifest",
+  "./manus-routes.json",
   "./offline.html",
   "./pwa.css",
   "./pwa.js",

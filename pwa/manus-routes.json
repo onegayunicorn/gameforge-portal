@@ -1,0 +1,6 @@
+{
+  "routes": [
+    { "path": "/", "title": "GameForge Portal" },
+    { "path": "/cloud/", "title": "GameForge Cloud Play" }
+  ]
+}

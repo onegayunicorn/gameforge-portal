@@ -1,7 +1,7 @@
 {
-  "generatedAt": "2026-10-15T06:01:45.901Z",
-  "cacheVersion": "gameforge-pwa-c52a0709b388",
-  "precacheEntries": 20,
+  "generatedAt": "2026-10-15T06:14:57.941Z",
+  "cacheVersion": "gameforge-pwa-8b75c0b6d8e4",
+  "precacheEntries": 25,
   "manifest": {
     "name": "GameForge Portal",
     "display": "standalone",
