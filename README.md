@@ -35,6 +35,7 @@ path reaches the shell.
 
 Docs: [engine architecture](docs/ENGINE_ARCHITECTURE.md) · [display adapter](docs/DISPLAY_ADAPTER.md) ·
 [game project format](docs/GAME_PROJECT_FORMAT.md) ·
+[authentication boundary](docs/AUTHENTICATION.md) ·
 [roadmap and honest status](docs/ROADMAP.md) — including what is *not* implemented (WebGL2, audio,
 physics, animation, the editor) and why.
 
