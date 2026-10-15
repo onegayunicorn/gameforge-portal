@@ -1,27 +1,36 @@
 name: SDK foundation
 on:
   push:
-    paths:
-      - 'packages/gameforge-*/**'
-      - 'services/api/**'
-      - 'schemas/**'
-      - 'openapi/**'
-      - '.github/workflows/sdk-foundation.yml'
   pull_request:
-    paths:
-      - 'packages/gameforge-*/**'
-      - 'services/api/**'
-      - 'schemas/**'
-      - 'openapi/**'
+permissions:
+  contents: read
 jobs:
-  contracts:
+  verify:
     runs-on: ubuntu-latest
-    permissions:
-      contents: read
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
         with:
-          node-version: '22'
-      - run: node --test services/api/test/*.test.mjs
-      - run: node -e "JSON.parse(require('node:fs').readFileSync('schemas/app-manifest.schema.json','utf8'))"
+          node-version: "22"
+          cache: npm
+      - run: npm ci
+      - run: npm run verify
+      - run: npm run engine:build
+      - run: npm run sdk:typecheck
+      - run: npm run sdk:test
+      - run: npm run api:test
+      - run: npm run schema:validate
+      - run: xvfb-run -a npm run games:smoke
+
+  windows-desktop-pwa:
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+          cache: npm
+      - run: npm ci
+      - run: npm run pwa:build
+      - run: npm run pwa:audit
+      - run: npm run dist

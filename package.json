@@ -30,10 +30,16 @@
     "games:validate": "tsx tools/cli/gameforge.ts validate",
     "games:smoke": "electron scripts/game-smoke.js games/examples/hello-render/dist selftest-game",
     "verify": "npm run engine:check && npm run engine:test && npm run games:validate && npm run games:build",
-    "dist": "npm run cli:bundle && electron-builder --win nsis portable --x64"
+    "dist": "npm run cli:bundle && electron-builder --win nsis portable --x64",
+    "api:test": "node --test services/api/test/*.test.mjs",
+    "sdk:typecheck": "tsc --noEmit --target ES2022 --module NodeNext --moduleResolution NodeNext --lib ES2022,DOM packages/gameforge-contracts/src/index.ts packages/gameforge-app-sdk/src/index.ts",
+    "sdk:test": "tsx --test packages/gameforge-contracts/test/*.test.ts",
+    "schema:validate": "node tools/validate-app-manifest-schema.mjs"
   },
   "devDependencies": {
     "@types/node": "^26.6.5",
+    "ajv": "^8.20.0",
+    "ajv-formats": "^3.0.1",
     "electron": "^44.7.0",
     "electron-builder": "^26.15.3",
     "esbuild": "^0.28.2",
