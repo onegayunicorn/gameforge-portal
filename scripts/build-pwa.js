@@ -54,6 +54,15 @@ function copy(src, dest) {
   fs.copyFileSync(src, dest);
 }
 
+function copyDir(src, dest) {
+  for (const entry of fs.readdirSync(src, { withFileTypes: true })) {
+    const source = path.join(src, entry.name);
+    const target = path.join(dest, entry.name);
+    if (entry.isDirectory()) copyDir(source, target);
+    else copy(source, target);
+  }
+}
+
 function relFiles(root, dir = root) {
   const out = [];
   for (const entry of fs.readdirSync(dir, { withFileTypes: true })) {
@@ -70,12 +79,29 @@ function ensureIcons() {
   const missing = REQUIRED_ICONS.filter((rel) => !fs.existsSync(path.join(OUT, rel)));
   if (!missing.length) return false;
 
-  process.stdout.write('  rendering icons via make-pwa-icons.ps1\n');
-  execFileSync('powershell', [
-    '-NoProfile', '-ExecutionPolicy', 'Bypass',
-    '-File', path.join(__dirname, 'make-pwa-icons.ps1'),
-    '-OutDir', path.join(OUT, 'icons'),
-  ], { stdio: 'inherit' });
+  if (process.platform === 'win32') {
+    process.stdout.write('  rendering icons via make-pwa-icons.ps1\n');
+    execFileSync('powershell', [
+      '-NoProfile', '-ExecutionPolicy', 'Bypass',
+      '-File', path.join(__dirname, 'make-pwa-icons.ps1'),
+      '-OutDir', path.join(OUT, 'icons'),
+    ], { stdio: 'inherit' });
+  } else {
+    // Linux CI and hosted previews do not ship PowerShell. Reuse the checked-in brand mark so a
+    // browser deployment does not depend on the Windows packaging toolchain.
+    process.stdout.write('  rendering icons from build/icon.png via ffmpeg\n');
+    const source = path.join(ROOT, 'build', 'icon.png');
+    if (!fs.existsSync(source)) fail('build/icon.png is missing; cannot render portable PWA icons');
+    const sizes = {
+      'icon-192.png': 192, 'icon-512.png': 512,
+      'maskable-192.png': 192, 'maskable-512.png': 512,
+      'apple-touch-icon-180.png': 180, 'favicon-32.png': 32, 'favicon-16.png': 16,
+    };
+    for (const [file, size] of Object.entries(sizes)) {
+      execFileSync('ffmpeg', ['-hide_banner', '-loglevel', 'error', '-y', '-i', source,
+        '-vf', `scale=${size}:${size}:flags=lanczos`, path.join(OUT, 'icons', file)], { stdio: 'inherit' });
+    }
+  }
 
   const stillMissing = REQUIRED_ICONS.filter((rel) => !fs.existsSync(path.join(OUT, rel)));
   if (stillMissing.length) fail(`icon generation incomplete: ${stillMissing.join(', ')}`);
@@ -191,6 +217,8 @@ function build() {
   copy(path.join(SRC, 'pwa.css'), path.join(OUT, 'pwa.css'));
   copy(path.join(SRC, 'pwa.js'), path.join(OUT, 'pwa.js'));
   copy(path.join(SRC, 'offline.html'), path.join(OUT, 'offline.html'));
+  copy(path.join(PORTAL, 'manus-routes.json'), path.join(OUT, 'manus-routes.json'));
+  copyDir(path.join(PORTAL, 'cloud'), path.join(OUT, 'cloud'));
 
   writeIndex();
   const iconsRendered = ensureIcons();   // manifest validation below requires the icons on disk

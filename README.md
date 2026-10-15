@@ -33,7 +33,7 @@ and inspect a game — including live FPS/entity counts reported by the running 
 allow-listed, and a game id is validated against the index (a traversal id is refused) before any
 path reaches the shell.
 
-Docs: [engine architecture](docs/ENGINE_ARCHITECTURE.md) ·
+Docs: [engine architecture](docs/ENGINE_ARCHITECTURE.md) · [display adapter](docs/DISPLAY_ADAPTER.md) ·
 [game project format](docs/GAME_PROJECT_FORMAT.md) ·
 [roadmap and honest status](docs/ROADMAP.md) — including what is *not* implemented (WebGL2, audio,
 physics, animation, the editor) and why.

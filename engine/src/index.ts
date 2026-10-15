@@ -125,3 +125,7 @@ export type { Platform, PlatformInfo, PlatformKind } from './platform/Platform';
 export { BrowserPlatform, HeadlessPlatform } from './platform/BrowserPlatform';
 export { ElectronPlatform } from './platform/ElectronPlatform';
 export type { RuntimeReporter } from './platform/ElectronPlatform';
+
+/* ---------------------------------------------------------------- display */
+export { BrowserDisplayAdapter } from './display/DisplayAdapter';
+export type { DisplayAdapter, DisplayViewport, BrowserDisplayAdapterOptions } from './display/DisplayAdapter';
