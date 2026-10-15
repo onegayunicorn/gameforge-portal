@@ -40,3 +40,11 @@ build/gameforge-cli.cjs
 *.log
 *.out
 *.err
+
+# ---------------------------------------------------------------------------
+# UE4 runtime redistributables
+# ---------------------------------------------------------------------------
+# Fetched from the PRIVATE repo onegayunicorn/gameforge-ue4-redist by
+# `npm run ue4:fetch` and verified against config/ue4-redist.sha256.
+# Never commit them here: this repository is public.
+vendor/ue4-redist/
