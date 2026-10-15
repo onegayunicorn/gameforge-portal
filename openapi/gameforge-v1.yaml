@@ -1,0 +1,36 @@
+openapi: 3.1.0
+info:
+  title: GameForge Development API
+  version: 0.1.0
+  description: Read-only development subset; unimplemented protected operations fail closed.
+servers:
+  - url: http://127.0.0.1:8787
+paths:
+  /health:
+    get:
+      responses:
+        '200':
+          description: Development API health
+  /v1/capabilities:
+    get:
+      responses:
+        '200':
+          description: Negotiated available capabilities
+  /v1/catalog/games:
+    get:
+      responses:
+        '200':
+          description: Demo catalog
+  /v1/catalog/games/{id}:
+    get:
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Game summary
+        '404':
+          description: Unknown game

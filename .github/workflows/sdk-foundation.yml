@@ -1,0 +1,36 @@
+name: SDK foundation
+on:
+  push:
+    branches: [main]
+  pull_request:
+permissions:
+  contents: read
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+          cache: npm
+      - run: npm ci
+      - run: npm run verify
+      - run: npm run engine:build
+      - run: npm run sdk:typecheck
+      - run: npm run sdk:test
+      - run: npm run api:test
+      - run: npm run schema:validate
+
+  windows-desktop-pwa:
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+          cache: npm
+      - run: npm ci
+      - run: npm run pwa:build
+      - run: npm run pwa:audit
+      - run: npm run dist
