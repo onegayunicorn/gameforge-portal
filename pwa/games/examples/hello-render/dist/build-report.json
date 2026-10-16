@@ -1,0 +1,73 @@
+{
+  "gameId": "hello-render",
+  "name": "Hello Render",
+  "version": "0.1.0",
+  "engineVersion": "0.1.0",
+  "status": "success",
+  "startedAt": "2026-10-16T18:03:15.183Z",
+  "finishedAt": "2026-10-16T18:03:15.200Z",
+  "durationMs": 17,
+  "entry": "src/main.ts",
+  "outDir": "games/examples/hello-render/dist",
+  "assetCount": 1,
+  "totalAssetBytes": 303,
+  "outputBytes": 87424,
+  "outputs": [
+    {
+      "file": "assets/player.png",
+      "bytes": 303,
+      "kind": "asset"
+    },
+    {
+      "file": "chunk-B6LBN7NZ.js",
+      "bytes": 70138,
+      "kind": "chunk"
+    },
+    {
+      "file": "engine.js",
+      "bytes": 7600,
+      "kind": "bundle"
+    },
+    {
+      "file": "game.js",
+      "bytes": 1706,
+      "kind": "bundle"
+    },
+    {
+      "file": "game.json",
+      "bytes": 313,
+      "kind": "info"
+    },
+    {
+      "file": "index.html",
+      "bytes": 1799,
+      "kind": "html"
+    },
+    {
+      "file": "manifest.json",
+      "bytes": 261,
+      "kind": "manifest"
+    },
+    {
+      "file": "runtime.css",
+      "bytes": 5304,
+      "kind": "style"
+    }
+  ],
+  "bundles": [
+    {
+      "file": "chunk-B6LBN7NZ.js",
+      "bytes": 70138
+    },
+    {
+      "file": "engine.js",
+      "bytes": 7600
+    },
+    {
+      "file": "game.js",
+      "bytes": 1706
+    }
+  ],
+  "errors": [],
+  "warnings": []
+}

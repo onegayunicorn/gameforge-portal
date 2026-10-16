@@ -1,15 +1,64 @@
 {
-  "generatedAt": "2026-10-15T06:01:35.816Z",
+  "generatedAt": "2026-10-16T18:03:15.225Z",
   "engineVersion": "0.1.0",
   "gamesRoot": "games",
   "totals": {
-    "projects": 1,
-    "built": 1,
+    "projects": 2,
+    "built": 2,
     "failed": 0,
     "assets": 1,
-    "outputBytes": 88749
+    "outputBytes": 181366
   },
   "games": [
+    {
+      "id": "core-rush",
+      "name": "Core Rush",
+      "version": "0.1.0",
+      "description": "A one-minute neon survival sprint: weave through sentinels, chain core pickups, and dash your way to a new high score.",
+      "engine": "^0.1.0",
+      "entry": "src/main.ts",
+      "tags": [
+        "featured",
+        "arcade",
+        "survival",
+        "instant-play",
+        "showcase"
+      ],
+      "projectDir": "games/featured/core-rush",
+      "isTemplate": false,
+      "width": 960,
+      "height": 540,
+      "state": "runnable",
+      "built": true,
+      "distDir": "games/featured/core-rush/dist",
+      "distBytes": 92617,
+      "assetCount": 0,
+      "builtAt": "2026-10-16T18:03:15.181Z",
+      "bundles": [
+        {
+          "file": "chunk-LJSE4TN7.js",
+          "bytes": 70132
+        },
+        {
+          "file": "engine.js",
+          "bytes": 7600
+        },
+        {
+          "file": "game.js",
+          "bytes": 6220
+        }
+      ],
+      "outputs": 6,
+      "durationMs": 31,
+      "errors": [],
+      "warnings": [
+        {
+          "code": "no-assets",
+          "message": "No asset globs declared; the build will ship code only"
+        }
+      ],
+      "reportPath": "games/featured/core-rush/dist/build-report.json"
+    },
     {
       "id": "hello-render",
       "name": "Hello Render",
@@ -30,7 +79,7 @@
       "distDir": "games/examples/hello-render/dist",
       "distBytes": 88749,
       "assetCount": 1,
-      "builtAt": "2026-10-15T06:01:35.785Z",
+      "builtAt": "2026-10-16T18:03:15.200Z",
       "bundles": [
         {
           "file": "chunk-B6LBN7NZ.js",
@@ -46,7 +95,7 @@
         }
       ],
       "outputs": 8,
-      "durationMs": 47,
+      "durationMs": 17,
       "errors": [],
       "warnings": [],
       "reportPath": "games/examples/hello-render/dist/build-report.json"

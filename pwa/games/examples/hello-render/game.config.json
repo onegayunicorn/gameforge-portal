@@ -1,0 +1,23 @@
+{
+  "$schema": "../../../tools/schemas/game-config.schema.json",
+  "id": "hello-render",
+  "name": "Hello Render",
+  "description": "Milestone 1 acceptance example: a textured square moving under script control, with camera follow, primitive overlays and the debug overlay.",
+  "version": "0.1.0",
+  "engine": "^0.1.0",
+  "entry": "src/main.ts",
+  "type": "2d",
+  "renderer": "auto",
+  "width": 960,
+  "height": 540,
+  "clearColor": "#0b1020",
+  "pixelArt": true,
+  "debug": false,
+  "scenes": [],
+  "assets": ["assets/**/*"],
+  "scripts": {
+    "dev": "gameforge dev games/examples/hello-render",
+    "build": "gameforge build games/examples/hello-render"
+  },
+  "tags": ["example", "milestone-1"]
+}

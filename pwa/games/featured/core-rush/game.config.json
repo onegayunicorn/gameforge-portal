@@ -1,0 +1,24 @@
+{
+  "$schema": "../../../tools/schemas/game-config.schema.json",
+  "id": "core-rush",
+  "name": "Core Rush",
+  "description": "A one-minute neon survival sprint: weave through sentinels, chain core pickups, and dash your way to a new high score.",
+  "version": "0.1.0",
+  "engine": "^0.1.0",
+  "entry": "src/main.ts",
+  "type": "2d",
+  "renderer": "auto",
+  "width": 960,
+  "height": 540,
+  "fixedTimeStep": 0.016666666666666666,
+  "clearColor": "#070a16",
+  "pixelArt": false,
+  "debug": false,
+  "scenes": [],
+  "assets": [],
+  "scripts": {
+    "dev": "gameforge dev games/featured/core-rush",
+    "build": "gameforge build games/featured/core-rush"
+  },
+  "tags": ["featured", "arcade", "survival", "instant-play", "showcase"]
+}

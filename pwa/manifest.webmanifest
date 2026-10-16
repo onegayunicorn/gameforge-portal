@@ -78,6 +78,11 @@
       "name": "Documentation",
       "short_name": "Docs",
       "url": "./#docs"
+    },
+    {
+      "name": "Local AI Studio",
+      "short_name": "Studio",
+      "url": "./studio/"
     }
   ]
 }

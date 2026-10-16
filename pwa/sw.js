@@ -4,7 +4,7 @@
  */
 'use strict';
 
-const CACHE = "gameforge-pwa-8b75c0b6d8e4";
+const CACHE = "gameforge-pwa-2b3215c19c36";
 const PRECACHE = [
   "./",
   "./app.js",
@@ -15,6 +15,27 @@ const PRECACHE = [
   "./components/GameCard.js",
   "./data/builds.json",
   "./data/games.json",
+  "./games/examples/hello-render/assets/player.png",
+  "./games/examples/hello-render/dist/assets/player.png",
+  "./games/examples/hello-render/dist/build-report.json",
+  "./games/examples/hello-render/dist/chunk-B6LBN7NZ.js",
+  "./games/examples/hello-render/dist/engine.js",
+  "./games/examples/hello-render/dist/game.js",
+  "./games/examples/hello-render/dist/game.json",
+  "./games/examples/hello-render/dist/index.html",
+  "./games/examples/hello-render/dist/manifest.json",
+  "./games/examples/hello-render/dist/runtime.css",
+  "./games/examples/hello-render/game.config.json",
+  "./games/examples/hello-render/src/main.ts",
+  "./games/featured/core-rush/dist/build-report.json",
+  "./games/featured/core-rush/dist/chunk-LJSE4TN7.js",
+  "./games/featured/core-rush/dist/engine.js",
+  "./games/featured/core-rush/dist/game.js",
+  "./games/featured/core-rush/dist/game.json",
+  "./games/featured/core-rush/dist/index.html",
+  "./games/featured/core-rush/dist/runtime.css",
+  "./games/featured/core-rush/game.config.json",
+  "./games/featured/core-rush/src/main.ts",
   "./icons/apple-touch-icon-180.png",
   "./icons/favicon-16.png",
   "./icons/favicon-32.png",
@@ -30,6 +51,15 @@ const PRECACHE = [
   "./pwa.js",
   "./screenshots/desktop.png",
   "./screenshots/mobile-top.png",
+  "./studio/THIRD-PARTY-LICENSES.txt",
+  "./studio/ai-worker.bundle.js",
+  "./studio/ai-worker.js",
+  "./studio/app.js",
+  "./studio/index.html",
+  "./studio/local-inference.html",
+  "./studio/models.json",
+  "./studio/styles.css",
+  "./studio/validation.js",
   "./styles.css"
 ];
 const OFFLINE_URL = './offline.html';
@@ -46,7 +76,7 @@ self.addEventListener('install', (event) => {
 self.addEventListener('activate', (event) => {
   event.waitUntil((async () => {
     const names = await caches.keys();
-    await Promise.all(names.filter((n) => n !== CACHE).map((n) => caches.delete(n)));
+    await Promise.all(names.filter((n) => n.startsWith('gameforge-pwa-') && n !== CACHE).map((n) => caches.delete(n)));
     await self.clients.claim();
   })());
 });

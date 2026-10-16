@@ -1,0 +1,15 @@
+{
+  "id": "core-rush",
+  "name": "Core Rush",
+  "version": "0.1.0",
+  "engine": "^0.1.0",
+  "width": 960,
+  "height": 540,
+  "clearColor": "#070a16",
+  "renderer": "auto",
+  "pixelArt": false,
+  "debug": false,
+  "entry": "./game.js",
+  "manifest": null,
+  "builtAt": "2026-10-16T18:03:15.181Z"
+}

@@ -220,6 +220,9 @@ function build() {
   copy(path.join(PORTAL, 'manus-routes.json'), path.join(OUT, 'manus-routes.json'));
   copyDir(path.join(PORTAL, 'cloud'), path.join(OUT, 'cloud'));
   copyDir(path.join(PORTAL, 'studio'), path.join(OUT, 'studio'));
+  // Cloud Play links are relative to the PWA root; ship the built game distributions beside the
+  // portal so featured instant-play entries remain playable when the PWA is deployed standalone.
+  copyDir(path.join(ROOT, 'games'), path.join(OUT, 'games'));
 
   writeIndex();
   const iconsRendered = ensureIcons();   // manifest validation below requires the icons on disk

@@ -1,0 +1,118 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="theme-color" content="#070a12" />
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'wasm-unsafe-eval'; worker-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob:; font-src 'self'; connect-src 'self' https://huggingface.co https://*.huggingface.co https://hf.co https://*.hf.co https://raw.githubusercontent.com; base-uri 'none'; form-action 'none'; object-src 'none'" />
+  <meta name="description" content="GameForge Studio runs a small language model locally in your browser to draft simulation JSON and TypeScript." />
+  <title>Local AI Studio · GameForge</title>
+  <link rel="stylesheet" href="../styles.css" />
+  <link rel="stylesheet" href="./styles.css" />
+  <script src="./validation.js" defer></script>
+  <script src="./app.js" defer></script>
+</head>
+<body>
+  <div class="bg-grid" aria-hidden="true"></div>
+  <div class="bg-glow" aria-hidden="true"></div>
+  <header class="topbar">
+    <div class="topbar-inner">
+      <a class="brand" href="../index.html" aria-label="GameForge Portal home">
+        <span class="brand-mark" aria-hidden="true">GF</span>
+        <span class="brand-text"><strong>GameForge</strong><small>Local AI Studio</small></span>
+      </a>
+      <nav class="nav" aria-label="Main navigation">
+        <a href="../index.html">Portal</a>
+        <a href="../cloud/">Cloud Play</a>
+        <a href="./" aria-current="page">AI Studio</a>
+      </nav>
+      <div class="topbar-tools">
+        <span class="mode-pill" id="gpu-pill" data-mode="loading"><i class="dot" aria-hidden="true"></i><span id="gpu-label">Checking WebGPU</span></span>
+      </div>
+    </div>
+  </header>
+
+  <main class="studio-main">
+    <section class="studio-hero">
+      <div>
+        <span class="eyebrow">On-device inference · WebGPU · No API key</span>
+        <h1>Design a world.<br /><span class="gradient-text">Keep the model local.</span></h1>
+        <p class="lede">Generate a bounded Canvas2D simulation description and a TypeScript starter. Prompts stay in this page; the first model load downloads weights to this browser's cache.</p>
+      </div>
+      <aside class="studio-assurance" aria-label="Privacy and local inference details">
+        <div class="assurance-mark" aria-hidden="true">LOCAL</div>
+        <div><strong>Runs on your device</strong><p>No hosted inference API. The initial model download needs a network connection; cached model files can be used offline while browser storage retains them.</p></div>
+      </aside>
+    </section>
+
+    <section class="studio-grid" aria-label="AI game development workspace">
+      <aside class="studio-panel model-panel">
+        <div class="panel-heading"><span class="section-kicker">01 / Runtime</span><span class="tag" id="model-state-tag">not loaded</span></div>
+        <h2>Choose a local model</h2>
+        <label class="field-label" for="model-select">WebGPU model</label>
+        <select id="model-select" class="studio-select" disabled><option>Loading model list…</option></select>
+        <p class="field-note" id="model-note">Model specifications load locally from the bundled registry.</p>
+        <button class="btn btn-primary btn-block" id="load-model" type="button" disabled>Load model on this device</button>
+        <div class="progress-wrap" aria-live="polite">
+          <div class="progress-copy"><span id="model-progress-text">No model loaded</span><span id="model-progress-percent">0%</span></div>
+          <progress id="model-progress" max="100" value="0" aria-label="Model download and initialization progress"></progress>
+        </div>
+        <div class="runtime-note" id="runtime-note" role="status">Checking WebGPU availability…</div>
+        <div class="boundary-card">
+          <strong>What leaves this device?</strong>
+          <p>Only model artifacts are fetched from Hugging Face and the WebLLM model-library host. Prompt and response text are not sent to an inference API.</p>
+        </div>
+      </aside>
+
+      <section class="studio-panel prompt-panel">
+        <div class="panel-heading"><span class="section-kicker">02 / Create</span><span class="tag tag-muted">Canvas2D output</span></div>
+        <h2>Describe the game or simulation</h2>
+        <label class="field-label" for="prompt">Your brief</label>
+        <textarea id="prompt" rows="7" maxlength="4000" placeholder="Example: Create an elastic rope simulation hanging from a fixed anchor. Add a bob, gravity, and gentle oscillation. Keep the output simple enough for a 2D Canvas preview."></textarea>
+        <div class="prompt-tools">
+          <label class="field-label" for="template-select">Offline starter scene</label>
+          <div class="template-row">
+            <select id="template-select" class="studio-select">
+              <option value="rope">Elastic rope</option>
+              <option value="bouncer">Bouncy room</option>
+              <option value="platform">Platform starter</option>
+            </select>
+            <button class="btn btn-ghost" id="apply-template" type="button">Load template</button>
+          </div>
+        </div>
+        <div class="prompt-actions">
+          <button class="btn btn-primary" id="generate" type="button" disabled>Generate locally</button>
+          <button class="btn btn-ghost" id="clear-conversation" type="button">Clear conversation</button>
+        </div>
+        <p class="field-note">The built-in templates and preview work without a model. Model-generated TypeScript is displayed as text and is never executed here.</p>
+        <div class="studio-status" id="studio-status" role="status" aria-live="polite">Load a local model to generate; or load an offline starter scene.</div>
+        <pre class="stream-output" id="stream-output" aria-live="polite" hidden></pre>
+      </section>
+
+      <section class="studio-panel output-panel">
+        <div class="panel-heading"><span class="section-kicker">03 / Inspect</span><span class="tag" id="output-tag">starter scene ready</span></div>
+        <div class="output-heading">
+          <div><h2 id="output-title">Elastic rope</h2><p id="output-description">A local starter scene is ready to preview.</p></div>
+          <div class="download-actions">
+            <button class="btn btn-ghost small" id="download-json" type="button">Download sim.json</button>
+            <button class="btn btn-ghost small" id="download-ts" type="button">Download game.ts</button>
+          </div>
+        </div>
+        <div class="tab-row" role="tablist" aria-label="Generated outputs">
+          <button class="tab-button is-active" id="tab-preview" role="tab" aria-selected="true" aria-controls="pane-preview" type="button">Preview</button>
+          <button class="tab-button" id="tab-json" role="tab" aria-selected="false" aria-controls="pane-json" type="button">sim.json</button>
+          <button class="tab-button" id="tab-ts" role="tab" aria-selected="false" aria-controls="pane-ts" type="button">game.ts</button>
+        </div>
+        <section class="tab-pane" id="pane-preview" role="tabpanel" aria-labelledby="tab-preview">
+          <div class="preview-toolbar"><span>Safe Canvas2D preview</span><div><button class="btn btn-ghost small" id="toggle-preview" type="button">Pause</button><button class="btn btn-ghost small" id="reset-preview" type="button">Reset</button></div></div>
+          <div class="canvas-frame"><canvas id="simulation-preview" width="960" height="540" aria-label="Simulation preview rendered from validated JSON"></canvas></div>
+          <p class="preview-caption">Hot-refreshes from validated JSON. This visual preview does not execute generated TypeScript or arbitrary code.</p>
+        </section>
+        <section class="tab-pane" id="pane-json" role="tabpanel" aria-labelledby="tab-json" hidden><pre class="code-output" id="json-output" tabindex="0"></pre></section>
+        <section class="tab-pane" id="pane-ts" role="tabpanel" aria-labelledby="tab-ts" hidden><pre class="code-output" id="ts-output" tabindex="0"></pre></section>
+      </section>
+    </section>
+    <footer class="studio-footer"><a href="./local-inference.html">Model, privacy, and runtime notes</a><span>Conversations stay in memory only and clear on refresh.</span></footer>
+  </main>
+</body>
+</html>

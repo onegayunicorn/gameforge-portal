@@ -1,6 +1,23 @@
 {
-  "generatedAt": "2026-10-15T00:00:00.000Z",
+  "generatedAt": "2026-10-17T00:00:00.000Z",
   "catalog": [
+    {
+      "id": "core-rush",
+      "title": "Core Rush",
+      "studio": "GameForge Labs",
+      "genre": "Arcade",
+      "tags": ["instant play", "browser", "survival", "featured"],
+      "rating": "E10+",
+      "players": "1 player",
+      "mode": "cloud",
+      "accent": "cyan",
+      "art": "neon telemetry arena with a glowing cyan core, violet shards, and amber sentinels",
+      "description": "Survive one minute, chain the cores, and dash through the swarm. A fast GameForge showcase built to be played again immediately.",
+      "playUrl": "../../games/featured/core-rush/dist/",
+      "cta": "Play instantly",
+      "featured": true,
+      "free": true
+    },
     {
       "id": "hello-render",
       "title": "Hello Render",

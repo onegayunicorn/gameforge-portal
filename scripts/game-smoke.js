@@ -104,8 +104,10 @@ app.whenReady().then(async () => {
   }
 
   const manifestFile = path.join(DIST, 'manifest.json');
+  let manifestAssetCount = 0;
   if (fs.existsSync(manifestFile)) {
     const manifest = JSON.parse(fs.readFileSync(manifestFile, 'utf8'));
+    manifestAssetCount = Array.isArray(manifest.assets) ? manifest.assets.length : 0;
     for (const asset of manifest.assets) {
       const response = await fetch(`${server.origin}/${asset.source}`, { cache: 'no-store' });
       result.checks[`asset:${asset.id}`] = response.status;
@@ -204,10 +206,11 @@ app.whenReady().then(async () => {
     if (third.painted < 1) note('nothing painted after stepping 90 frames');
   }
 
-  // The texture log proves the asset pipeline reached the renderer, not just the filesystem.
+  // For asset-backed games the texture log proves the asset pipeline reached the renderer, not
+  // just the filesystem. Assetless games are valid too: their renderer contract is primitives/code.
   const logText = result.console.map((entry) => entry.message).join('\n');
-  result.checks.textureLoaded = /player texture ready \(\d+x\d+\)/.test(logText);
-  if (!result.checks.textureLoaded) {
+  result.checks.textureLoaded = manifestAssetCount === 0 || /player texture ready \(\d+x\d+\)/.test(logText);
+  if (manifestAssetCount > 0 && !result.checks.textureLoaded) {
     note(`engine never logged a loaded player texture. console:\n${logText.slice(0, 600)}`);
   }
 

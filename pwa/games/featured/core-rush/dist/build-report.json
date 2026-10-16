@@ -1,0 +1,69 @@
+{
+  "gameId": "core-rush",
+  "name": "Core Rush",
+  "version": "0.1.0",
+  "engineVersion": "0.1.0",
+  "status": "success",
+  "startedAt": "2026-10-16T18:03:15.151Z",
+  "finishedAt": "2026-10-16T18:03:15.182Z",
+  "durationMs": 31,
+  "entry": "src/main.ts",
+  "outDir": "games/featured/core-rush/dist",
+  "assetCount": 0,
+  "totalAssetBytes": 0,
+  "outputBytes": 91337,
+  "outputs": [
+    {
+      "file": "chunk-LJSE4TN7.js",
+      "bytes": 70132,
+      "kind": "chunk"
+    },
+    {
+      "file": "engine.js",
+      "bytes": 7600,
+      "kind": "bundle"
+    },
+    {
+      "file": "game.js",
+      "bytes": 6220,
+      "kind": "bundle"
+    },
+    {
+      "file": "game.json",
+      "bytes": 297,
+      "kind": "info"
+    },
+    {
+      "file": "index.html",
+      "bytes": 1784,
+      "kind": "html"
+    },
+    {
+      "file": "runtime.css",
+      "bytes": 5304,
+      "kind": "style"
+    }
+  ],
+  "bundles": [
+    {
+      "file": "chunk-LJSE4TN7.js",
+      "bytes": 70132
+    },
+    {
+      "file": "engine.js",
+      "bytes": 7600
+    },
+    {
+      "file": "game.js",
+      "bytes": 6220
+    }
+  ],
+  "errors": [],
+  "warnings": [
+    {
+      "code": "no-assets",
+      "message": "No asset globs declared; the build will ship code only",
+      "severity": "warning"
+    }
+  ]
+}
