@@ -1,12 +1,17 @@
 {
-  "generatedAt": "2026-10-17T00:00:00.000Z",
+  "generatedAt": "2026-10-17T05:10:00.000Z",
   "catalog": [
     {
       "id": "core-rush",
       "title": "Core Rush",
       "studio": "GameForge Labs",
       "genre": "Arcade",
-      "tags": ["instant play", "browser", "survival", "featured"],
+      "tags": [
+        "instant play",
+        "browser",
+        "survival",
+        "featured"
+      ],
       "rating": "E10+",
       "players": "1 player",
       "mode": "cloud",
@@ -19,11 +24,84 @@
       "free": true
     },
     {
+      "id": "adventures-with-anxiety",
+      "title": "Adventures With Anxiety!",
+      "studio": "Nicky Case!",
+      "source": "Nicky Case! · itch.io",
+      "genre": "Narrative",
+      "tags": [
+        "itch pick",
+        "html5",
+        "mental health",
+        "short play"
+      ],
+      "rating": "E10+",
+      "players": "1 player",
+      "mode": "itch",
+      "accent": "violet",
+      "art": "a gentle storybook world with a bright wolf and soft violet skies",
+      "description": "A short, thoughtful story-game where you play as anxiety and learn how it moves through a human life.",
+      "playUrl": "https://ncase.itch.io/anxiety",
+      "cta": "Play on itch",
+      "free": true,
+      "featured": true
+    },
+    {
+      "id": "we-become-what-we-behold",
+      "title": "We Become What We Behold",
+      "studio": "Nicky Case!",
+      "source": "Nicky Case! · itch.io",
+      "genre": "Experimental",
+      "tags": [
+        "itch pick",
+        "html5",
+        "open source",
+        "few minutes"
+      ],
+      "rating": "E10+",
+      "players": "1 player",
+      "mode": "itch",
+      "accent": "amber",
+      "art": "a newspaper camera, a small town square, and a warm amber broadcast glow",
+      "description": "A compact media-cycle experiment about what gets noticed, repeated, and amplified.",
+      "playUrl": "https://ncase.itch.io/wbwwb",
+      "cta": "Play on itch",
+      "free": true,
+      "featured": false
+    },
+    {
+      "id": "friday-night-funkin",
+      "title": "Friday Night Funkin'",
+      "studio": "The Funkin' Crew",
+      "source": "The Funkin' Crew · itch.io",
+      "genre": "Rhythm",
+      "tags": [
+        "itch pick",
+        "html5",
+        "keyboard",
+        "music"
+      ],
+      "rating": "E10+",
+      "players": "1 player",
+      "mode": "itch",
+      "accent": "rose",
+      "art": "a hot-pink stage with a microphone, speakers, and sharp rhythm arrows",
+      "description": "A high-energy rhythm battle. Hit the notes, keep the beat, and survive the song.",
+      "playUrl": "https://ninja-muffin24.itch.io/funkin",
+      "cta": "Play on itch",
+      "free": true,
+      "featured": false
+    },
+    {
       "id": "hello-render",
       "title": "Hello Render",
       "studio": "GameForge Labs",
       "genre": "Arcade",
-      "tags": ["instant play", "browser", "engine demo"],
+      "tags": [
+        "instant play",
+        "browser",
+        "engine demo"
+      ],
       "rating": "E",
       "players": "1 player",
       "mode": "cloud",
@@ -40,7 +118,11 @@
       "title": "Endless Sky",
       "studio": "Endless Sky Community",
       "genre": "Strategy",
-      "tags": ["open source", "space", "single-player"],
+      "tags": [
+        "open source",
+        "space",
+        "single-player"
+      ],
       "rating": "E10+",
       "players": "1 player",
       "mode": "download",
@@ -56,7 +138,11 @@
       "title": "0 A.D.",
       "studio": "Wildfire Games",
       "genre": "Strategy",
-      "tags": ["open source", "historical", "multiplayer"],
+      "tags": [
+        "open source",
+        "historical",
+        "multiplayer"
+      ],
       "rating": "T",
       "players": "1–8 players",
       "mode": "download",
@@ -72,7 +158,11 @@
       "title": "Xonotic",
       "studio": "Xonotic Team",
       "genre": "Shooter",
-      "tags": ["arena", "open source", "multiplayer"],
+      "tags": [
+        "arena",
+        "open source",
+        "multiplayer"
+      ],
       "rating": "M",
       "players": "2–32 players",
       "mode": "download",
@@ -88,7 +178,11 @@
       "title": "Battle for Wesnoth",
       "studio": "Wesnoth Community",
       "genre": "RPG",
-      "tags": ["open source", "turn-based", "campaign"],
+      "tags": [
+        "open source",
+        "turn-based",
+        "campaign"
+      ],
       "rating": "E10+",
       "players": "1–6 players",
       "mode": "download",
@@ -104,7 +198,11 @@
       "title": "Warzone 2100",
       "studio": "Warzone 2100 Project",
       "genre": "Strategy",
-      "tags": ["open source", "real-time", "tactics"],
+      "tags": [
+        "open source",
+        "real-time",
+        "tactics"
+      ],
       "rating": "T",
       "players": "1–8 players",
       "mode": "download",
@@ -120,7 +218,11 @@
       "title": "Luanti",
       "studio": "Luanti Community",
       "genre": "Sandbox",
-      "tags": ["open source", "creative", "community"],
+      "tags": [
+        "open source",
+        "creative",
+        "community"
+      ],
       "rating": "E",
       "players": "1–64 players",
       "mode": "download",
@@ -136,7 +238,11 @@
       "title": "OpenRA",
       "studio": "OpenRA Team",
       "genre": "Strategy",
-      "tags": ["open source", "classic", "multiplayer"],
+      "tags": [
+        "open source",
+        "classic",
+        "multiplayer"
+      ],
       "rating": "T",
       "players": "1–8 players",
       "mode": "download",

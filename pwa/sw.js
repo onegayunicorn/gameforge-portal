@@ -4,7 +4,7 @@
  */
 'use strict';
 
-const CACHE = "gameforge-pwa-2b3215c19c36";
+const CACHE = "gameforge-pwa-259b5b25cbd9";
 const PRECACHE = [
   "./",
   "./app.js",
