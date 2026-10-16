@@ -53,6 +53,26 @@ served from a secure context and can genuinely be installed on a phone or deskto
 reads the shipped index live (`pwa/data/builds.json`), so its figures describe the deployed files
 rather than being typed in.
 
+## Self-hosted Cloud Play
+
+Cloud Play is a local-first, owner-controlled game shelf. The catalog is read from
+`portal/cloud/data/games.json`, the server is read-only, and visitors do not need a GameForge
+account. Saved games and launch counts stay in each visitor's browser; the owner controls which
+games appear by editing the catalog in this repository.
+
+```bash
+npm install
+npm run serve:public
+```
+
+The server listens on `0.0.0.0:4173`. Share `http://<your-computer-LAN-IP>:4173/cloud/` with
+people on the same network. To make it reachable outside your home network, put the same folder
+behind your own reverse proxy or static host and configure HTTPS; this repository does not create
+an account service, proxy, or hosted database on your behalf.
+
+For private local-only use, run `npm run serve` instead. For a different port, use
+`PORT=8080 npm run serve:public`.
+
 ---
 
 ## Downloads

@@ -15,6 +15,7 @@
   "scripts": {
     "start": "npm run studio:build && electron .",
     "serve": "npm run studio:build && node scripts/serve.js",
+    "serve:public": "npm run studio:build && node scripts/serve-public.js",
     "scan": "node scripts/scan-builds.js",
     "studio:build": "node scripts/build-studio.js",
     "studio:test": "node --test tests/studio/*.test.mjs",

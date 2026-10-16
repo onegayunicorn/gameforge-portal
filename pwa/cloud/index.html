@@ -3,71 +3,48 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
-  <meta name="theme-color" content="#071018" />
+  <meta name="theme-color" content="#0b0d10" />
   <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; connect-src 'self' https://login.live.com; base-uri 'none'; form-action 'none'; object-src 'none'" />
-  <meta name="description" content="GameForge Cloud Play — a free-game library and browser-first game launcher." />
+  <meta name="description" content="GameForge Cloud Play — your self-hosted free game library." />
   <title>GameForge Cloud Play</title>
   <link rel="stylesheet" href="./styles.css" />
 </head>
 <body>
   <div class="ambient ambient-a" aria-hidden="true"></div>
   <div class="ambient ambient-b" aria-hidden="true"></div>
-  <header class="nav-shell">
-    <a class="wordmark" href="../"><span class="mark">GF</span><span>GAMEFORGE <b>CLOUD PLAY</b></span></a>
-    <nav aria-label="Cloud Play navigation">
-      <a class="active" href="#discover">Discover</a>
-      <a href="#library">Library</a>
-      <a href="#cloud-ready">Cloud ready</a>
-    </nav>
-    <div class="account-actions">
-      <button class="ghost-button" id="searchToggle" type="button" aria-label="Search games">⌕</button>
-      <button class="account-button" id="accountButton" type="button"><span class="avatar">G</span><span id="accountLabel">Guest</span><span class="chevron">⌄</span></button>
-    </div>
-  </header>
+  <div class="app-shell">
+    <aside class="sidebar" aria-label="Primary navigation">
+      <a class="wordmark" href="../"><span class="mark">GF</span><span>GAMEFORGE <b>YOUR CLOUD PLAY</b></span></a>
+      <div class="owner-card"><span class="owner-dot"></span><div><strong>LOCAL HOST</strong><small id="hostLabel">Owned by you</small></div><span class="live-dot">LIVE</span></div>
+      <nav class="side-nav">
+        <a class="active" href="#discover"><span>⌂</span> Home</a>
+        <a href="#library"><span>▦</span> My library <b id="savedCount">0</b></a>
+        <a href="#browser"><span>◈</span> Browser games</a>
+        <a href="#about"><span>◇</span> About this server</a>
+      </nav>
+      <div class="sidebar-bottom"><p>PRIVATE CATALOG</p><span>Only the games you choose to ship are shown here.</span><a href="../">Open GameForge tools ↗</a></div>
+    </aside>
 
-  <main>
-    <section class="hero" id="discover">
-      <div class="hero-copy">
-        <p class="eyebrow"><span class="pulse"></span> CLOUD PLAY BETA <span class="slash">/</span> FREE TO START</p>
-        <h1>Your next<br /><em>world</em> is waiting.</h1>
-        <p class="hero-lede">Play GameForge builds instantly, then jump into hand-picked free itch.io games from the creators who made them.</p>
-        <div class="hero-actions">
-          <a class="primary-button" href="#library">Browse free games <span>↗</span></a>
-          <button class="secondary-button" id="heroAccount" type="button">Connect account <span>→</span></button>
-        </div>
-        <div class="hero-metrics"><span><strong id="gameCount">0</strong> free titles</span><i></i><span><strong id="browserCount">0</strong> browser plays</span><i></i><span><strong id="launchCount">0</strong> launches here</span></div>
-      </div>
-      <div class="hero-art" aria-label="Featured game: Core Rush">
-        <div class="scanline"></div><div class="art-grid"></div><div class="orbit orbit-one"></div><div class="orbit orbit-two"></div>
-        <div class="hero-cube"><span></span></div>
-        <div class="hero-label"><span>FEATURED DROP</span><strong>CORE RUSH</strong><small>GameForge Labs · INSTANT PLAY</small></div>
-        <div class="hero-badge">01 <span>/</span> BROWSER READY</div>
-      </div>
-    </section>
+    <main class="main-content">
+      <header class="topbar">
+        <div class="breadcrumb"><span class="mobile-brand">GF</span><span>HOME</span><i>/</i><strong>DISCOVER</strong></div>
+        <div class="top-actions"><button class="icon-button" id="searchToggle" type="button" aria-label="Search games">⌕</button><button class="account-button" id="accountButton" type="button"><span class="avatar">G</span><span id="accountLabel">Guest</span><span class="chevron">⌄</span></button></div>
+      </header>
 
-    <section class="section library-section" id="library">
-      <div class="section-heading"><div><p class="eyebrow">THE LIBRARY</p><h2>Find your next <em>favourite.</em></h2></div><p class="section-note">A hand-picked shelf of free games. Play GameForge builds here, or open creator-hosted itch.io browser games in one click.</p></div>
-      <div class="toolbar"><div class="filter-row" id="filters"></div><label class="search-box"><span>⌕</span><input id="searchInput" type="search" placeholder="Search the library" autocomplete="off" /></label></div>
-      <div class="game-grid" id="gameGrid"></div><p class="empty-state" id="emptyState" hidden>No games match that search yet.</p>
-    </section>
+      <section class="hero" id="discover">
+        <div class="hero-copy"><p class="eyebrow"><span class="pulse"></span> OWNER-RUN INSTANCE <span class="slash">/</span> READY TO PLAY</p><h1>Play more.<br /><em>Own the shelf.</em></h1><p class="hero-lede">A personal game room served from your machine. Launch GameForge builds instantly, keep your library yours, and share the link with everyone on your network.</p><div class="hero-actions"><a class="primary-button" href="#library">Browse library <span>→</span></a><a class="secondary-button" href="#about">How it works <span>↗</span></a></div><div class="hero-metrics"><span><strong id="gameCount">0</strong> titles</span><i></i><span><strong id="browserCount">0</strong> ready in browser</span><i></i><span><strong id="launchCount">0</strong> launches</span></div></div>
+        <div class="hero-feature" aria-label="Featured game: Core Rush"><div class="feature-top"><span>FEATURED IN YOUR INSTANCE</span><span class="status-pill"><b></b> PLAYABLE NOW</span></div><div class="feature-art"><div class="grid-floor"></div><div class="ring ring-a"></div><div class="ring ring-b"></div><div class="core-orb"><span></span></div><div class="spark spark-a"></div><div class="spark spark-b"></div><div class="spark spark-c"></div></div><div class="feature-bottom"><div><p>GAMEFORGE LABS</p><h2>Core Rush</h2><span>60 seconds · survival arcade</span></div><a class="feature-play" href="../../games/featured/core-rush/dist/" target="_blank" rel="noopener" data-launch="core-rush">PLAY NOW <b>↗</b></a></div></div>
+      </section>
 
-    <section class="section cloud-section" id="cloud-ready">
-      <div class="cloud-callout"><div class="cloud-icon">↯</div><div><p class="eyebrow">CLOUD PLAY RUNTIME</p><h2>Instant starts. <em>No install queue.</em></h2><p>GameForge can launch web builds directly from your browser. Desktop-only games stay clearly marked with their official download page.</p></div><a class="secondary-button" href="../#games">Open engine portal <span>→</span></a></div>
-    </section>
-  </main>
+      <section class="section library-section" id="library"><div class="section-heading"><div><p class="eyebrow">YOUR LIBRARY</p><h2>Pick a <em>game.</em></h2></div><p class="section-note">Curated by the owner of this server. No account required; your saves stay in this browser.</p></div><div class="toolbar"><div class="filter-row" id="filters"></div><label class="search-box"><span>⌕</span><input id="searchInput" type="search" placeholder="Search titles, genres, tags" autocomplete="off" /></label></div><div class="game-grid" id="gameGrid"></div><p class="empty-state" id="emptyState" hidden>No games match that search yet.</p></section>
 
-  <footer class="footer"><span>GAMEFORGE CLOUD PLAY</span><span>Free game discovery · browser-first runtime</span><a href="../">Back to engine portal ↗</a></footer>
+      <section class="section about-section" id="about"><div class="about-grid"><div><p class="eyebrow">HOW YOUR INSTANCE WORKS</p><h2>One launch.<br /><em>Everyone connected.</em></h2></div><div class="steps"><article><span>01</span><div><h3>You run it</h3><p>Start the included server on your computer, NAS, or home lab. The app serves the catalog from this repository.</p></div></article><article><span>02</span><div><h3>They open it</h3><p>Share your LAN address or deploy the folder to any static host. Each visitor gets the same live shelf.</p></div></article><article><span>03</span><div><h3>You own the rules</h3><p>Add your own builds and links in <code>portal/cloud/data/games.json</code>. No platform lock-in or hosted account required.</p></div></article></div></div></section>
 
-  <div class="modal-backdrop" id="accountModal" hidden>
-    <section class="account-modal" role="dialog" aria-modal="true" aria-labelledby="accountTitle">
-      <button class="modal-close" id="modalClose" type="button" aria-label="Close">×</button>
-      <div class="xbox-mark">X</div><p class="eyebrow">ACCOUNT LINK</p><h2 id="accountTitle">Bring your profile.</h2><p class="modal-copy">Connect an Xbox account to sync identity and library preferences when OAuth credentials are enabled for this deployment.</p>
-      <div class="auth-status" id="authStatus"><span class="status-dot"></span><span>Xbox sign-in is not configured yet.</span></div>
-      <button class="primary-button full" id="xboxButton" type="button">Connect Xbox account <span>→</span></button>
-      <button class="text-button" id="guestButton" type="button">Continue as guest</button>
-      <small class="modal-footnote">No password is requested or stored by this demo.</small>
-    </section>
+      <footer class="footer"><span>GAMEFORGE CLOUD PLAY</span><span>Self-hosted · browser-first · yours</span><a href="../">Back to engine portal ↗</a></footer>
+    </main>
   </div>
+
+  <div class="modal-backdrop" id="accountModal" hidden><section class="account-modal" role="dialog" aria-modal="true" aria-labelledby="accountTitle"><button class="modal-close" id="modalClose" type="button" aria-label="Close">×</button><div class="xbox-mark">GF</div><p class="eyebrow">LOCAL PROFILE</p><h2 id="accountTitle">Keep it simple.</h2><p class="modal-copy">This instance works without a hosted account. Continue as a guest and your library will be saved on this device.</p><div class="auth-status" id="authStatus"><span class="status-dot"></span><span>Guest mode is ready.</span></div><button class="primary-button full" id="guestButton" type="button">Continue as guest <span>→</span></button><small class="modal-footnote">No password is requested or stored by this app.</small></section></div>
   <script src="./app.js"></script>
 </body>
 </html>
