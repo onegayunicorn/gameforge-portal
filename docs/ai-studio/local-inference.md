@@ -24,7 +24,7 @@ A local generation returns two downloadable text artifacts: `sim.json` and `game
 
 ## Build and release details
 
-The WebLLM worker build keeps legal comments inline and writes `portal/studio/THIRD-PARTY-LICENSES.txt` with the WebLLM Apache-2.0 and bundled `loglevel` MIT notices; the Studio notes page links to the generated notices.
+The WebLLM worker build keeps legal comments inline and writes `portal/studio/THIRD-PARTY-LICENSES.txt` with the WebLLM Apache-2.0 and bundled `loglevel` MIT notices; the Studio notes page links to the generated notices. GitHub workflow JavaScript actions use `actions/checkout@v5` and `actions/setup-node@v5` (Node 24 action runtimes; the project itself remains on Node 22). The release workflow now publishes with the runner's `gh release create` CLI rather than the Node 20-based `softprops/action-gh-release` action.
 
 ## Sources
 

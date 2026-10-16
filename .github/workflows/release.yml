@@ -20,10 +20,10 @@ jobs:
       TAG_NAME: ${{ github.ref_name }}
     steps:
       - name: Check out tagged source
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
 
       - name: Set up Node.js
-        uses: actions/setup-node@v4
+        uses: actions/setup-node@v5
         with:
           node-version: "22"
           cache: npm
@@ -85,13 +85,20 @@ jobs:
           $lines | Set-Content -Path $sumFile -Encoding ascii
 
       - name: Publish GitHub Release
-        uses: softprops/action-gh-release@v2
-        with:
-          name: GameForge Portal ${{ github.ref_name }}
-          generate_release_notes: true
-          files: |
-            release-final/GameForge-Portal-Setup-*.exe
-            release-final/GameForge-Portal-Portable-*.exe
-            release-final/gameforge-portal-pwa-*.zip
-            release-final/SHA256SUMS.txt
-          fail_on_unmatched_files: true
+        shell: pwsh
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          $version = (Get-Content package.json | ConvertFrom-Json).version
+          $assets = @(
+            "release-final/GameForge-Portal-Setup-$version-x64.exe",
+            "release-final/GameForge-Portal-Portable-$version-x64.exe",
+            "release-final/gameforge-portal-pwa-$version.zip",
+            "release-final/SHA256SUMS.txt"
+          )
+          foreach ($asset in $assets) {
+            if (-not (Test-Path $asset -PathType Leaf)) {
+              throw "Release asset is missing: $asset"
+            }
+          }
+          gh release create "$env:TAG_NAME" @assets --verify-tag --title "GameForge Portal $env:TAG_NAME" --generate-notes
