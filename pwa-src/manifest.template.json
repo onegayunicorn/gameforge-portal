@@ -39,6 +39,7 @@
   "shortcuts": [
     { "name": "Projects", "short_name": "Projects", "url": "./#projects" },
     { "name": "Integrity", "short_name": "Verify", "url": "./#integrity" },
-    { "name": "Documentation", "short_name": "Docs", "url": "./#docs" }
+    { "name": "Documentation", "short_name": "Docs", "url": "./#docs" },
+    { "name": "Local AI Studio", "short_name": "Studio", "url": "./studio/" }
   ]
 }

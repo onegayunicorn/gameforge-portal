@@ -219,6 +219,7 @@ function build() {
   copy(path.join(SRC, 'offline.html'), path.join(OUT, 'offline.html'));
   copy(path.join(PORTAL, 'manus-routes.json'), path.join(OUT, 'manus-routes.json'));
   copyDir(path.join(PORTAL, 'cloud'), path.join(OUT, 'cloud'));
+  copyDir(path.join(PORTAL, 'studio'), path.join(OUT, 'studio'));
 
   writeIndex();
   const iconsRendered = ensureIcons();   // manifest validation below requires the icons on disk
