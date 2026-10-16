@@ -46,12 +46,13 @@ physics, animation, the editor) and why.
 | What | URL |
 |---|---|
 | System page (landing) | **https://onegayunicorn.github.io/gameforge-portal/** |
-| Installable app (PWA) | **https://onegayunicorn.github.io/gameforge-portal/pwa/** |
+| Cloud Play library | **https://onegayunicorn.github.io/gameforge-portal/cloud/** |
 
-Published by GitHub Pages from `main` at the repository root, with HTTPS enforced — so the app is
-served from a secure context and can genuinely be installed on a phone or desktop. The landing page
-reads the shipped index live (`pwa/data/builds.json`), so its figures describe the deployed files
-rather than being typed in.
+Published by the `Deploy permanent website` GitHub Actions workflow from the generated `pwa/` tree,
+with HTTPS enforced — so the app is served from a secure context and can genuinely be installed on
+a phone or desktop. Every push to `main` rebuilds the PWA and republishes the site; the Cloud Play
+library is the permanent `/cloud/` route. The landing page reads the shipped index live
+(`data/builds.json`), so its figures describe the deployed files rather than being typed in.
 
 ## Self-hosted Cloud Play
 
