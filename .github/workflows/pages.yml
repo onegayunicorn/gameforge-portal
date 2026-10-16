@@ -38,6 +38,9 @@ jobs:
       - name: Verify source and game builds
         run: npm run verify
 
+      - name: Install PWA image tooling
+        run: sudo apt-get update && sudo apt-get install -y ffmpeg
+
       - name: Build PWA site
         run: npm run pwa:build
 
