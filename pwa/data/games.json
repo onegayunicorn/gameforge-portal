@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-10-16T18:03:15.225Z",
+  "generatedAt": "2026-10-26T12:03:03.747Z",
   "engineVersion": "0.1.0",
   "gamesRoot": "games",
   "totals": {
@@ -7,7 +7,7 @@
     "built": 2,
     "failed": 0,
     "assets": 1,
-    "outputBytes": 181366
+    "outputBytes": 181826
   },
   "games": [
     {
@@ -31,9 +31,9 @@
       "state": "runnable",
       "built": true,
       "distDir": "games/featured/core-rush/dist",
-      "distBytes": 92617,
+      "distBytes": 92847,
       "assetCount": 0,
-      "builtAt": "2026-10-16T18:03:15.181Z",
+      "builtAt": "2026-10-26T12:03:03.603Z",
       "bundles": [
         {
           "file": "chunk-LJSE4TN7.js",
@@ -49,7 +49,7 @@
         }
       ],
       "outputs": 6,
-      "durationMs": 31,
+      "durationMs": 86,
       "errors": [],
       "warnings": [
         {
@@ -77,9 +77,9 @@
       "state": "runnable",
       "built": true,
       "distDir": "games/examples/hello-render/dist",
-      "distBytes": 88749,
+      "distBytes": 88979,
       "assetCount": 1,
-      "builtAt": "2026-10-16T18:03:15.200Z",
+      "builtAt": "2026-10-26T12:03:03.675Z",
       "bundles": [
         {
           "file": "chunk-B6LBN7NZ.js",
@@ -95,7 +95,7 @@
         }
       ],
       "outputs": 8,
-      "durationMs": 17,
+      "durationMs": 67,
       "errors": [],
       "warnings": [],
       "reportPath": "games/examples/hello-render/dist/build-report.json"

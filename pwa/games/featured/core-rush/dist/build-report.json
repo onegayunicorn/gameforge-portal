@@ -4,14 +4,14 @@
   "version": "0.1.0",
   "engineVersion": "0.1.0",
   "status": "success",
-  "startedAt": "2026-10-16T18:03:15.151Z",
-  "finishedAt": "2026-10-16T18:03:15.182Z",
-  "durationMs": 31,
+  "startedAt": "2026-10-26T12:03:03.528Z",
+  "finishedAt": "2026-10-26T12:03:03.614Z",
+  "durationMs": 86,
   "entry": "src/main.ts",
   "outDir": "games/featured/core-rush/dist",
   "assetCount": 0,
   "totalAssetBytes": 0,
-  "outputBytes": 91337,
+  "outputBytes": 91567,
   "outputs": [
     {
       "file": "chunk-LJSE4TN7.js",
@@ -35,12 +35,12 @@
     },
     {
       "file": "index.html",
-      "bytes": 1784,
+      "bytes": 1819,
       "kind": "html"
     },
     {
       "file": "runtime.css",
-      "bytes": 5304,
+      "bytes": 5499,
       "kind": "style"
     }
   ],

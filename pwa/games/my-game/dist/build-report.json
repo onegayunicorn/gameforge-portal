@@ -1,0 +1,69 @@
+{
+  "gameId": "my-game",
+  "name": "My Game",
+  "version": "0.1.0",
+  "engineVersion": "0.1.0",
+  "status": "success",
+  "startedAt": "2026-10-26T12:03:07.966Z",
+  "finishedAt": "2026-10-26T12:03:08.075Z",
+  "durationMs": 109,
+  "entry": "src/main.ts",
+  "outDir": "games/my-game/dist",
+  "assetCount": 0,
+  "totalAssetBytes": 0,
+  "outputBytes": 148802,
+  "outputs": [
+    {
+      "file": "chunk-H2D4S5XG.js",
+      "bytes": 128492,
+      "kind": "chunk"
+    },
+    {
+      "file": "engine.js",
+      "bytes": 11389,
+      "kind": "bundle"
+    },
+    {
+      "file": "game.js",
+      "bytes": 1316,
+      "kind": "bundle"
+    },
+    {
+      "file": "game.json",
+      "bytes": 294,
+      "kind": "info"
+    },
+    {
+      "file": "index.html",
+      "bytes": 1812,
+      "kind": "html"
+    },
+    {
+      "file": "runtime.css",
+      "bytes": 5499,
+      "kind": "style"
+    }
+  ],
+  "bundles": [
+    {
+      "file": "chunk-H2D4S5XG.js",
+      "bytes": 128492
+    },
+    {
+      "file": "engine.js",
+      "bytes": 11389
+    },
+    {
+      "file": "game.js",
+      "bytes": 1316
+    }
+  ],
+  "errors": [],
+  "warnings": [
+    {
+      "code": "asset-glob-empty",
+      "severity": "warning",
+      "message": "Asset glob \"assets/**/*\" matched no files"
+    }
+  ]
+}

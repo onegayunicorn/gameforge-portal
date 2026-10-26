@@ -4,14 +4,14 @@
   "version": "0.1.0",
   "engineVersion": "0.1.0",
   "status": "success",
-  "startedAt": "2026-10-16T18:03:15.183Z",
-  "finishedAt": "2026-10-16T18:03:15.200Z",
-  "durationMs": 17,
+  "startedAt": "2026-10-26T12:03:03.617Z",
+  "finishedAt": "2026-10-26T12:03:03.684Z",
+  "durationMs": 67,
   "entry": "src/main.ts",
   "outDir": "games/examples/hello-render/dist",
   "assetCount": 1,
   "totalAssetBytes": 303,
-  "outputBytes": 87424,
+  "outputBytes": 87654,
   "outputs": [
     {
       "file": "assets/player.png",
@@ -40,7 +40,7 @@
     },
     {
       "file": "index.html",
-      "bytes": 1799,
+      "bytes": 1834,
       "kind": "html"
     },
     {
@@ -50,7 +50,7 @@
     },
     {
       "file": "runtime.css",
-      "bytes": 5304,
+      "bytes": 5499,
       "kind": "style"
     }
   ],

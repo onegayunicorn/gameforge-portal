@@ -1,7 +1,7 @@
 {
-  "generatedAt": "2026-10-16T19:04:01.524Z",
-  "cacheVersion": "gameforge-pwa-5a072f9c1ef7",
-  "precacheEntries": 55,
+  "generatedAt": "2026-10-26T12:07:20.664Z",
+  "cacheVersion": "gameforge-pwa-1147e6f1d0c4",
+  "precacheEntries": 68,
   "manifest": {
     "name": "GameForge Portal",
     "display": "standalone",
@@ -11,9 +11,9 @@
   },
   "payload": {
     "projects": 3,
-    "files": 1315,
-    "bytes": 345391,
+    "files": 1240,
+    "bytes": 347055,
     "docs": 22,
-    "html": 8
+    "html": 5
   }
 }

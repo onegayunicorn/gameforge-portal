@@ -4,7 +4,7 @@
  */
 'use strict';
 
-const CACHE = "gameforge-pwa-5a072f9c1ef7";
+const CACHE = "gameforge-pwa-1147e6f1d0c4";
 const PRECACHE = [
   "./",
   "./app.js",
@@ -36,6 +36,19 @@ const PRECACHE = [
   "./games/featured/core-rush/dist/runtime.css",
   "./games/featured/core-rush/game.config.json",
   "./games/featured/core-rush/src/main.ts",
+  "./games/my-game/assets/.gitkeep",
+  "./games/my-game/dist/build-report.json",
+  "./games/my-game/dist/chunk-H2D4S5XG.js",
+  "./games/my-game/dist/chunk-H2D4S5XG.js.map",
+  "./games/my-game/dist/engine.js",
+  "./games/my-game/dist/engine.js.map",
+  "./games/my-game/dist/game.js",
+  "./games/my-game/dist/game.js.map",
+  "./games/my-game/dist/game.json",
+  "./games/my-game/dist/index.html",
+  "./games/my-game/dist/runtime.css",
+  "./games/my-game/game.config.json",
+  "./games/my-game/src/main.ts",
   "./icons/apple-touch-icon-180.png",
   "./icons/favicon-16.png",
   "./icons/favicon-32.png",
