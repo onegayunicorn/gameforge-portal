@@ -31,7 +31,37 @@ Three properties of this repository drive that shape:
 - Node 22 is required by `engines` (`>=22.0.0 <23`). Node 20 fails `npm ci` engine checks
   and is not what CI uses.
 
-## Runbook
+## One command
+
+With DNS pointed at the host and a key in its `authorized_keys`:
+
+```bash
+bash scripts/bootstrap-vm.sh \
+  --host 203.0.113.10 \
+  --domain cloud.example.com \
+  --email you@example.com
+```
+
+It uploads `infra/` and `scripts/`, then runs six phases on the host in the only order
+that works, over a single SSH session with a TTY (so `sudo` can prompt once):
+
+| Phase | What it does | Why it must be here |
+|---|---|---|
+| 1 provision | Node 22, nginx, certbot, ffmpeg, swap, firewall | needs root, needs no repo |
+| 2 checkout | clone or fast-forward to `origin/main` | everything after operates on it |
+| 3 build | `npm ci` + `npm run pwa:build` | `pwa/` must exist before nginx points at it |
+| 4 install-service | systemd unit + HTTP-only vhost | the port-80 vhost must answer the challenge |
+| 5 request-cert | Let's Encrypt HTTP-01 | needs phase 4 already serving |
+| 6 enable-tls | swap to the TLS vhost | needs the certificate from phase 5 |
+
+On Windows, run it from Git Bash — it needs `tar` and `ssh`, which Git for Windows
+provides and PowerShell does not. Re-running it is a repair, not a repeat: every phase is
+idempotent, and phase 5 is a no-op when the certificate is already on disk.
+
+The per-phase scripts below remain the source of truth and still work individually; the
+driver only sequences them. Nothing is implemented twice.
+
+## Manual phases
 
 ```bash
 # 1. As root on the VM: Node 22, nginx, certbot, ffmpeg, swap, firewall
