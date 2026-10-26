@@ -66,10 +66,16 @@ npm install
 npm run serve:public
 ```
 
-The server listens on `0.0.0.0:4173`. Share `http://<your-computer-LAN-IP>:4173/cloud/` with
-people on the same network. To make it reachable outside your home network, put the same folder
-behind your own reverse proxy or static host and configure HTTPS; this repository does not create
-an account service, proxy, or hosted database on your behalf.
+The server listens on `0.0.0.0:4173` and serves `portal/` — the shell and the library, but not the
+installable app: `manifest.webmanifest` and `sw.js` live in the generated `pwa/` tree. Share
+`http://<your-computer-LAN-IP>:4173/cloud/` with people on the same network.
+
+For a permanent public origin, `infra/` now carries the whole host: Node 22, nginx, a systemd unit,
+a Let's Encrypt certificate and a deploy script, plus a GitHub Actions workflow that deploys on every
+push to `main`. nginx serves the generated `pwa/` tree as static files — the only way to reach an
+installable site — and proxies `/api/` to the Node process. Full runbook:
+[docs/DEPLOY-VM.md](docs/DEPLOY-VM.md). There is still no account service or hosted database on your
+behalf; Cloud Play stays read-only and owner-controlled.
 
 For private local-only use, run `npm run serve` instead. For a different port, use
 `PORT=8080 npm run serve:public`.

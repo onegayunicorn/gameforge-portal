@@ -1,0 +1,83 @@
+name: Deploy to VM
+
+# Runs scripts/deploy-vm.sh on the host over SSH after every push to main.
+# Required repository secrets:
+#   VM_SSH_KEY   private key whose public half is in the host's ~/.ssh/authorized_keys
+#   VM_HOST      hostname or IP of the VM
+#   VM_USER      deploy user on the VM (needs the sudoers rule from infra/install-service.sh)
+# Optional:
+#   VM_PUBLIC_URL  e.g. https://cloud.example.com, enables the post-deploy smoke check
+#   VM_APP_DIR     defaults to /srv/gameforge/gameforge-portal
+#
+# The job is gated on the repository variable DEPLOY_VM_ENABLED=true so that pushing this
+# workflow before the VM exists (or before the secrets are set) shows a skipped job rather
+# than a failed deploy. Set it once the host is provisioned.
+
+on:
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: deploy-vm
+  cancel-in-progress: false
+
+jobs:
+  deploy:
+    name: Deploy over SSH
+    if: vars.DEPLOY_VM_ENABLED == 'true'
+    runs-on: ubuntu-latest
+    environment: production
+    steps:
+      - name: Prepare SSH
+        env:
+          VM_SSH_KEY: ${{ secrets.VM_SSH_KEY }}
+          VM_HOST: ${{ secrets.VM_HOST }}
+        run: |
+          set -euo pipefail
+          [ -n "$VM_SSH_KEY" ] || { echo "VM_SSH_KEY secret is empty" >&2; exit 1; }
+          [ -n "$VM_HOST" ] || { echo "VM_HOST secret is empty" >&2; exit 1; }
+          install -m 700 -d ~/.ssh
+          printf '%s\n' "$VM_SSH_KEY" > ~/.ssh/id_deploy
+          chmod 600 ~/.ssh/id_deploy
+          # Pin the host key on first use. Replace with a pre-registered known_hosts
+          # entry if you want first-contact verification rather than trust-on-first-use.
+          ssh-keyscan -H "$VM_HOST" >> ~/.ssh/known_hosts 2>/dev/null
+
+      - name: Deploy current main on the host
+        env:
+          VM_HOST: ${{ secrets.VM_HOST }}
+          VM_USER: ${{ secrets.VM_USER }}
+          VM_APP_DIR: ${{ vars.VM_APP_DIR }}
+        run: |
+          set -euo pipefail
+          APP_DIR="${VM_APP_DIR:-/srv/gameforge/gameforge-portal}"
+          ssh -i ~/.ssh/id_deploy -o IdentitiesOnly=yes -o BatchMode=yes \
+              "$VM_USER@$VM_HOST" \
+              "set -euo pipefail
+               cd '$APP_DIR'
+               git fetch --prune origin main
+               # Copy the pushed deploy script out of the checkout before resetting it,
+               # so bash never reads a file that the reset is rewriting underneath it.
+               git show origin/main:scripts/deploy-vm.sh > /tmp/gameforge-deploy.sh
+               bash /tmp/gameforge-deploy.sh"
+
+      - name: Smoke check the public endpoint
+        env:
+          VM_PUBLIC_URL: ${{ vars.VM_PUBLIC_URL }}
+        run: |
+          set -euo pipefail
+          if [ -z "${VM_PUBLIC_URL}" ]; then
+            echo "VM_PUBLIC_URL is not set; skipping the public smoke check"
+            exit 0
+          fi
+          echo "GET ${VM_PUBLIC_URL}/api/runtime"
+          curl -fsS --retry 5 --retry-delay 2 --max-time 15 "${VM_PUBLIC_URL}/api/runtime"
+          echo
+          echo "GET ${VM_PUBLIC_URL}/manifest.webmanifest"
+          curl -fsS --retry 3 --max-time 15 -o /dev/null -w '%{http_code} %{content_type}\n' \
+            "${VM_PUBLIC_URL}/manifest.webmanifest"

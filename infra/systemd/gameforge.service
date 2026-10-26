@@ -1,0 +1,52 @@
+[Unit]
+Description=GameForge Portal API (Cloud Play runtime endpoint)
+Documentation=file://__APP_DIR__/docs/DEPLOY-VM.md
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+Type=simple
+User=__SERVICE_USER__
+Group=__SERVICE_USER__
+WorkingDirectory=__APP_DIR__
+
+# The server is started directly with node, never through `npm run`, so a start cannot
+# depend on devDependencies that production installs intentionally exclude, and npm never
+# needs a writable $HOME. `npm run pwa:build` runs at deploy time instead of on every boot.
+ExecStart=/usr/bin/node __APP_DIR__/scripts/serve-public.js
+
+# Defaults first; the on-disk .env (unprefixed `-` means "optional") overrides them.
+Environment=NODE_ENV=production
+Environment=HOST=127.0.0.1
+Environment=PORT=4173
+EnvironmentFile=-__APP_DIR__/.env
+
+Restart=always
+RestartSec=3
+TimeoutStopSec=10
+KillSignal=SIGTERM
+SyslogIdentifier=gameforge
+StandardOutput=journal
+StandardError=journal
+
+# Hardening. The process only reads static files and answers GET /api/runtime, so the
+# filesystem is read-only for it and no write path is granted.
+NoNewPrivileges=yes
+PrivateTmp=yes
+PrivateDevices=yes
+ProtectSystem=strict
+ProtectHome=yes
+ProtectKernelTunables=yes
+ProtectKernelModules=yes
+ProtectControlGroups=yes
+ProtectClock=yes
+ProtectHostname=yes
+RestrictSUIDSGID=yes
+LockPersonality=yes
+RestrictAddressFamilies=AF_INET AF_INET6 AF_UNIX
+SystemCallArchitectures=native
+SystemCallFilter=@system-service
+SystemCallErrorNumber=EPERM
+
+[Install]
+WantedBy=multi-user.target

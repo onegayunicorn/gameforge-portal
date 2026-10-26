@@ -1,4 +1,4 @@
-# ---------------------------------------------------------------------------
+﻿# ---------------------------------------------------------------------------
 # Dependencies
 # ---------------------------------------------------------------------------
 node_modules/
@@ -48,3 +48,9 @@ build/gameforge-cli.cjs
 # `npm run ue4:fetch` and verified against config/ue4-redist.sha256.
 # Never commit them here: this repository is public.
 vendor/ue4-redist/
+
+# ---------------------------------------------------------------------------
+# Host-local configuration (never commit real secrets)
+# ---------------------------------------------------------------------------
+.env
+infra/local/
