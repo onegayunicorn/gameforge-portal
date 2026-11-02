@@ -109,11 +109,19 @@ describe('game build pipeline', () => {
     expect(() => loadGameProject(projectDir)).toThrow(/entry escapes the project root/i);
   });
 
-  it('rejects scene symlinks that resolve outside the project root', () => {
+  it('rejects scene symlinks that resolve outside the project root', (context) => {
     const projectDir = makeTempDir('gameforge-scene-escape-');
     const outsideScene = path.join(makeTempDir('gameforge-outside-'), 'scene.json');
     fs.writeFileSync(outsideScene, '{}\n');
-    fs.symlinkSync(outsideScene, path.join(projectDir, 'scene.json'));
+    try {
+      fs.symlinkSync(outsideScene, path.join(projectDir, 'scene.json'));
+    } catch (error) {
+      // Windows only lets a process create symlinks with Developer Mode or elevation. Skip - visibly,
+      // not silently passing - rather than failing a developer's machine; Linux CI still runs it.
+      const code = (error as NodeJS.ErrnoException).code;
+      if (code === 'EPERM' || code === 'EACCES') context.skip();
+      throw error;
+    }
     fs.writeFileSync(path.join(projectDir, 'game.config.json'), JSON.stringify({
       id: 'scene-escape',
       name: 'Scene Escape',
