@@ -33,8 +33,9 @@ and inspect a game — including live FPS/entity counts reported by the running 
 allow-listed, and a game id is validated against the index (a traversal id is refused) before any
 path reaches the shell.
 
-Docs: [engine architecture](docs/ENGINE_ARCHITECTURE.md) ·
+Docs: [engine architecture](docs/ENGINE_ARCHITECTURE.md) · [display adapter](docs/DISPLAY_ADAPTER.md) ·
 [game project format](docs/GAME_PROJECT_FORMAT.md) ·
+[authentication boundary](docs/AUTHENTICATION.md) ·
 [roadmap and honest status](docs/ROADMAP.md) — including what is *not* implemented (WebGL2, audio,
 physics, animation, the editor) and why.
 
@@ -45,12 +46,39 @@ physics, animation, the editor) and why.
 | What | URL |
 |---|---|
 | System page (landing) | **https://onegayunicorn.github.io/gameforge-portal/** |
-| Installable app (PWA) | **https://onegayunicorn.github.io/gameforge-portal/pwa/** |
+| Cloud Play library | **https://onegayunicorn.github.io/gameforge-portal/cloud/** |
 
-Published by GitHub Pages from `main` at the repository root, with HTTPS enforced — so the app is
-served from a secure context and can genuinely be installed on a phone or desktop. The landing page
-reads the shipped index live (`pwa/data/builds.json`), so its figures describe the deployed files
-rather than being typed in.
+Published by the `Deploy permanent website` GitHub Actions workflow from the generated `pwa/` tree,
+with HTTPS enforced — so the app is served from a secure context and can genuinely be installed on
+a phone or desktop. Every push to `main` rebuilds the PWA and republishes the site; the Cloud Play
+library is the permanent `/cloud/` route. The landing page reads the shipped index live
+(`data/builds.json`), so its figures describe the deployed files rather than being typed in.
+
+## Self-hosted Cloud Play
+
+Cloud Play is a local-first, owner-controlled game shelf. The catalog is read from
+`portal/cloud/data/games.json`, the server is read-only, and visitors do not need a GameForge
+account. Saved games and launch counts stay in each visitor's browser; the owner controls which
+games appear by editing the catalog in this repository.
+
+```bash
+npm install
+npm run serve:public
+```
+
+The server listens on `0.0.0.0:4173` and serves `portal/` — the shell and the library, but not the
+installable app: `manifest.webmanifest` and `sw.js` live in the generated `pwa/` tree. Share
+`http://<your-computer-LAN-IP>:4173/cloud/` with people on the same network.
+
+For a permanent public origin, `infra/` now carries the whole host: Node 22, nginx, a systemd unit,
+a Let's Encrypt certificate and a deploy script, plus a GitHub Actions workflow that deploys on every
+push to `main`. nginx serves the generated `pwa/` tree as static files — the only way to reach an
+installable site — and proxies `/api/` to the Node process. Full runbook:
+[docs/DEPLOY-VM.md](docs/DEPLOY-VM.md). There is still no account service or hosted database on your
+behalf; Cloud Play stays read-only and owner-controlled.
+
+For private local-only use, run `npm run serve` instead. For a different port, use
+`PORT=8080 npm run serve:public`.
 
 ---
 

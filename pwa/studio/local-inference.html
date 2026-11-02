@@ -1,0 +1,40 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="theme-color" content="#070a12" />
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; connect-src 'self'; base-uri 'none'; form-action 'none'; object-src 'none'" />
+  <title>Local inference notes · GameForge</title>
+  <link rel="stylesheet" href="../styles.css" />
+  <link rel="stylesheet" href="./styles.css" />
+</head>
+<body>
+  <div class="bg-grid" aria-hidden="true"></div><div class="bg-glow" aria-hidden="true"></div>
+  <header class="topbar"><div class="topbar-inner"><a class="brand" href="./"><span class="brand-mark" aria-hidden="true">GF</span><span class="brand-text"><strong>GameForge</strong><small>Local AI Studio</small></span></a><nav class="nav" aria-label="Main navigation"><a href="./">Back to Studio</a><a href="../index.html">Portal</a></nav></div></header>
+  <main class="studio-main">
+    <section class="studio-hero"><div><span class="eyebrow">Models · privacy · hardware</span><h1>Inference stays <span class="gradient-text">on this device.</span></h1><p class="lede">The Studio runs WebLLM in a browser worker using WebGPU. It does not call a hosted chat-completions API and requires no inference API key.</p></div></section>
+    <section class="studio-panel">
+      <h2>Model options</h2>
+      <div class="table-wrap"><table class="table"><thead><tr><th>Model ID</th><th>Quantization</th><th>Registry VRAM estimate</th></tr></thead><tbody>
+        <tr><td><code>gemma3-1b-it-q4f16_1-MLC</code></td><td>q4f16</td><td>711 MB · default</td></tr>
+        <tr><td><code>Llama-3.2-1B-Instruct-q4f16_1-MLC</code></td><td>q4f16</td><td>879 MB</td></tr>
+        <tr><td><code>Qwen3-0.6B-q4f16_1-MLC</code></td><td>q4f16</td><td>1,403 MB</td></tr>
+      </tbody></table></div>
+      <p class="field-note">The values are the WebLLM registry's VRAM estimates, not download sizes or guarantees. Actual compatibility depends on the browser, WebGPU driver, and available memory.</p>
+      <h2>First load and offline use</h2>
+      <p class="field-note">The first model load fetches quantized weights from Hugging Face and a matching WebGPU model library from the WebLLM project. WebLLM's default Cache API stores artifacts per origin. Subsequent use can work offline while that browser cache remains available; browser storage may be cleared or evicted. Use HTTPS or localhost and a browser with WebGPU.</p>
+      <h2>Data boundary</h2>
+      <p class="field-note">Prompt and response text stay in the current page and worker, and conversations are memory-only. No prompts or outputs are written to storage. Only the model artifacts are fetched remotely. Generated <code>game.ts</code> is shown as text, never evaluated. The preview renders only validated, bounded JSON descriptions.</p>
+      <h2>Verified sources</h2>
+      <ul class="source-list">
+        <li><a href="https://webllm.mlc.ai/docs/">WebLLM documentation</a> and <a href="https://github.com/mlc-ai/web-llm/blob/main/src/config.ts">maintained prebuilt model registry</a>.</li>
+        <li><a href="https://web.dev/articles/ai-chatbot-webllm">web.dev: Build a local and offline-capable chatbot with WebLLM</a>.</li>
+        <li><a href="https://raw.githubusercontent.com/actions/checkout/v5/action.yml">actions/checkout v5</a> and <a href="https://raw.githubusercontent.com/actions/setup-node/v5/action.yml">actions/setup-node v5</a> declare the Node 24 action runtime.</li>
+        <li><a href="./THIRD-PARTY-LICENSES.txt">Third-party license notices</a> for the bundled WebLLM runtime and its logging dependency.</li>
+      </ul>
+      <p class="hero-actions"><a class="btn btn-primary" href="./">Return to AI Studio</a></p>
+    </section>
+  </main>
+</body>
+</html>

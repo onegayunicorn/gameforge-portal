@@ -1,0 +1,195 @@
+/* Runtime shell styling: frames the canvas, hosts the loading and error overlays. */
+
+:root {
+  --gf-bg: #05070d;
+  --gf-panel: rgba(14, 19, 33, 0.94);
+  --gf-text: #e8edfb;
+  --gf-muted: #8d9ab8;
+  --gf-accent: #6ea8ff;
+  --gf-danger: #ff8080;
+  --gf-ok: #4ed6b8;
+  --gf-font: "Inter", "Segoe UI", system-ui, -apple-system, sans-serif;
+  --gf-mono: ui-monospace, "Cascadia Mono", Consolas, monospace;
+}
+
+* { box-sizing: border-box; }
+
+html, body {
+  margin: 0;
+  height: 100%;
+  background: var(--gf-bg);
+  color: var(--gf-text);
+  font-family: var(--gf-font);
+  overflow: hidden;
+}
+
+#gameforge-root {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  min-height: 100dvh;
+}
+
+#gameforge-stage {
+  position: relative;
+  flex: 1 1 auto;
+  display: grid;
+  place-items: center;
+  min-height: 0;
+  padding: 12px;
+}
+
+#gameforge-canvas {
+  display: block;
+  width: min(100%, var(--game-width, 1280px));
+  height: auto;
+  aspect-ratio: var(--game-width, 1280) / var(--game-height, 720);
+  max-height: 100%;
+  border-radius: 10px;
+  background: #000;
+  box-shadow: 0 18px 50px rgba(0, 0, 0, 0.55);
+  outline: none;
+  touch-action: none;
+}
+
+#gameforge-canvas:focus-visible { outline: 2px solid var(--gf-accent); outline-offset: 3px; }
+
+#gameforge-overlay {
+  position: absolute;
+  inset: 12px;
+  display: grid;
+  place-items: center;
+  pointer-events: none;
+}
+
+#gameforge-overlay[hidden] { display: none; }
+#gameforge-overlay > * { pointer-events: auto; }
+
+/* ------------------------------------------------------------------ loading */
+
+.gf-loading {
+  width: min(420px, 88vw);
+  padding: 20px 22px;
+  border-radius: 14px;
+  background: var(--gf-panel);
+  border: 1px solid rgba(122, 152, 220, 0.2);
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5);
+  text-align: center;
+}
+
+.gf-loading h1 { font-size: 17px; margin: 0 0 4px; letter-spacing: -0.2px; }
+.gf-loading p { margin: 0 0 14px; color: var(--gf-muted); font-size: 13px; }
+.gf-loading .gf-track {
+  height: 6px;
+  border-radius: 4px;
+  background: rgba(122, 152, 220, 0.16);
+  overflow: hidden;
+}
+.gf-loading .gf-fill {
+  height: 100%;
+  width: 0%;
+  border-radius: 4px;
+  background: linear-gradient(90deg, var(--gf-accent), #b78cff);
+  transition: width 140ms ease-out;
+}
+.gf-loading .gf-detail {
+  margin-top: 10px;
+  font-family: var(--gf-mono);
+  font-size: 11.5px;
+  color: var(--gf-muted);
+  min-height: 14px;
+  word-break: break-all;
+}
+
+/* ------------------------------------------------------------------ error */
+
+.gf-error {
+  width: min(560px, 92vw);
+  padding: 20px 22px;
+  border-radius: 14px;
+  background: var(--gf-panel);
+  border: 1px solid rgba(255, 128, 128, 0.4);
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.55);
+}
+
+.gf-error h1 { font-size: 17px; margin: 0 0 6px; color: var(--gf-danger); }
+.gf-error .gf-phase { font-family: var(--gf-mono); font-size: 11.5px; color: var(--gf-muted); margin-bottom: 10px; }
+.gf-error pre {
+  margin: 0 0 14px;
+  padding: 11px 13px;
+  border-radius: 9px;
+  background: rgba(0, 0, 0, 0.45);
+  border: 1px solid rgba(122, 152, 220, 0.16);
+  font-family: var(--gf-mono);
+  font-size: 12px;
+  color: #ffd9d9;
+  max-height: 190px;
+  overflow: auto;
+  white-space: pre-wrap;
+  word-break: break-word;
+}
+.gf-error .gf-actions { display: flex; gap: 9px; flex-wrap: wrap; }
+.gf-error button {
+  padding: 9px 14px;
+  border-radius: 9px;
+  border: 1px solid rgba(122, 152, 220, 0.4);
+  background: rgba(122, 152, 220, 0.12);
+  color: var(--gf-text);
+  font-size: 13px;
+  cursor: pointer;
+  min-height: 40px;
+}
+.gf-error button:hover { border-color: rgba(122, 152, 220, 0.7); }
+.gf-error .gf-hint { margin: 12px 0 0; color: var(--gf-muted); font-size: 12.5px; }
+
+/* ------------------------------------------------------------------ footer */
+
+#gameforge-footer {
+  flex: none;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 9px 16px calc(9px + env(safe-area-inset-bottom));
+  border-top: 1px solid rgba(122, 152, 220, 0.16);
+  background: rgba(7, 10, 18, 0.92);
+  font-size: 12.5px;
+}
+
+#gameforge-title { font-weight: 600; }
+#gameforge-status {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  color: var(--gf-muted);
+  font-family: var(--gf-mono);
+  font-size: 11.5px;
+}
+#gameforge-status::before {
+  content: "";
+  width: 7px; height: 7px; border-radius: 50%;
+  background: var(--gf-muted);
+}
+#gameforge-status[data-state="running"]::before { background: var(--gf-ok); }
+#gameforge-status[data-state="paused"]::before { background: #ffc46b; }
+#gameforge-status[data-state="error"]::before { background: var(--gf-danger); }
+
+#gameforge-controls { margin-left: auto; display: flex; gap: 8px; }
+#gameforge-controls button {
+  padding: 6px 11px;
+  border-radius: 8px;
+  border: 1px solid rgba(122, 152, 220, 0.28);
+  background: rgba(122, 152, 220, 0.08);
+  color: var(--gf-text);
+  font-size: 12.5px;
+  cursor: pointer;
+  min-height: 34px;
+}
+#gameforge-controls button:hover { border-color: rgba(122, 152, 220, 0.55); }
+#gameforge-controls button:disabled { opacity: 0.45; cursor: default; }
+
+@media (max-width: 600px) {
+  #gameforge-stage { padding: 8px; }
+  #gameforge-overlay { inset: 8px; }
+  #gameforge-footer { gap: 9px; padding-left: 11px; padding-right: 11px; }
+  #gameforge-title { max-width: 38vw; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+}

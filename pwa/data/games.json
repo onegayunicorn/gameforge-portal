@@ -1,15 +1,64 @@
 {
-  "generatedAt": "2026-10-13T05:29:58.669Z",
+  "generatedAt": "2026-10-26T12:03:03.747Z",
   "engineVersion": "0.1.0",
   "gamesRoot": "games",
   "totals": {
-    "projects": 1,
-    "built": 1,
+    "projects": 2,
+    "built": 2,
     "failed": 0,
     "assets": 1,
-    "outputBytes": 87520
+    "outputBytes": 181826
   },
   "games": [
+    {
+      "id": "core-rush",
+      "name": "Core Rush",
+      "version": "0.1.0",
+      "description": "A one-minute neon survival sprint: weave through sentinels, chain core pickups, and dash your way to a new high score.",
+      "engine": "^0.1.0",
+      "entry": "src/main.ts",
+      "tags": [
+        "featured",
+        "arcade",
+        "survival",
+        "instant-play",
+        "showcase"
+      ],
+      "projectDir": "games/featured/core-rush",
+      "isTemplate": false,
+      "width": 960,
+      "height": 540,
+      "state": "runnable",
+      "built": true,
+      "distDir": "games/featured/core-rush/dist",
+      "distBytes": 92847,
+      "assetCount": 0,
+      "builtAt": "2026-10-26T12:03:03.603Z",
+      "bundles": [
+        {
+          "file": "chunk-LJSE4TN7.js",
+          "bytes": 70132
+        },
+        {
+          "file": "engine.js",
+          "bytes": 7600
+        },
+        {
+          "file": "game.js",
+          "bytes": 6220
+        }
+      ],
+      "outputs": 6,
+      "durationMs": 86,
+      "errors": [],
+      "warnings": [
+        {
+          "code": "no-assets",
+          "message": "No asset globs declared; the build will ship code only"
+        }
+      ],
+      "reportPath": "games/featured/core-rush/dist/build-report.json"
+    },
     {
       "id": "hello-render",
       "name": "Hello Render",
@@ -28,17 +77,17 @@
       "state": "runnable",
       "built": true,
       "distDir": "games/examples/hello-render/dist",
-      "distBytes": 87520,
+      "distBytes": 88979,
       "assetCount": 1,
-      "builtAt": "2026-10-13T05:29:58.140Z",
+      "builtAt": "2026-10-26T12:03:03.675Z",
       "bundles": [
         {
-          "file": "chunk-2TEFNC7X.js",
-          "bytes": 69130
+          "file": "chunk-B6LBN7NZ.js",
+          "bytes": 70138
         },
         {
           "file": "engine.js",
-          "bytes": 7378
+          "bytes": 7600
         },
         {
           "file": "game.js",
@@ -46,7 +95,7 @@
         }
       ],
       "outputs": 8,
-      "durationMs": 864,
+      "durationMs": 67,
       "errors": [],
       "warnings": [],
       "reportPath": "games/examples/hello-render/dist/build-report.json"

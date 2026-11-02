@@ -20,7 +20,7 @@ self.addEventListener('install', (event) => {
 self.addEventListener('activate', (event) => {
   event.waitUntil((async () => {
     const names = await caches.keys();
-    await Promise.all(names.filter((n) => n !== CACHE).map((n) => caches.delete(n)));
+    await Promise.all(names.filter((n) => n.startsWith('gameforge-pwa-') && n !== CACHE).map((n) => caches.delete(n)));
     await self.clients.claim();
   })());
 });

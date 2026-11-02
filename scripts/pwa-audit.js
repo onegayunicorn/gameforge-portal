@@ -19,6 +19,7 @@ const ROOT = path.join(__dirname, '..');
 const PWA_DIR = path.join(ROOT, 'pwa');
 const OUT_DIR = process.argv[2] || path.join(ROOT, 'selftest-pwa');
 
+const consoleErrors = [];
 const problems = [];
 const note = (msg) => problems.push(msg);
 
@@ -135,7 +136,10 @@ app.whenReady().then(async () => {
     webPreferences: { sandbox: true, contextIsolation: true },
   });
   win.webContents.on('console-message', (_e, level, message) => {
-    if (level >= 2 && !/Security Warning/.test(message)) process.stderr.write(`console: ${message}\n`);
+    if (level >= 2 && !/Security Warning/.test(message)) {
+      consoleErrors.push(message);
+      process.stderr.write(`console: ${message}\n`);
+    }
   });
 
   const result = { origin: server.origin, checks: {}, captures: {}, offline: {}, problems };
@@ -150,6 +154,10 @@ app.whenReady().then(async () => {
     '/pwa.js': await fetchStatus(server.origin, '/pwa.js'),
     '/offline.html': await fetchStatus(server.origin, '/offline.html'),
     '/data/builds.json': await fetchStatus(server.origin, '/data/builds.json'),
+    '/studio/': await fetchStatus(server.origin, '/studio/'),
+    '/studio/models.json': await fetchStatus(server.origin, '/studio/models.json'),
+    '/studio/local-inference.html': await fetchStatus(server.origin, '/studio/local-inference.html'),
+    '/studio/THIRD-PARTY-LICENSES.txt': await fetchStatus(server.origin, '/studio/THIRD-PARTY-LICENSES.txt'),
   };
   for (const icon of manifest.icons) assetChecks[icon.src] = await fetchStatus(server.origin, icon.src);
   for (const shot of manifest.screenshots || []) assetChecks[shot.src] = await fetchStatus(server.origin, shot.src);
@@ -212,6 +220,44 @@ app.whenReady().then(async () => {
   await new Promise((r) => setTimeout(r, 600));
   result.captures.mobileProjects = path.join(OUT_DIR, 'pwa-mobile-projects.png');
   fs.writeFileSync(result.captures.mobileProjects, (await win.webContents.capturePage()).toPNG());
+
+  // ---- local AI Studio route ---------------------------------------------------------
+  const studioConsoleStart = consoleErrors.length;
+  await win.loadURL(server.origin + '/studio/');
+  await new Promise((r) => setTimeout(r, 700));
+  const studio = await win.webContents.executeJavaScript(`(() => {
+    const modelCount = document.querySelectorAll('#model-select option').length;
+    const canvasPresent = Boolean(document.getElementById('simulation-preview'));
+    const template = document.getElementById('template-select');
+    if (template) {
+      template.value = 'bouncer';
+      document.getElementById('apply-template').click();
+    }
+    const jsonText = (document.getElementById('json-output') || {}).textContent || '';
+    return {
+      title: document.title,
+      modelCount,
+      canvasPresent,
+      titleAfterTemplate: (document.getElementById('output-title') || {}).textContent || '',
+      templateApplied: jsonText.includes('Bouncy room'),
+      overflow: document.documentElement.scrollWidth > window.innerWidth + 2,
+      controlledByServiceWorker: Boolean(navigator.serviceWorker && navigator.serviceWorker.controller),
+    };
+  })()`);
+  const studioConsoleMessages = consoleErrors.slice(studioConsoleStart);
+  studio.gpuAdapterUnavailable = studioConsoleMessages.some((message) => /No available adapters/i.test(message));
+  studio.errors = studioConsoleMessages.filter((message) => !/No available adapters/i.test(message));
+  result.checks.studio = studio;
+  if (!studio.title.includes('AI Studio')) note(`Studio route title is unexpected: ${studio.title}`);
+  if (studio.modelCount !== 3) note(`Studio expected 3 model options, saw ${studio.modelCount}`);
+  if (!studio.canvasPresent || !studio.templateApplied || studio.titleAfterTemplate !== 'Bouncy room') note('Studio offline template or safe Canvas2D preview did not initialize');
+  if (studio.overflow) note('Studio layout overflows horizontally at the mobile viewport');
+  if (studio.errors.length) note(`Studio console errors: ${studio.errors.join(' | ')}`);
+
+  result.captures.studio = path.join(OUT_DIR, 'pwa-studio.png');
+  fs.writeFileSync(result.captures.studio, (await win.webContents.capturePage()).toPNG());
+  await win.loadURL(server.origin + '/');
+  await new Promise((r) => setTimeout(r, 1000));
 
   // ---- offline reload: server down, cache only --------------------------------------
   await server.close();

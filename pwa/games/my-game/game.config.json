@@ -1,0 +1,23 @@
+{
+  "$schema": "../../tools/schemas/game-config.schema.json",
+  "id": "my-game",
+  "name": "My Game",
+  "description": "A GameForge game created by the CLI.",
+  "version": "0.1.0",
+  "engine": "^0.1.0",
+  "entry": "src/main.ts",
+  "type": "2d",
+  "renderer": "auto",
+  "width": 1280,
+  "height": 720,
+  "clearColor": "#0b1020",
+  "scenes": [],
+  "assets": [
+    "assets/**/*"
+  ],
+  "scripts": {
+    "dev": "gameforge dev",
+    "build": "gameforge build"
+  },
+  "tags": []
+}

@@ -1,0 +1,5 @@
+# Installed as /etc/sudoers.d/gameforge-deploy by infra/install-service.sh.
+# The deploy user may restart/inspect the portal service and reload nginx, and nothing else.
+__SERVICE_USER__ ALL=(root) NOPASSWD: /usr/bin/systemctl restart gameforge.service, \
+                                   /usr/bin/systemctl is-active gameforge.service, \
+                                   /usr/bin/systemctl reload nginx

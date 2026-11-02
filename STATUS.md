@@ -18,7 +18,7 @@
 
 ## Engine status
 
-Implemented: TypeScript foundation, entity/component scaffolding, scene/world, fixed-step loop, Canvas2D renderer, camera/render layers, textured and primitive drawing, asset manifest, keyboard/mouse/touch input, diagnostics, platform abstractions, and build pipeline.
+Implemented: TypeScript foundation, entity/component scaffolding, scene/world, fixed-step loop, Canvas2D renderer, camera/render layers, textured and primitive drawing, asset manifest, keyboard/mouse/touch input, diagnostics, platform abstractions, responsive display adapter, and build pipeline.
 
 Not yet implemented or production-verified: WebGL2/WebGPU, 3D math, physics, audio, gamepad/Bluetooth adapters, UI/text rendering, scene serialization, editor, packaged Windows EXE rebuild after the hardening changes, and production code signing.
 

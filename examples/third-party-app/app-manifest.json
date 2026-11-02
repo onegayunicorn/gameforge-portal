@@ -1,0 +1,19 @@
+{
+  "appId": "com.example.gameforge-demo",
+  "name": "GameForge Demo",
+  "version": "0.1.0",
+  "publisher": "Example Studio",
+  "callbackUrls": [
+    "https://example.com/auth/callback"
+  ],
+  "requestedCapabilities": [
+    "catalog.read"
+  ],
+  "supportedClients": [
+    "web"
+  ],
+  "supportedGameModes": [
+    "browser"
+  ],
+  "sdkVersion": "0.1.0"
+}

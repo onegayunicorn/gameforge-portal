@@ -1,4 +1,5 @@
-import { Engine, isGame } from '@gameforge/engine';
+import { BrowserDisplayAdapter, Engine, isGame } from '@gameforge/engine';
+import type { DisplayAdapter } from '@gameforge/engine';
 import type { Game, EngineEvents } from '@gameforge/engine';
 import { LoadingScreen } from './LoadingScreen';
 import { ErrorScreen } from './ErrorScreen';
@@ -38,6 +39,8 @@ export interface GameHostOptions {
   importGame?: (url: string) => Promise<unknown>;
   /** Report runtime state to the host shell (Electron). Defaults to true when a bridge exists. */
   reportToShell?: boolean;
+  /** Override the DOM display bridge for an editor, embedded preview or alternate host. */
+  displayAdapter?: DisplayAdapter;
 }
 
 /**
@@ -54,6 +57,7 @@ export class GameHost {
   private errorScreen: ErrorScreen | null = null;
   private statusTimer: number | null = null;
   private unsubscribers: (() => void)[] = [];
+  private displayAdapter: DisplayAdapter | null = null;
 
   constructor(private readonly options: GameHostOptions) {}
 
@@ -93,6 +97,14 @@ export class GameHost {
       debug: info.debug,
     });
     this.engineInstance = engine;
+    this.displayAdapter = this.options.displayAdapter ?? new BrowserDisplayAdapter({
+      canvas: elements.canvas,
+      stage: elements.stage,
+      logicalWidth: info.width,
+      logicalHeight: info.height,
+      maxPixelRatio: 2,
+    });
+    this.displayAdapter.attach(engine);
 
     // Surface engine-level failures (a throwing system, a failed setup) in the overlay.
     this.unsubscribers.push(engine.events.on('engine:error', ({ error, phase }) => {
@@ -169,9 +181,7 @@ export class GameHost {
     });
 
     elements.fullscreen.addEventListener('click', () => {
-      const target = elements.stage ?? elements.canvas;
-      if (document.fullscreenElement) void document.exitFullscreen();
-      else void target.requestFullscreen?.().catch(() => undefined);
+      void (this.displayAdapter?.requestFullscreen() ?? Promise.resolve()).catch(() => undefined);
     });
   }
 
@@ -200,6 +210,8 @@ export class GameHost {
     for (const unsubscribe of this.unsubscribers) unsubscribe();
     this.unsubscribers = [];
     await this.engineInstance?.stop();
+    this.displayAdapter?.dispose();
+    this.displayAdapter = null;
     this.engineInstance?.dispose();
     this.engineInstance = null;
     this.game = null;
